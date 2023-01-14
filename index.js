@@ -1,4 +1,8 @@
-const express = require("express")
+import express from "express"
+import firebase from "./module/firebase.js"
+
+
+console.log(firebase)
 const app = express()
 
 
