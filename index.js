@@ -1,17 +1,17 @@
 import express from "express"
 
-import routers_auth_signin from "./routers/auth/signin.js"
-import routers_auth_signup from "./routers/auth/signup.js"
+import routers_auth_signin from "./routers/api/v1/auth/signin.js"
+import routers_auth_signup from "./routers/api/v1/auth/signup.js"
 
-import routers_file_requests_create from "./routers/file_requests/create.js"
-import routers_file_requests_list from "./routers/file_requests/list.js"
+import routers_file_requests_create from "./routers/api/v1/file_requests/create.js"
+import routers_file_requests_list from "./routers/api/v1/file_requests/list.js"
 
-import routers_files_delete from "./routers/files/delete.js"
-import routers_files_download from "./routers/files/download.js"
+import routers_files_delete from "./routers/api/v1/files/delete.js"
+import routers_files_download from "./routers/api/v1/files/download.js"
 
-import routers_sharing_add_file_member from "./routers/sharing/add_file_member.js"
-import routers_sharing_get_file_member from "./routers/sharing/get_file_member.js"
-import routers_sharing_get_shared_link from "./routers/sharing/get_shared_link.js"
+import routers_sharing_add_file_member from "./routers/api/v1/sharing/add_file_member.js"
+import routers_sharing_get_file_member from "./routers/api/v1/sharing/get_file_member.js"
+import routers_sharing_get_shared_link from "./routers/api/v1/sharing/get_shared_link.js"
 
 
 const app = express()
