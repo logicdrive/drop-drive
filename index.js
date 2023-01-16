@@ -21,18 +21,18 @@ const PORT = 80
 app.use(express.static('static'))
 
 
-app.use('/auth/signin', routers_auth_signin)
-app.use('/auth/signup', routers_auth_signup)
+app.use('/api/v1/auth/signin', routers_auth_signin)
+app.use('/api/v1/auth/signup', routers_auth_signup)
 
-app.use('/file_requests/create', routers_file_requests_create)
-app.use('/file_requests/list', routers_file_requests_list)
+app.use('/api/v1/file_requests/create', routers_file_requests_create)
+app.use('/api/v1/file_requests/list', routers_file_requests_list)
 
-app.use('/files/delete', routers_files_delete)
-app.use('/files/download', routers_files_download)
+app.use('/api/v1/files/delete', routers_files_delete)
+app.use('/api/v1/files/download', routers_files_download)
 
-app.use('/sharing/add_file_member', routers_sharing_add_file_member)
-app.use('/sharing/get_file_member', routers_sharing_get_file_member)
-app.use('/sharing/get_shared_link', routers_sharing_get_shared_link)
+app.use('/api/v1/sharing/add_file_member', routers_sharing_add_file_member)
+app.use('/api/v1/sharing/get_file_member', routers_sharing_get_file_member)
+app.use('/api/v1/sharing/get_shared_link', routers_sharing_get_shared_link)
 
 
 app.get('/', (req, res) => { 
