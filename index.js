@@ -1,42 +1,40 @@
+import util from "util"
 import express from "express"
+import glob from "glob"
 
-import routers_auth_signin from "./routers/api/v1/auth/signin.js"
-import routers_auth_signup from "./routers/api/v1/auth/signup.js"
-
-import routers_file_requests_create from "./routers/api/v1/file_requests/create.js"
-import routers_file_requests_list from "./routers/api/v1/file_requests/list.js"
-
-import routers_files_delete from "./routers/api/v1/files/delete.js"
-import routers_files_download from "./routers/api/v1/files/download.js"
-
-import routers_sharing_add_file_member from "./routers/api/v1/sharing/add_file_member.js"
-import routers_sharing_get_file_member from "./routers/api/v1/sharing/get_file_member.js"
-import routers_sharing_get_shared_link from "./routers/api/v1/sharing/get_shared_link.js"
-
-
-const app = express()
 const PORT = 80
 
+// EXPRESS APP에 라우터들을 등록하고 포트 개방을 하기 위해서
+async function main()
+{
+    const app = express()
+  
+    add_External_Routers_To_App(app)
+    await add_Api_Routers_To_App(app)
+  
+    app.get('/', (req, res) => { 
+      res.send('Hello World!!')
+    })
+  
+    app.listen(PORT, () => console.log(`웹 서버가 ${PORT} 포트에서 가동됨`))    
+}
 
-app.use(express.static('static'))
+// Express 앱에 외부 라이브러리 라우터를 부착하기 위해서
+function add_External_Routers_To_App(app)
+{
+    app.use(express.static('static')) // 정적 파일에 대한 직접 접근 경로 생성
+}
 
+// Express 앱에 routers/api 이하의 REST API 경로 라우터를 부착하기 위해서
+async function add_Api_Routers_To_App(app)
+{
+    const ROUTER_API_PATHS = await util.promisify(glob)("./routers/api/**/*.js")
+    for(let router_api_path of ROUTER_API_PATHS)
+    {
+        const API_URL_PATH = router_api_path.replace("./routers", "").replace(".js", "")
+        const API_ROUTER = (await import(router_api_path)).default
+        app.use(API_URL_PATH, API_ROUTER)
+    }
+}
 
-app.use('/api/v1/auth/signin', routers_auth_signin)
-app.use('/api/v1/auth/signup', routers_auth_signup)
-
-app.use('/api/v1/file_requests/create', routers_file_requests_create)
-app.use('/api/v1/file_requests/list', routers_file_requests_list)
-
-app.use('/api/v1/files/delete', routers_files_delete)
-app.use('/api/v1/files/download', routers_files_download)
-
-app.use('/api/v1/sharing/add_file_member', routers_sharing_add_file_member)
-app.use('/api/v1/sharing/get_file_member', routers_sharing_get_file_member)
-app.use('/api/v1/sharing/get_shared_link', routers_sharing_get_shared_link)
-
-
-app.get('/', (req, res) => { 
-  res.send('Hello World!!')
-})
-
-app.listen(PORT, () => console.log(`웹 서버가 ${PORT} 포트에서 가동됨`))
+main()
