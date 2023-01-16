@@ -12,10 +12,7 @@ async function main()
     add_External_Routers_To_App(app)
     await add_Api_Routers_To_App(app)
   
-    app.get('/', (req, res) => { 
-      res.send('Hello World!!')
-    })
-  
+    app.get('/', (_, res) => { res.redirect("/html/main.html") })
     app.listen(PORT, () => console.log(`웹 서버가 ${PORT} 포트에서 가동됨`))    
 }
 
