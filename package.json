@@ -15,7 +15,8 @@
     "firebase": "^9.15.0",
     "glob": "^8.1.0",
     "module": "^1.2.5",
-    "node-fetch": "^3.2.6"
+    "node-fetch": "^3.2.6",
+    "uuid": "^9.0.0"
   },
   "type": "module"
 }
