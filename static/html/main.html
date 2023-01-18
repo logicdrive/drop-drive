@@ -3,7 +3,49 @@
     <head>
         <title>Main</title>
     </head>
+  
     <body>
-        <p>Main Page</p>
+        <p id="greeting"></p>
     </body>
+  
+    <script>
+      async function main_Process()
+      {
+        const LOGIN_USER_EMAIL = await login_User_Email()
+        if(LOGIN_USER_EMAIL == null)
+        {
+          window.location.href = "/html/login.html"
+          return
+        }
+
+        document.querySelector("#greeting").innerText = `Hello, ${LOGIN_USER_EMAIL}!`
+      }
+
+      // 유저가 로그인한 이메일을 반환시킴
+      async function login_User_Email()
+      {
+        return (await Request.GET_JSON_Request("/api/v1/auth/user_auth")).user_auth
+      }
+
+      class Request
+      {
+        // GET 형태로 요청하고, JSON 형태로 요청값을 받기 위해서
+        static async GET_JSON_Request(url)
+        {
+          return (await fetch(url)).json()
+        }
+        
+        // JSON 형태로 POST 요청하고, JSON 형태로 요청값을 받기 위해서
+        static async POST_JSON_Request(url, json_body={})
+        {
+          return (await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(json_body)
+          })).json()
+        }
+      }
+      
+      main_Process()
+    </script>
 </html>
