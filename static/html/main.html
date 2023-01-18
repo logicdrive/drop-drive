@@ -6,7 +6,30 @@
   
     <body>
         <p id="greeting"></p>
+        <form id="add_file_form">
+          <input type="file" accept=".txt"/>
+          <input type="submit" value="+ ADD FILE"/>
+        </form>
     </body>
+
+    <script>
+      document.querySelector("#add_file_form").addEventListener("submit", (e) => {
+          e.preventDefault()
+        
+          const INPUT_FILE_SEL = document.querySelector("#add_file_form input[type='file']")
+          if(INPUT_FILE_SEL.files.length == 0)
+          {
+            alert("Please select file to upload")
+            return
+          }
+
+          const FILE_READER = new FileReader()
+          FILE_READER.onloadend = (finish_event) => {
+            console.log(finish_event.currentTarget.result)
+          }
+          FILE_READER.readAsDataURL(INPUT_FILE_SEL.files[0])
+      })
+    </script>
   
     <script>
       async function main_Process()
