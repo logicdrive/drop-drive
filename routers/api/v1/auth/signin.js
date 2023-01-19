@@ -1,37 +1,22 @@
 import express from "express"
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth"
+import { firebase_auth } from "../../../../module/firebase.js"
+import { signInWithEmailAndPassword } from "firebase/auth"
 
 const router = express.Router()
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+  const EMAIL = req.body.email
+  const PASSWORD = req.body.password
 
-  const auth = getAuth()
-  const email = req.body.email
-  const password = req.body.password
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user
-      //console.log(user)
-    })
-    .catch((error) => {
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorMessage[errorCode])
-    })
-  
-  const login = async (email, password) => {
-    try {
-      const auth = getAuth()
-      const { user } = await signInWithEmailAndPassword(auth, email, password)
-      const { stsTokenManager, uid } = user
-      setAuthInfo({ uid, email, authToken: stsTokenManager })
-      
-    } catch ({ code, message }) {
-      const errorCode = error.code
-      const errorMessage = error.message
-      alert(errorMessage[code])
-    }
+  try
+  {
+    await signInWithEmailAndPassword(firebase_auth, EMAIL, PASSWORD)
+    res.redirect("/html/main.html")
+  }
+  catch(e)
+  {
+    console.log(e)
+    res.json({is_error:true})
   }
 
   // const logout = async () => {
@@ -47,8 +32,6 @@ router.post('/', (req, res) => {
   //     alert(errorMessage[code]);
   //   }
   // };
-
-  res.send('[MOCK] 로그인 처리')
 })
 
 export default router
