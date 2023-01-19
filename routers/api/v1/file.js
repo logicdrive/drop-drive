@@ -8,7 +8,16 @@ router.get('/', (req, res) => {
 })
 
 router.put('/', (req, res) => {
-    res.send('[MOCK] 파일 생성 처리')
+    try
+    {
+      console.log(req.body)
+      res.json({is_error:false})
+    }
+    catch(e)
+    {
+      console.log(e)
+      res.json({is_error:true})
+    }
 })
 
 router.delete('/', (req, res) => {
