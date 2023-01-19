@@ -25,15 +25,23 @@
 
           const FILE_OBJ = INPUT_FILE_SEL.files[0]
           const DATA_URL = await read_Data_Url(FILE_OBJ)
-          const REQ_RESULT = await Request.JSON_Request("/api/v1/file", "PUT", {
-            file_name : FILE_OBJ.name,
-            file_url : DATA_URL
-          })
 
-          if(REQ_RESULT.is_error)
-            alert("Sorry, Some error was happened...")
-          else 
-            alert("The file was successfully uploaded !")
+          try
+          {
+            const REQ_RESULT = await Request.JSON_Request("/api/v1/file", "PUT", {
+              file_name : FILE_OBJ.name,
+              file_url : DATA_URL
+            })
+  
+            if(REQ_RESULT.is_error)
+              alert(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.error_message}`)
+            else 
+              alert("The file was successfully uploaded !") 
+          }
+          catch
+          {
+            alert("Sorry, Some error was happened while requesting to server...")
+          }
       })
 
       // 파일 객체에 대한 URL 주소를 반환시키기 위해서
