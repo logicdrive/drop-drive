@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     res.send('[MOCK] 파일 다운로드 처리')
 })
 
-router.post('/', (req, res) => {
+router.put('/', (req, res) => {
     res.send('[MOCK] 파일 생성 처리')
 })
 
