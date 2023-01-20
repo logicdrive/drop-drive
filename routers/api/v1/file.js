@@ -1,7 +1,8 @@
 import express from "express"
-import { firebase_store } from "../../../module/firebase.js"
+import { firebase_store, firebase_storage } from "../../../module/firebase.js"
 import { collection, addDoc } from "firebase/firestore"
 import { v4 } from "uuid"
+import { ref, uploadString } from "firebase/storage"
 
 const router = express.Router()
 
@@ -23,12 +24,14 @@ router.put('/', async (req, res) => {
         return
       }
 
+      const FILE_UUID = v4()
       await addDoc(collection(firebase_store, "file_meta_datas"), {
         "file_name":FILE_NAME,
         "file_ext":FILE_EXT,
-        "file_uuid":v4(),
+        "file_uuid":FILE_UUID,
         "owner":USER_AUTH
       })
+      await uploadString(ref(firebase_storage, `files/${FILE_UUID}`), req.body.file_url)
       
       res.json({is_error:false, error_message:""})
     }
