@@ -2,6 +2,7 @@ import express from "express"
 import Firebase_Api from "../../../module/firebase_api.js"
 import Wrap from "../../../module/wrap.js"
 
+// 현재 유저가 소유한 파일의 목록을 반환시키기 위해서
 async function get_Router_callback(_, res)
 {
   const USER_AUTH = "Sin"
