@@ -1,43 +1,32 @@
 async function main()
 {
-  await redirect_If_Not_Login("/html/login.html")
-  document.querySelector("#greeting").innerText = `Hello, ${LOGIN_USER_EMAIL}!`
-  Update_File_List()
+  if(await Rest_API.redirect_If_Not_Login()) return
+  await update_Greeting_Message()
+  await update_Owned_File_Names()
 }
 
-/** 현재 로그인하지 않은 유저인 경우, 다른 URL로 리다이렉트시키기 위해서 */
-async function redirect_If_Not_Login(redirect_url)
+/** 환영 인사관련 UI를 업데이트시킴 */
+async function update_Greeting_Message()
 {
-  const USER_EMAIL = await user_Email()
-  if(USER_EMAIL == null) window.location.href = redirect_url
+  const USER_EMAIL = await Rest_API.user_Email()
+  document.querySelector("#greeting").innerText = `Hello, ${USER_EMAIL}!`
 }
 
-/** 유저가 로그인한 이메일을 반환시키기 위해서 */
-async function user_Email()
+/** 현재 유저가 소유하고 있는 파일 목록관련 UI를 업데이트시킴 */ 
+async function update_Owned_File_Names()
 {
-  return (await Request.JSON_Request("/api/v1/auth/user_auth", "GET")).user_auth
-}
-
-async function Update_File_List()
-{
-  const OWNED_FILE_TABLE_SEL = document.querySelector("#owned_file_table")
-  const FILE_NAMES = await Owned_File_Names()
-  if(FILE_NAMES.length == 0) return
-
-  const FILE_NAME_HTMLS = FILE_NAMES.map((file_name) => `<tr><td><div>${file_name}</div></td></tr>`)
-  OWNED_FILE_TABLE_SEL.innerHTML = FILE_NAME_HTMLS.join("\n")
-}
-
-async function Owned_File_Names()
-{
-  const REQ_RESULT = await Request.JSON_Request("/api/v1/directory?path=/", "GET")
-
-  if(REQ_RESULT.is_error)
-  {
-    alert(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.error_message}`)
-    return []
+  try {
+    
+    const FILE_NAMES = await Rest_API.owned_File_Names()
+    if(FILE_NAMES.length == 0) return
+    
+    const OWNED_FILE_TABLE_SEL = document.querySelector("#owned_file_table")
+    const FILE_NAME_HTMLS = FILE_NAMES.map((file_name) => `<tr><td><div>${file_name}</div></td></tr>`)
+    OWNED_FILE_TABLE_SEL.innerHTML = FILE_NAME_HTMLS.join("\n")
+    
+  } catch(e) {
+    alert(e)
   }
-  return REQ_RESULT.file_names
 }
 
 document.querySelector("#add_file_form").addEventListener("submit", async (e) => {
@@ -51,7 +40,7 @@ document.querySelector("#add_file_form").addEventListener("submit", async (e) =>
     }
 
     const FILE_OBJ = INPUT_FILE_SEL.files[0]
-    const DATA_URL = await read_Data_Url(FILE_OBJ)
+    const DATA_URL = await File.read_Data_Url(FILE_OBJ)
 
     try
     {
@@ -65,7 +54,7 @@ document.querySelector("#add_file_form").addEventListener("submit", async (e) =>
       else 
       {
         alert("The file was successfully uploaded !")
-        Update_File_List()
+        await update_Owned_File_Names()
       }
     }
     catch
@@ -73,17 +62,5 @@ document.querySelector("#add_file_form").addEventListener("submit", async (e) =>
       alert("Sorry, Some error was happened while requesting to server...")
     }
 })
-
-// 파일 객체에 대한 URL 주소를 반환시키기 위해서
-function read_Data_Url(data_file)
-{
-    return new Promise((resolve) => {
-      const FILE_READER = new FileReader()
-      FILE_READER.onloadend = (finish_event) => {
-        resolve(finish_event.currentTarget.result)
-      }
-      FILE_READER.readAsDataURL(data_file)
-    })
-}
 
 main()
