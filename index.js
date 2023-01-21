@@ -21,8 +21,8 @@ async function main()
 function add_External_Routers_To_App(app)
 {
     app.use(express.static('static')) // 정적 파일에 대한 직접 접근 경로 생성
-    app.use(bodyParser.urlencoded({ extended: false }))
-    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}))
+    app.use(bodyParser.json({limit: "50mb"}))
 }
 
 // Express 앱에 routers/api 이하의 REST API 경로 라우터를 부착하기 위해서
