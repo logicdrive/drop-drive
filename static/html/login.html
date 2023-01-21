@@ -5,38 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
+    <script type="text/javascript" src="../js/core/login.js" defer></script> 
 </head>
 
 <body>
-    <form action="/api/v1/auth/signup" name="signup" method="post" onsubmit="return check()">
-        <h1>회원가입</h1>
-        <div>
-          Name
-          <input id="name" type="text" name="n">
-        </div>
-        <div>
-          Nickname
-          <input id="nickname" type="text" name="nickname">
-        </div>
-        <div>
-          Email Address
-          <input id="new_email" type="email" name="email">
-        </div>
-        <div>
-          Password
-          <input id="new_pw_1" type="password" name="password1">
-        </div>
-        <div>
-          Repeat Password
-          <input id="new_pw_2" type="password" name="password2">
-        </div>
-        <div>
-          Submit
-          <input type="submit" value="회원가입">
-        </div>
-    </form>
-  
-    <form action="/api/v1/auth/signin" name="signin" method="post">
+    <form id="login_form" name="signin">
       <h1>로그인</h1>
       <div>
         Email Address
@@ -51,19 +24,11 @@
         <input type="submit" value="로그인">
       </div>
     </form>
-  
-    <script>
-        //입력한 객체 받아오기
-        const check = () => {
-            email = document.getElementById('new_email').value
-            new_pw_1 = document.getElementById('new_pw_1').value
-            new_pw_2 = document.getElementById('new_pw_2').value
-            if (new_pw_1 != new_pw_2) {
-                alert("확인 비밀번호가 다릅니다.")
-                return false
-            }
-        }
-    </script>
+
+    <div>
+      If you don't have an account?
+      <button onclick="GoToSignup()">SignUp</button>
+    </div>
 </body>
 
 </html>

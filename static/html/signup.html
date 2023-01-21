@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signup</title>
+    <script type="text/javascript" src="../js/core/signup.js" defer></script> 
+</head>
+
+<body>
+    <form id="signup_form" name="signup">
+        <h1>회원가입</h1>
+        <div>
+          Name
+          <input id="name" type="text" name="n">
+        </div>
+        <div>
+          Nickname
+          <input id="nickname" type="text" name="nickname">
+        </div>
+        <div>
+          Email Address
+          <input id="new_email" type="email" name="email">
+        </div>
+        <div>
+          Password
+          <input id="new_pw_1" type="password" name="password">
+        </div>
+        <div>
+          Repeat Password
+          <input id="new_pw_2" type="password" name="password_retype">
+        </div>
+        <div>
+          Submit
+          <input id="submit" type="submit" value="회원가입">
+        </div>
+    </form>
+
+    <div>
+        Do you wanna go to login?
+        <button onclick="GoToSignIn()">SignIn</button>
+    </div>
+</body>
+
+</html>

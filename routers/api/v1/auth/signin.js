@@ -11,27 +11,13 @@ router.post('/', async (req, res) => {
   try
   {
     await signInWithEmailAndPassword(firebase_auth, EMAIL, PASSWORD)
-    res.redirect("/html/main.html")
+    res.json({error_code:null})
   }
   catch(e)
   {
     console.log(e)
-    res.json({is_error:true})
+    res.json({error_code:e.code})
   }
-
-  // const logout = async () => {
-  //   const isLogOut = window.confirm(authMessage['auth/logout-confirm']);
-  //   if (!isLogOut) return;
-
-  //   try {
-  //     const auth = getAuth();
-  //     await signOut(auth);
-  //     setAuthInfo(initialState);
-  //     navigate('/');
-  //   } catch ({ code, message }) {
-  //     alert(errorMessage[code]);
-  //   }
-  // };
 })
 
 export default router
