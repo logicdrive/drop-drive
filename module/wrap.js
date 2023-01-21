@@ -8,7 +8,7 @@ class Wrap
       try { await async_callback(req, res) }
       catch(e) {
         console.log(e)
-        res.json({is_error:true, error_message:"Internal server error was occurred."})
+        res.json({is_error:true, message:e.message})
       }
     }
   }   
