@@ -1,18 +1,19 @@
-async function main_Process()
+async function main()
 {
-  const LOGIN_USER_EMAIL = await login_User_Email()
-  if(LOGIN_USER_EMAIL == null)
-  {
-    window.location.href = "/html/login.html"
-    return
-  }
-
+  await redirect_If_Not_Login("/html/login.html")
   document.querySelector("#greeting").innerText = `Hello, ${LOGIN_USER_EMAIL}!`
   Update_File_List()
 }
 
-// 유저가 로그인한 이메일을 반환시키기 위해서
-async function login_User_Email()
+/** 현재 로그인하지 않은 유저인 경우, 다른 URL로 리다이렉트시키기 위해서 */
+async function redirect_If_Not_Login(redirect_url)
+{
+  const USER_EMAIL = await user_Email()
+  if(USER_EMAIL == null) window.location.href = redirect_url
+}
+
+/** 유저가 로그인한 이메일을 반환시키기 위해서 */
+async function user_Email()
 {
   return (await Request.JSON_Request("/api/v1/auth/user_auth", "GET")).user_auth
 }
@@ -85,4 +86,4 @@ function read_Data_Url(data_file)
     })
 }
 
-main_Process()
+main()
