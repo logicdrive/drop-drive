@@ -1,7 +1,5 @@
 import express from "express"
-import { ref, uploadString } from "firebase/storage"
-import { collection, addDoc } from "firebase/firestore"
-import { firebase_store, firebase_storage } from "../../../module/firebase.js"
+import Firebase_Api from "../../../module/firebase_api.js"
 import UUID from "../../../module/uuid.js"
 import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
@@ -12,18 +10,19 @@ async function put_Router_callback(req, res)
   const ACCEPT_FILE_EXTS = ["txt"]
   
   Params_Check.Para_is_null(req.body, ["file_name", "file_url"])
-  
-  const [FILE_NAME, FILE_EXT] = req.body.file_name.toLowerCase().split(".")
+
+  const {file_name:FILE_NAME_EXT, file_url:FILE_URL} = req.body
+  const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
   if(!ACCEPT_FILE_EXTS.includes(FILE_EXT)) throw new Error("Passed file's extension was not accepted.")
 
   const FILE_UUID = UUID.get_UUID()
-  await addDoc(collection(firebase_store, "file_meta_datas"), {
+  await Firebase_Api.upload_To_Database("file_meta_datas", {
     "file_name":FILE_NAME,
     "file_ext":FILE_EXT,
     "file_uuid":FILE_UUID,
     "owner":USER_AUTH
   })
-  await uploadString(ref(firebase_storage, `files/${FILE_UUID}`), req.body.file_url)
+  await Firebase_Api.upload_String_To_Storage(`files/${FILE_UUID}`, FILE_URL)
   
   res.json({is_error:false})
 }
