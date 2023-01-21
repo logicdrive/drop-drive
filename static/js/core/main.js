@@ -6,14 +6,14 @@ async function main()
   document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
 }
 
-/** 환영 인사관련 UI를 업데이트시킴 */
+/** 환영 인사관련 UI를 업데이트시키기 위해서 */
 async function update_Greeting_Message()
 {
   const USER_EMAIL = await Rest_API.user_Email()
   document.querySelector("#greeting").innerText = `Hello, ${USER_EMAIL}!`
 }
 
-/** 현재 유저가 소유하고 있는 파일 목록관련 UI를 업데이트시킴 */ 
+/** 현재 유저가 소유하고 있는 파일 목록을 출력시키기위해서 */ 
 async function update_Owned_File_Names()
 {
   const FILE_NAMES = await Rest_API.owned_File_Names()
@@ -24,7 +24,7 @@ async function update_Owned_File_Names()
   OWNED_FILE_TABLE_SEL.innerHTML = FILE_NAME_HTMLS.join("\n")
 }
 
-/** 파일 업로드 폼이 제출되어졌을 경우 실행되는 이벤트 함수 */
+/** 유저가 선택한 파일을 서버에 업로드시키기위해서 */
 async function on_Upload_File_Form_Submited(e)
 {
   e.preventDefault()
