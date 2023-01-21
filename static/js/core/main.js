@@ -16,7 +16,7 @@ async function update_Greeting_Message()
 /** 현재 유저가 소유하고 있는 파일 목록관련 UI를 업데이트시킴 */ 
 async function update_Owned_File_Names()
 {
-  await Wrap.Wrap_Try_Alert_Promise(async () => {
+  await Wrap.Execute_With_Try_Alert_Promise(async () => {
 
     const FILE_NAMES = await Rest_API.owned_File_Names()
     if(FILE_NAMES.length == 0) return
@@ -40,7 +40,7 @@ async function on_Upload_File_Form_Submited(e)
     return
   }
 
-  await Wrap.Wrap_Try_Alert_Promise(async () => {
+  await Wrap.Execute_With_Try_Alert_Promise(async () => {
     
     const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0])
     alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
