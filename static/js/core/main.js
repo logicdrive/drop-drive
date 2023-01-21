@@ -3,6 +3,7 @@ async function main()
   if(await Rest_API.redirect_If_Not_Login()) return
   await update_Greeting_Message()
   await update_Owned_File_Names()
+  document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
 }
 
 /** 환영 인사관련 UI를 업데이트시킴 */
@@ -29,25 +30,27 @@ async function update_Owned_File_Names()
   }
 }
 
-document.querySelector("#add_file_form").onsubmit = async (e) => {
-    e.preventDefault()
-  
-    const INPUT_FILE_SEL = document.querySelector("#add_file_form input[type='file']")
-    if(INPUT_FILE_SEL.files.length == 0)
-    {
-      alert("Please select a file to upload")
-      return
-    }
+/** 파일 업로드 폼이 제출되어졌을 경우 실행되는 이벤트 함수 */
+async function on_Upload_File_Form_Submited(e)
+{
+  e.preventDefault()
 
-    try {
-      
-      const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0])
-      alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
-      await update_Owned_File_Names()
+  const INPUT_FILE_SEL = document.querySelector("#upload_file_form input[type='file']")
+  if(INPUT_FILE_SEL.files.length == 0)
+  {
+    alert("Please select a file to upload")
+    return
+  }
 
-    } catch(e) {
-      alert(e)
-    }
+  try {
+    
+    const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0])
+    alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
+    await update_Owned_File_Names()
+
+  } catch(e) {
+    alert(e)
+  }
 }
 
 main()
