@@ -11,12 +11,10 @@ async function put_Router_callback(req, res)
   const USER_AUTH = "Sin"
   const ACCEPT_FILE_EXTS = ["txt"]
   
+  Params_Check.Para_is_null(req.body, ["file_name", "file_url"])
+  
   const [FILE_NAME, FILE_EXT] = req.body.file_name.toLowerCase().split(".")
-  if(!ACCEPT_FILE_EXTS.includes(FILE_EXT))
-  {
-    res.json({is_error:true, error_message:"Passed file's extension was not accepted."})
-    return
-  }
+  if(!ACCEPT_FILE_EXTS.includes(FILE_EXT)) throw new Error("Passed file's extension was not accepted.")
 
   const FILE_UUID = v4()
   await addDoc(collection(firebase_store, "file_meta_datas"), {
@@ -27,7 +25,7 @@ async function put_Router_callback(req, res)
   })
   await uploadString(ref(firebase_storage, `files/${FILE_UUID}`), req.body.file_url)
   
-  res.json({is_error:false, error_message:""})
+  res.json({is_error:false})
 }
 
 async function get_Router_callback(req, res)
