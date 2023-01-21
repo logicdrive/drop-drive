@@ -29,7 +29,7 @@ async function update_Owned_File_Names()
   }
 }
 
-document.querySelector("#add_file_form").addEventListener("submit", async (e) => {
+document.querySelector("#add_file_form").onsubmit = async (e) => {
     e.preventDefault()
   
     const INPUT_FILE_SEL = document.querySelector("#add_file_form input[type='file']")
@@ -39,28 +39,15 @@ document.querySelector("#add_file_form").addEventListener("submit", async (e) =>
       return
     }
 
-    const FILE_OBJ = INPUT_FILE_SEL.files[0]
-    const DATA_URL = await File.read_Data_Url(FILE_OBJ)
+    try {
+      
+      const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0])
+      alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
+      await update_Owned_File_Names()
 
-    try
-    {
-      const REQ_RESULT = await Request.JSON_Request("/api/v1/file", "PUT", {
-        file_name : FILE_OBJ.name,
-        file_url : DATA_URL
-      })
-
-      if(REQ_RESULT.is_error)
-        alert(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.error_message}`)
-      else 
-      {
-        alert("The file was successfully uploaded !")
-        await update_Owned_File_Names()
-      }
+    } catch(e) {
+      alert(e)
     }
-    catch
-    {
-      alert("Sorry, Some error was happened while requesting to server...")
-    }
-})
+}
 
 main()
