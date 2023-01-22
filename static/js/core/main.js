@@ -40,8 +40,7 @@ function make_HTML_File_Index_HTML(file_name)
 
 async function on_Click_File_Index_Download_Btn(e)
 {
-  const FILE_NAME = e.path[1].querySelector("a").textContent
-  alert(`[MOCK] ${FILE_NAME}에 대한 다운로드 요청이 이루어져야함`)
+  await on_Click_File_Index_Download_Btn_Temp(e)
 }
 
 async function on_Click_Add_Auth_Btn(e)
@@ -69,7 +68,5 @@ async function on_Upload_File_Form_Submited(e)
   await update_Owned_File_Names()
 }
 
-update_Owned_File_Names = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Names)
-on_Upload_File_Form_Submited = Wrap.Wrap_With_Try_Alert_Promise(on_Upload_File_Form_Submited)
-
+main = Wrap.Wrap_With_Try_Alert_Promise(main)
 main()
