@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { getFirestore, collection, getDocs, addDoc, query, where } from "firebase/firestore"
 import { getStorage, ref, uploadString } from "firebase/storage"
 
@@ -77,6 +77,12 @@ class Firebase_Api
   static async create_User(email, password)
   {
     await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+  }
+
+  /** 유저에게 받은 정보를 기반으로 로그인하기 위해서 */
+  static async login(email, password)
+  {
+    await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
   }
 }
 
