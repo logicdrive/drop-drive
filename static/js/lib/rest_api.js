@@ -1,7 +1,7 @@
 /** 서버와의 일관성있는 통신 인터페이스를 제공하기 위한 라이브러리 */
 class Rest_API
 {
-  static NOT_LOGIN_REDIRECT_URL = "/html/login.html"
+  static NOT_LOGIN_REDIRECT_URL = "/html/signin.html"
   
   /** 유저가 로그인한 이메일을 반환시키기 위해서 */
   static async user_Email()
