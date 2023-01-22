@@ -20,26 +20,24 @@ async function update_Owned_File_Names()
   if(FILE_NAMES.length == 0) return
   
   const OWNED_FILE_TABLE_SEL = document.querySelector("#owned_file_table")
-  const FILE_INDEX_ELEMENTS = FILE_NAMES.map((file_name) => make_File_Index_Element(file_name))
-  FILE_INDEX_ELEMENTS.forEach((file_index_element) => OWNED_FILE_TABLE_SEL.appendChild(file_index_element))
+  const FILE_INDEX_HTMLS = FILE_NAMES.map((file_name) => make_HTML_File_Index_HTML(file_name))
+  OWNED_FILE_TABLE_SEL.innerHTML = FILE_INDEX_HTMLS.join("\n")
+
+  Element.add_On_Click_Trigger("button.file_Index_Download_Btn", on_Click_Download_File_Index)
 }
 
-function make_File_Index_Element(file_name)
+function make_HTML_File_Index_HTML(file_name)
 {
-  const TR_ELEMENT = document.createElement("tr")
-  const TD_ELEMENT = document.createElement("td")
-  const DIV_ELEMENT = document.createElement("div")
-  TD_ELEMENT.appendChild(DIV_ELEMENT)
-  TR_ELEMENT.appendChild(TD_ELEMENT)
-
-  DIV_ELEMENT.textContent = file_name
-  DIV_ELEMENT.onclick = on_Click_File_Index
-  return TR_ELEMENT
+  return `<tr><td><div>
+<a href="/html/file_info.html?file_name=${file_name}" target="_blank">${file_name}</a>
+<button class="file_Index_Download_Btn">Download</button>
+</div></td></tr>`
 }
 
-async function on_Click_File_Index(e)
+async function on_Click_Download_File_Index(e)
 {
-  window.open(`/html/file_info.html?file_name=${e.path[0].textContent}`, '_blank')
+  const FILE_NAME = e.path[1].querySelector("a").textContent
+  alert(`[MOCK] ${FILE_NAME}에 대한 다운로드 요청이 이루어져야함`)
 }
 
 /** 유저가 선택한 파일을 서버에 업로드시키기위해서 */
