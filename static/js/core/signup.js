@@ -1,8 +1,3 @@
-const redirect_To_Signin = () => {
-  window.location.href = "/html/signin.html"
-  return
-}
-
 document.querySelector("#signup_form").onsubmit = async (evt) => {
   evt.preventDefault()
 
