@@ -26,6 +26,7 @@ async function update_Owned_File_Names()
   Element.add_On_Click_Trigger("button.file_Index_Download_Btn", on_Click_File_Index_Download_Btn)
   Element.add_On_Click_Trigger("button.add_Auth_Btn", on_Click_Add_Auth_Btn)
   Element.add_On_Click_Trigger("button.share_Link_Btn", on_Click_Share_Link_Btn)
+  Element.add_On_Click_Trigger("button.file_Index_Delete_Btn", on_Click_file_Index_Delete_Btn)
 }
 
 function make_HTML_File_Index_HTML(file_name)
@@ -35,6 +36,7 @@ function make_HTML_File_Index_HTML(file_name)
 <button class="file_Index_Download_Btn">Download</button>
 <button class="add_Auth_Btn">Add Auth</button>
 <button class="share_Link_Btn">Share Link</button>
+<button class="file_Index_Delete_Btn">Delete</button>
 </div></td></tr>`
 }
 
@@ -53,6 +55,12 @@ async function on_Click_Share_Link_Btn(e)
 {
   const FILE_NAME = e.path[1].querySelector("a").textContent
   alert(`[MOCK] ${FILE_NAME}에 대한 공유 링크 생성 요청 및 표시가 이루어져야함`)
+}
+
+async function on_Click_file_Index_Delete_Btn(e)
+{
+  const FILE_NAME = e.path[1].querySelector("a").textContent
+  alert(`[MOCK] ${FILE_NAME}에 대한 삭제가 이루어져야함`)
 }
 
 /** 유저가 선택한 파일을 서버에 업로드시키기위해서 */
