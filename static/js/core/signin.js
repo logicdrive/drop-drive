@@ -6,9 +6,9 @@ const redirect_To_Signup = () => {
 document.querySelector("#signin_form").onsubmit = async (evt) => {
   evt.preventDefault()
   
-  const e = await try_Login()
-  if(e) {
-    alert(e)
+  const RES = await try_Login()
+  if(RES.is_error) {
+    alert(RES.message)
     return
   }
   
@@ -23,5 +23,5 @@ async function try_Login() {
   return (await Request.JSON_Request("/api/v1/auth/signin", "POST", {
     email : email,
     password : password
-  })).error_code
+  }))
 }
