@@ -6,7 +6,7 @@ class Rest_API
   /** 유저가 로그인한 이메일을 반환시키기 위해서 */
   static async user_Email()
   {
-    return (await Request.JSON_Request("/api/v1/auth/user_auth", "GET")).user_auth
+    return (await Rest_API.request_With_Error_Check("/api/v1/auth/user_auth", "GET")).user_auth
   }
 
   /** 현재 로그인하지 않은 유저인 경우, 다른 URL로 리다이렉트시키기 위해서 */
@@ -24,9 +24,7 @@ class Rest_API
   /** 현재 유저가 소유하고있는 파일 목록을 반환시키기 위해서 */
   static async owned_File_Names()
   {
-    const REQ_RESULT = await Request.JSON_Request("/api/v1/directory?path=/", "GET")
-    if(REQ_RESULT.is_error)
-      throw new Error(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.error_message}`)
+    const REQ_RESULT = await Rest_API.request_With_Error_Check("/api/v1/directory?path=/", "GET")
     return REQ_RESULT.file_names
   }
 
@@ -34,13 +32,19 @@ class Rest_API
   static async upload_File_Object(file_object)
   {
     const DATA_URL = await File.read_Data_Url(file_object)
-    const REQ_RESULT = await Request.JSON_Request("/api/v1/file", "PUT", {
+    await Rest_API.request_With_Error_Check("/api/v1/file", "PUT", {
       file_name : file_object.name,
       file_url : DATA_URL
     })
-    
-    if(REQ_RESULT.is_error)
-      throw new Error(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.error_message}`)
     return file_object.name
+  }
+
+  /** 서버 응답을 받기전에 에러여부를 확인해서 예외를 일으키기 위해서 */
+  static async request_With_Error_Check(url, request_type, json_body={})
+  {
+    const REQ_RESULT = await Request.JSON_Request(url, request_type, json_body)
+    if(REQ_RESULT.is_error)
+      throw new Error(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.message}`)
+    return REQ_RESULT
   }
 }
