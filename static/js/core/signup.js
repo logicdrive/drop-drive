@@ -1,5 +1,5 @@
 const GoToSignIn = () => {
-  window.location.href = "/html/login.html"
+  window.location.href = "/html/signin.html"
   return
 }
 
@@ -12,7 +12,7 @@ document.querySelector("#signup_form").onsubmit = async (evt) => {
     return
   }
   
-  window.location.href = "/html/login.html"
+  window.location.href = "/html/signin.html"
   
 }
 

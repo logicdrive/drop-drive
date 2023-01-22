@@ -10,7 +10,9 @@ router.post('/', async (req, res) => {
   const PASSWORD = req.body.password
   const PASSWORD_RETYPE = req.body.password_retype
 
-  // TODO : PASSWORD_RETYPE 쓰기
+  if(PASSWORD != PASSWORD_RETYPE) {
+    res.json({error_code: "Password do not match"})
+  }
   
   //이메일 인증으로 회원가입
   try
