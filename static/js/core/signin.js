@@ -25,20 +25,3 @@ async function try_Login() {
     password : password
   })).error_code
 }
-
-class Request {
-  static async JSON_Request(url, request_type, json_body = {}) {
-    const HTTP_REQUEST_TYPES = ["GET", "HEAD", "PUT", "POST", "DELETE", "TRACE", "CONNECT", "OPTIONS"]
-    if (!HTTP_REQUEST_TYPES.includes(request_type.toUpperCase()))
-      throw new Error("request_type에는 알맞은 HTTP 요청타입이 들어가야 합니다!")
-
-    let request_infos = {
-      method: request_type,
-      headers: { "Content-Type": "application/json" }
-    }
-    if (!["GET", "HEAD", "DELETE", "TRACE"].includes(request_type))
-      request_infos.body = JSON.stringify(json_body)
-
-    return (await fetch(url, request_infos)).json()
-  }
-}
