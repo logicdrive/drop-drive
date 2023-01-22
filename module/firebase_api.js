@@ -20,6 +20,15 @@ const FIREBASE_STORAGE = getStorage(APP)
 /** 파이어베이스 서버와의 일관성있는 통신 인터페이스를 제공하기 위한 라이브러리 */
 class Firebase_Api
 {
+  /** 임시적으로 파이어베이스의 권한 오브젝트에 직접적으로 접근하기 위해서 */
+  static get_Firebase_Object(object_name)
+  {
+    return {"APP":APP,
+            "FIREBASE_AUTH":FIREBASE_AUTH, 
+            "FIREBASE_STORE":FIREBASE_STORE, 
+            "FIREBASE_STORAGE":FIREBASE_STORAGE}[object_name]
+  }
+  
   /** 파이어베이스의 Database에 Json형식의 데이터를 업로드시키기 위해서 
   *
   * upload_To_Database("file_meta_datas", {"text":"Hello, World !"})
