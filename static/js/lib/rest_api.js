@@ -47,6 +47,16 @@ class Rest_API
       password : password
     })
   }
+
+  /** 유저로부터 얻은 정보를 기반으로 회원가입을 수행하기 위해서 */
+  static async signup(email, password, password_retype)
+  {
+    await Rest_API.request_With_Error_Check("/api/v1/auth/signup", "POST", {
+      email: email,
+      password: password,
+      password_retype: password_retype
+    })
+  }
   
   /** 서버 응답을 받기전에 에러여부를 확인해서 예외를 일으키기 위해서 */
   static async request_With_Error_Check(url, request_type, json_body={})
