@@ -6,8 +6,8 @@ document.querySelector("#signin_form").onsubmit = async (evt) => {
     alert(RES.message)
     return
   }
-  
-  window.location.href = "/html/main.html"
+
+  Browser.redirect("/html/main.html")
 }
 
 // 로그인 에러 보여주기

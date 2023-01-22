@@ -15,7 +15,7 @@ class Rest_API
     const USER_EMAIL = await Rest_API.user_Email()
     if(USER_EMAIL == null)
     {
-      window.location.href = Rest_API.NOT_LOGIN_REDIRECT_URL
+      Browser.redirect(Rest_API.NOT_LOGIN_REDIRECT_URL)
       return true
     }
     return false

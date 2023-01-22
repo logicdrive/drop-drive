@@ -6,8 +6,8 @@ document.querySelector("#signup_form").onsubmit = async (evt) => {
     alert(RES.message)
     return
   }
-  
-  window.location.href = "/html/signin.html"
+
+  Browser.redirect("/html/signin.html")
 }
 
 async function try_Signup() {
