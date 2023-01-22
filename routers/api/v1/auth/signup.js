@@ -6,7 +6,7 @@ import Params_Check from "../../../../module/params_check.js"
 // 사용자로부터 입력받은 정보의 유효성을 확인하고, 회원가입을 수행하기 위해서
 async function post_Router_callback(req, res)
 {
-  Params_Check.Para_is_null(req.body, ["email", "password", "password_retype"])
+  Params_Check.Para_is_null_or_empty(req.body, ["email", "password", "password_retype"])
   const {email:EMAIL, password:PASSWORD, password_retype:PASSWORD_RETYPE} = req.body
   
   if(PASSWORD != PASSWORD_RETYPE) 

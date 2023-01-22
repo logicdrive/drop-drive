@@ -8,7 +8,7 @@ import get_Router_Callback_Temp from "../../temp/file.js"
 // 주어진 파일의 메타데이터를 파이어베이스에, 파일 URL을 파이어스토어에 업로드시키기 위해서
 async function put_Router_callback(req, res)
 {  
-  Params_Check.Para_is_null(req.body, ["file_name", "file_url"])
+  Params_Check.Para_is_null_or_empty(req.body, ["file_name", "file_url"])
   
   const USER_AUTH = Firebase_Api.user_Auth()
   const ACCEPT_FILE_EXTS = ["txt"]
