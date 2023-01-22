@@ -1,10 +1,10 @@
 import express from "express"
-import { firebase_auth } from "../../../../module/firebase.js"
+import Firebase_Api from "../../../../module/firebase_api.js"
 import Wrap from "../../../../module/wrap.js"
 
 async function get_Router_callback(_, res)
 {
-  res.json({user_auth: (firebase_auth.currentUser) ? firebase_auth.currentUser.email : null})
+  res.json({user_auth: Firebase_Api.user_Auth()})
 }
 
 get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)

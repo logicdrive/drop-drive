@@ -63,6 +63,15 @@ class Firebase_Api
   {
     uploadString(ref(FIREBASE_STORAGE, storage_path), string_to_upload)
   }
+
+  /** 현재 가지고 있는 유저의 권한을 반환시키기 위해서
+  *
+  * ! 유저가 만약에 권한을 가지고 있지 않을 경우, null을 반환함
+  */
+  static user_Auth()
+  {
+    return (FIREBASE_AUTH.currentUser) ? FIREBASE_AUTH.currentUser.email : null
+  }
 }
 
 export default Firebase_Api
