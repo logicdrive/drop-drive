@@ -15,5 +15,5 @@ async function on_Signin_Form_Submited(e)
   Browser.redirect("/html/main.html")
 }
 
-main = Wrap.Wrap_With_Try_Alert_Promise(main)
+on_Signin_Form_Submited = Wrap.Wrap_With_Try_Alert_Promise(on_Signin_Form_Submited)
 main()

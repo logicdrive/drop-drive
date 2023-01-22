@@ -76,5 +76,11 @@ async function on_Upload_File_Form_Submited(e)
   await update_Owned_File_Names()
 }
 
-main = Wrap.Wrap_With_Try_Alert_Promise(main)
+update_Greeting_Message = Wrap.Wrap_With_Try_Alert_Promise(update_Greeting_Message)
+update_Owned_File_Names = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Names)
+on_Click_File_Index_Download_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_File_Index_Download_Btn)
+on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)
+on_Click_Share_Link_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Share_Link_Btn)
+on_Click_file_Index_Delete_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_file_Index_Delete_Btn)
+on_Upload_File_Form_Submited = Wrap.Wrap_With_Try_Alert_Promise(on_Upload_File_Form_Submited)
 main()
