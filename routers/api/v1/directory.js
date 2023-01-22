@@ -5,8 +5,7 @@ import Wrap from "../../../module/wrap.js"
 // 현재 유저가 소유한 파일의 목록을 반환시키기 위해서
 async function get_Router_callback(_, res)
 {
-  const USER_AUTH = "Sin"
-
+  const USER_AUTH = Firebase_Api.user_Auth()
   const DOC_RESULTS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH]])
   const FILE_NAMES = DOC_RESULTS.map((doc_result) => doc_result.file_name + "." + doc_result.file_ext)
   
