@@ -1,8 +1,7 @@
 import express from "express"
-import { firebase_auth } from "../../../../module/firebase.js"
+import Firebase_Api from "../../../../module/firebase_api.js"
 import Wrap from "../../../../module/wrap.js"
 import Params_Check from "../../../../module/params_check.js"
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"
 
 async function post_Router_callback(req, res)
 {
@@ -12,11 +11,8 @@ async function post_Router_callback(req, res)
   if(PASSWORD != PASSWORD_RETYPE) 
     throw new Error("Password do not match")
 
-  try {
-    await createUserWithEmailAndPassword(firebase_auth, EMAIL, PASSWORD)
-    await sendEmailVerification(firebase_auth.currentUser)
-    res.json({is_error:false})
-  } catch(e) { throw new Error(e.code) }
+  await Firebase_Api.create_User(EMAIL, PASSWORD)
+  res.json({is_error:false})
 }
 
 post_Router_callback = Wrap.Wrap_With_Try_Res_Promise(post_Router_callback)
