@@ -1,4 +1,4 @@
-const GoToSignIn = () => {
+const redirect_To_Signin = () => {
   window.location.href = "/html/signin.html"
   return
 }

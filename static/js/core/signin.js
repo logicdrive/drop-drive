@@ -1,6 +1,6 @@
-const GoToSignup = () => {
-    window.location.href = "/html/signup.html"
-    return
+const redirect_To_Signup = () => {
+  window.location.href = "/html/signup.html"
+  return
 }
 
 document.querySelector("#signin_form").onsubmit = async (evt) => {
