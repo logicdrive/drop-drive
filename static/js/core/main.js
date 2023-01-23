@@ -16,10 +16,15 @@ async function update_Greeting_Message()
 /** 현재 유저가 소유하고 있는 파일 목록을 출력시키기위해서 */ 
 async function update_Owned_File_Infos()
 {
-  const FILE_INFOS = await Rest_API.owned_File_Infos()
-  if(FILE_INFOS.length == 0) return
-  
   const OWNED_FILE_TABLE_SEL = document.querySelector("#owned_file_table")
+  
+  const FILE_INFOS = await Rest_API.owned_File_Infos()
+  if(FILE_INFOS.length == 0)
+  {
+    OWNED_FILE_TABLE_SEL.innerHTML = ""
+    return
+  }
+  
   const FILE_INDEX_HTMLS = FILE_INFOS.map((file_info) => make_HTML_File_Index_HTML(file_info))
   OWNED_FILE_TABLE_SEL.innerHTML = FILE_INDEX_HTMLS.join("\n")
 
@@ -61,9 +66,11 @@ async function on_Click_Share_Link_Btn(e)
 async function on_Click_file_Index_Delete_Btn(e)
 {
   const FILE_NAME = e.path[1].querySelector("a").textContent
-
+  if(!confirm(`Do you want to delete the '${FILE_NAME}' file?`)) return
+  
   await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${FILE_NAME}`, "DELETE")
   alert(`The '${FILE_NAME}' file was successfully deleted !`)
+  await update_Owned_File_Infos()
 }
 
 /** 유저가 선택한 파일을 서버에 업로드시키기위해서 */
