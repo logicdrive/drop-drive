@@ -2,7 +2,7 @@ async function main()
 {
   if(await Rest_API.redirect_If_Not_Login()) return
   await update_Greeting_Message()
-  await update_Owned_File_Names()
+  await update_Owned_File_Infos()
   document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
 }
 
@@ -14,13 +14,13 @@ async function update_Greeting_Message()
 }
 
 /** 현재 유저가 소유하고 있는 파일 목록을 출력시키기위해서 */ 
-async function update_Owned_File_Names()
+async function update_Owned_File_Infos()
 {
-  const FILE_NAMES = await Rest_API.owned_File_Names()
-  if(FILE_NAMES.length == 0) return
+  const FILE_INFOS = await Rest_API.owned_File_Infos()
+  if(FILE_INFOS.length == 0) return
   
   const OWNED_FILE_TABLE_SEL = document.querySelector("#owned_file_table")
-  const FILE_INDEX_HTMLS = FILE_NAMES.map((file_name) => make_HTML_File_Index_HTML(file_name))
+  const FILE_INDEX_HTMLS = FILE_INFOS.map((file_info) => make_HTML_File_Index_HTML(file_info))
   OWNED_FILE_TABLE_SEL.innerHTML = FILE_INDEX_HTMLS.join("\n")
 
   Element.add_On_Click_Trigger("button.file_Index_Download_Btn", on_Click_File_Index_Download_Btn)
@@ -29,14 +29,15 @@ async function update_Owned_File_Names()
   Element.add_On_Click_Trigger("button.file_Index_Delete_Btn", on_Click_file_Index_Delete_Btn)
 }
 
-function make_HTML_File_Index_HTML(file_name)
+function make_HTML_File_Index_HTML(file_info)
 {
   return `<tr><td><div>
-<a href="/html/file_info.html?file_name=${file_name}" target="_blank">${file_name}</a>
+<a href="/html/file_info.html?file_name=${file_info.file_name}" target="_blank">${file_info.file_name}</a>
 <button class="file_Index_Download_Btn">Download</button>
 <button class="add_Auth_Btn">Add Auth</button>
 <button class="share_Link_Btn">Share Link</button>
 <button class="file_Index_Delete_Btn">Delete</button>
+<p>created time : ${file_info.created_time}</p>
 </div></td></tr>`
 }
 
@@ -73,11 +74,11 @@ async function on_Upload_File_Form_Submited(e)
 
   const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0])
   alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
-  await update_Owned_File_Names()
+  await update_Owned_File_Infos()
 }
 
 update_Greeting_Message = Wrap.Wrap_With_Try_Alert_Promise(update_Greeting_Message)
-update_Owned_File_Names = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Names)
+update_Owned_File_Infos = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Infos)
 on_Click_File_Index_Download_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_File_Index_Download_Btn)
 on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)
 on_Click_Share_Link_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Share_Link_Btn)

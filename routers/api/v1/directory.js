@@ -7,9 +7,11 @@ async function get_Router_callback(_, res)
 {
   const USER_AUTH = Firebase_Api.user_Auth()
   const DOC_RESULTS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH]])
-  const FILE_NAMES = DOC_RESULTS.map((doc_result) => doc_result.file_name + "." + doc_result.file_ext)
+  const FILE_INFOS = DOC_RESULTS.map((doc_result) => {
+    return {file_name:doc_result.file_name + "." + doc_result.file_ext, created_time:doc_result.created_time}
+  })
   
-  res.json({is_error:false, file_names:FILE_NAMES})
+  res.json({is_error:false, file_infos:FILE_INFOS})
 }
 
 get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
