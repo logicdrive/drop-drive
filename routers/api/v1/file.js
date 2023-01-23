@@ -5,6 +5,9 @@ import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
 import get_Router_Callback_Temp from "../../temp/file.js"
 
+import moment from "moment"
+import moment_timezone from "moment-timezone"
+
 // 주어진 파일의 메타데이터를 파이어베이스에, 파일 URL을 파이어스토어에 업로드시키기 위해서
 async function put_Router_callback(req, res)
 {  
@@ -17,12 +20,16 @@ async function put_Router_callback(req, res)
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
   if(!ACCEPT_FILE_EXTS.includes(FILE_EXT)) throw new Error("Passed file's extension was not accepted.")
 
+  moment.tz.setDefault("Asia/Seoul")
+  const CURRENT_TIME_STR = moment().format('YYYY-MM-DD HH:mm:ss')
+  
   const FILE_UUID = UUID.get_UUID()
   await Firebase_Api.upload_To_Database("file_meta_datas", {
     "file_name":FILE_NAME,
     "file_ext":FILE_EXT,
     "file_uuid":FILE_UUID,
-    "owner":USER_AUTH
+    "owner":USER_AUTH,
+    "created_time":CURRENT_TIME_STR
   })
   await Firebase_Api.upload_String_To_Storage(`files/${FILE_UUID}`, FILE_URL)
   
