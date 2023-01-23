@@ -39,7 +39,8 @@ async function get_Router_callback(req, res)
 
 async function delete_Router_callback(req, res)
 {
-  res.send('[MOCK] 파일 삭제 처리')
+  console.log(req.query)
+  res.json({is_error:false})
 }
 
 put_Router_callback = Wrap.Wrap_With_Try_Res_Promise(put_Router_callback)

@@ -61,7 +61,9 @@ async function on_Click_Share_Link_Btn(e)
 async function on_Click_file_Index_Delete_Btn(e)
 {
   const FILE_NAME = e.path[1].querySelector("a").textContent
-  alert(`[MOCK] ${FILE_NAME}에 대한 삭제가 이루어져야함`)
+
+  await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${FILE_NAME}`, "DELETE")
+  alert(`The '${FILE_NAME}' file was successfully deleted !`)
 }
 
 /** 유저가 선택한 파일을 서버에 업로드시키기위해서 */
