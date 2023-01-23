@@ -3,14 +3,15 @@ import Firebase_Api from "../../../module/firebase_api.js"
 import UUID from "../../../module/uuid.js"
 import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
+import get_Router_Callback_Temp from "../../temp/file.js"
 
 // 주어진 파일의 메타데이터를 파이어베이스에, 파일 URL을 파이어스토어에 업로드시키기 위해서
 async function put_Router_callback(req, res)
-{
-  const USER_AUTH = "Sin"
-  const ACCEPT_FILE_EXTS = ["txt"]
+{  
+  Params_Check.Para_is_null_or_empty(req.body, ["file_name", "file_url"])
   
-  Params_Check.Para_is_null(req.body, ["file_name", "file_url"])
+  const USER_AUTH = Firebase_Api.user_Auth()
+  const ACCEPT_FILE_EXTS = ["txt"]
 
   const {file_name:FILE_NAME_EXT, file_url:FILE_URL} = req.body
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
@@ -30,7 +31,7 @@ async function put_Router_callback(req, res)
 
 async function get_Router_callback(req, res)
 {
-  res.send('[MOCK] 파일 다운로드 처리')
+  await get_Router_Callback_Temp(req, res)
 }
 
 async function delete_Router_callback(req, res)

@@ -2,15 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
-    <script type="text/javascript" src="../js/core/signin.js" defer></script> 
+    <script src="/js/lib/browser.js"></script>
+    <script src="/js/lib/wrap.js"></script>
+    <script src="/js/lib/request.js"></script>
+    <script src="/js/lib/rest_api.js"></script>
+    <script src="/js/core/signin.js" defer></script> 
 </head>
 
 <body>
     <form id="signin_form" name="signin">
-      <h1>로그인</h1>
+      <h1>Login</h1>
       <div>
         Email Address
         <input id="signin_email" type="email" name="email">
@@ -21,13 +23,13 @@
       </div>
       <div>
         Submit
-        <input type="submit" value="로그인">
+        <input type="submit" value="Login">
       </div>
     </form>
 
     <div>
       If you don't have an account?
-      <button onclick="GoToSignup()">SignUp</button>
+      <button onclick="Browser.redirect('/html/signup.html')">SignUp</button>
     </div>
 </body>
 

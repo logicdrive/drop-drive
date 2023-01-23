@@ -1,31 +1,24 @@
 import express from "express"
-import { firebase_auth } from "../../../../module/firebase.js"
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"
+import Firebase_Api from "../../../../module/firebase_api.js"
+import Wrap from "../../../../module/wrap.js"
+import Params_Check from "../../../../module/params_check.js"
+
+// 사용자로부터 입력받은 정보의 유효성을 확인하고, 회원가입을 수행하기 위해서
+async function post_Router_callback(req, res)
+{
+  Params_Check.Para_is_null_or_empty(req.body, ["email", "password", "password_retype"])
+  const {email:EMAIL, password:PASSWORD, password_retype:PASSWORD_RETYPE} = req.body
+  
+  if(PASSWORD != PASSWORD_RETYPE) 
+    throw new Error("Password do not match")
+
+  await Firebase_Api.create_User(EMAIL, PASSWORD)
+  res.json({is_error:false})
+}
+
+post_Router_callback = Wrap.Wrap_With_Try_Res_Promise(post_Router_callback)
 
 const router = express.Router()
-
-router.post('/', async (req, res) => {
-  //현재사용자 객체 받아오기
-  const EMAIL = req.body.email
-  const PASSWORD = req.body.password
-  const PASSWORD_RETYPE = req.body.password_retype
-
-  if(PASSWORD != PASSWORD_RETYPE) {
-    res.json({error_code: "Password do not match"})
-  }
-  
-  //이메일 인증으로 회원가입
-  try
-  {
-    await createUserWithEmailAndPassword(firebase_auth, EMAIL, PASSWORD)
-    await sendEmailVerification(firebase_auth.currentUser)
-    res.json({error_code:null})
-  }
-  catch(e)
-  {
-    console.log(e)
-    res.json({error_code:e.code})
-  }
-})
+router.post('/', post_Router_callback)
 
 export default router

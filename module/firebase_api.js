@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app"
-import { getAuth } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { getFirestore, collection, getDocs, addDoc, query, where } from "firebase/firestore"
 import { getStorage, ref, uploadString } from "firebase/storage"
 
@@ -20,6 +20,15 @@ const FIREBASE_STORAGE = getStorage(APP)
 /** 파이어베이스 서버와의 일관성있는 통신 인터페이스를 제공하기 위한 라이브러리 */
 class Firebase_Api
 {
+  /** 임시적으로 파이어베이스의 권한 오브젝트에 직접적으로 접근하기 위해서 */
+  static get_Firebase_Object(object_name)
+  {
+    return {"APP":APP,
+            "FIREBASE_AUTH":FIREBASE_AUTH, 
+            "FIREBASE_STORE":FIREBASE_STORE, 
+            "FIREBASE_STORAGE":FIREBASE_STORAGE}[object_name]
+  }
+  
   /** 파이어베이스의 Database에 Json형식의 데이터를 업로드시키기 위해서 
   *
   * upload_To_Database("file_meta_datas", {"text":"Hello, World !"})
@@ -62,6 +71,27 @@ class Firebase_Api
   static async upload_String_To_Storage(storage_path, string_to_upload)
   {
     uploadString(ref(FIREBASE_STORAGE, storage_path), string_to_upload)
+  }
+
+  /** 현재 가지고 있는 유저의 권한을 반환시키기 위해서
+  *
+  * ! 유저가 만약에 권한을 가지고 있지 않을 경우, null을 반환함
+  */
+  static user_Auth()
+  {
+    return (FIREBASE_AUTH.currentUser) ? FIREBASE_AUTH.currentUser.email : null
+  }
+
+  /** 유저에게 받은 정보를 기반으로 유저를 추가하기 위해서 */
+  static async create_User(email, password)
+  {
+    await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+  }
+
+  /** 유저에게 받은 정보를 기반으로 로그인하기 위해서 */
+  static async login(email, password)
+  {
+    await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
   }
 }
 

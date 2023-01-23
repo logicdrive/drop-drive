@@ -2,15 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>signup</title>
-    <script type="text/javascript" src="../js/core/signup.js" defer></script> 
+    <script src="/js/lib/browser.js"></script>
+    <script src="/js/lib/wrap.js"></script>
+    <script src="/js/lib/request.js"></script>
+    <script src="/js/lib/rest_api.js"></script>
+    <script src="/js/core/signup.js" defer></script> 
 </head>
 
 <body>
     <form id="signup_form" name="signup">
-        <h1>회원가입</h1>
+        <h1>SignUp</h1>
         <div>
           Name
           <input id="name" type="text" name="n">
@@ -21,25 +23,25 @@
         </div>
         <div>
           Email Address
-          <input id="new_email" type="email" name="email">
+          <input id="email" type="email" name="email">
         </div>
         <div>
           Password
-          <input id="new_pw_1" type="password" name="password">
+          <input id="password" type="password" name="password">
         </div>
         <div>
           Repeat Password
-          <input id="new_pw_2" type="password" name="password_retype">
+          <input id="password_retype" type="password" name="password_retype">
         </div>
         <div>
           Submit
-          <input id="submit" type="submit" value="회원가입">
+          <input id="submit" type="submit" value="SignUp">
         </div>
     </form>
 
     <div>
         Do you wanna go to login?
-        <button onclick="GoToSignIn()">SignIn</button>
+        <button onclick="Browser.redirect('/html/signin.html')">SignIn</button>
     </div>
 </body>
 
