@@ -3,10 +3,11 @@ import Firebase_Api from "../../../module/firebase_api.js"
 import UUID from "../../../module/uuid.js"
 import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
+import Datetime from "../../../module/datetime.js"
 import get_Router_Callback_Temp from "../../temp/file.js"
 
-import moment from "moment"
-import moment_timezone from "moment-timezone"
+import { ref, deleteObject } from "firebase/storage"
+import { doc, getDocs, deleteDoc, collection, query, where } from "firebase/firestore"
 
 // 주어진 파일의 메타데이터를 파이어베이스에, 파일 URL을 파이어스토어에 업로드시키기 위해서
 async function put_Router_callback(req, res)
@@ -20,9 +21,7 @@ async function put_Router_callback(req, res)
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
   if(!ACCEPT_FILE_EXTS.includes(FILE_EXT)) throw new Error("Passed file's extension was not accepted.")
 
-  moment.tz.setDefault("Asia/Seoul")
-  const CURRENT_TIME_STR = moment().format('YYYY-MM-DD HH:mm:ss')
-  
+  const CURRENT_TIME_STR = Datetime.timezone_Date_Str()
   const FILE_UUID = UUID.get_UUID()
   await Firebase_Api.upload_To_Database("file_meta_datas", {
     "file_name":FILE_NAME,
@@ -43,7 +42,30 @@ async function get_Router_callback(req, res)
 
 async function delete_Router_callback(req, res)
 {
-  res.send('[MOCK] 파일 삭제 처리')
+  Params_Check.Para_is_null_or_empty(req.query, ["file_name"])
+  const USER_AUTH = Firebase_Api.user_Auth()
+  const [FILE_NAME, FILE_EXT] = req.query.file_name.split(".")
+
+  // 삭제시킬 UUID 얻기 위해서
+  const QRES = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
+  if(QRES.length == 0) throw new Error("The file to delete is not searched!")
+  const FILE_UUID_TO_DELETE = QRES[0].file_uuid
+  
+  // Storage에서 삭제하기 위해서
+  const FIREBASE_STORAGE = Firebase_Api.get_Firebase_Object("FIREBASE_STORAGE")
+  const DELETE_REF = ref(FIREBASE_STORAGE, `files/${FILE_UUID_TO_DELETE}`)
+  if(DELETE_REF == null) throw new Error("The file content to delete is not searched!")
+  await deleteObject(DELETE_REF)
+
+  // Database에서 삭제하기 위해서
+  const FIREBASE_STORE = Firebase_Api.get_Firebase_Object("FIREBASE_STORE")
+  const DOC_QUERY = query(collection(FIREBASE_STORE, "file_meta_datas"), where("file_uuid", "==", FILE_UUID_TO_DELETE))
+  const QUERY_SNAP_SHOT = await getDocs(DOC_QUERY)
+  if(QUERY_SNAP_SHOT.docs.length == 0) throw new Error("The file metadata to delete is not searched!")
+  const DOC_ID_TO_DELETE = QUERY_SNAP_SHOT.docs[0].id
+  await deleteDoc(doc(FIREBASE_STORE, "file_meta_datas", DOC_ID_TO_DELETE))
+  
+  res.json({is_error:false})
 }
 
 put_Router_callback = Wrap.Wrap_With_Try_Res_Promise(put_Router_callback)
