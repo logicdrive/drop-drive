@@ -39,6 +39,12 @@ class Rest_API
     return file_object.name
   }
 
+  /** 지정한 파일을 서버에서 완전히 삭제시키기 위해서 */
+  static async delete_File_Object(file_name)
+  {
+    await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${file_name}`, "DELETE")
+  }
+
   /** 유저로부터 얻은 정보를 기반으로 로그인을 수행하기 위해서 */
   static async signin(email, password)
   {

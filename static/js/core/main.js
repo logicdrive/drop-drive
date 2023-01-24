@@ -67,8 +67,8 @@ async function on_Click_file_Index_Delete_Btn(e)
 {
   const FILE_NAME = e.path[1].querySelector("a").textContent
   if(!confirm(`Do you want to delete the '${FILE_NAME}' file?`)) return
-  
-  await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${FILE_NAME}`, "DELETE")
+
+  await Rest_API.delete_File_Object(FILE_NAME)
   alert(`The '${FILE_NAME}' file was successfully deleted !`)
   await update_Owned_File_Infos()
 }
