@@ -1,6 +1,16 @@
 import Firebase_Api from "../../module/firebase_api.js"
 import Params_Check from "../../module/params_check.js"
-import { ref, getDownloadURL } from "firebase/storage"
+import { ref, getStream } from "firebase/storage"
+
+function read_Storage_Data(storage_ref)
+{
+  return new Promise((resolve) => {
+    const RS = getStream(storage_ref)
+    RS.on('readable', () => {
+      resolve(RS.read())
+    })
+  })    
+}
 
 async function get_Router_Callback_Temp(req, res) {
   Params_Check.Para_is_null_or_empty(req.query, ["file_name"])
@@ -17,12 +27,9 @@ async function get_Router_Callback_Temp(req, res) {
   const DOWNLOAD_REF = ref(FIREBASE_STORAGE, `files/${FILE_UUID_TO_DOWNLOAD}`)
   if (DOWNLOAD_REF == null) throw new Error("The file content to download is not searched!")
 
-  getDownloadURL(DOWNLOAD_REF)
-    .then((url) => {
-      const DOWNLOAD_URL = url
-      res.json({ download_url: DOWNLOAD_URL })
-    })
-
+  const RAW_DATA = await read_Storage_Data(DOWNLOAD_REF)
+  const DOWNLOAD_URL = RAW_DATA.toString()
+  res.json({ download_url: DOWNLOAD_URL })
 }
 
 export default get_Router_Callback_Temp
