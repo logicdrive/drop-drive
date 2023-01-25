@@ -49,7 +49,7 @@ async function delete_Router_callback(req, res)
   
   const FILE_UUID_TO_DELETE = QRES[0].file_uuid
   await Firebase_Api.delete_From_Storage(`files/${FILE_UUID_TO_DELETE}`)
-  await Firebase_Api.delete_From_Database("share_auths", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]], false)
+  await Firebase_Api.delete_From_Database("share_auths", [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]], false)
   await Firebase_Api.delete_From_Database("file_meta_datas", [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]])
   
   res.json({is_error:false})
