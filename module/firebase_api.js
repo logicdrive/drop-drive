@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
-import { getFirestore, collection, getDocs, addDoc, query, where } from "firebase/firestore"
-import { getStorage, ref, uploadString } from "firebase/storage"
+import { getFirestore, collection, doc, getDocs, addDoc, deleteDoc, query, where } from "firebase/firestore"
+import { getStorage, ref, uploadString, deleteObject } from "firebase/storage"
 
 const FIREBASE_CONFIG = {
   apiKey: process.env['REACT_APP_API_KEY'],
@@ -48,6 +48,24 @@ class Firebase_Api
   */
   static async query_To_Database(collection_path, querys)
   {
+    const QUERY_SNAP_SHOT = await Firebase_Api.query_To_Database_To_Get_QuerySnapShot(collection_path, querys)
+    const DOC_RESULTS = QUERY_SNAP_SHOT.docs.map((doc) => doc.data())
+    return DOC_RESULTS
+  }
+
+  /** 데이터베이스에서 검색된 Doc를 삭제시키기 위해서 */
+  static async delete_From_Database(collection_path, querys)
+  {
+    const QUERY_SNAP_SHOT = await Firebase_Api.query_To_Database_To_Get_QuerySnapShot(collection_path, querys)
+    if(QUERY_SNAP_SHOT.docs.length == 0) throw new Error("The file metadata to delete is not searched!")
+    
+    const DOC_ID_TO_DELETE = QUERY_SNAP_SHOT.docs[0].id
+    await deleteDoc(doc(FIREBASE_STORE, collection_path, DOC_ID_TO_DELETE))
+  }
+
+  /** 데이터베이스에서 QuerySnapShot 객체를 얻기 위해서 */
+  static async query_To_Database_To_Get_QuerySnapShot(collection_path, querys)
+  {
     let doc_querys = []
     for(let query of querys)
     {
@@ -58,8 +76,7 @@ class Firebase_Api
     
     const DOC_QUERY = query(collection(FIREBASE_STORE, collection_path), ...doc_querys)
     const QUERY_SNAP_SHOT = await getDocs(DOC_QUERY)
-    const DOC_RESULTS = QUERY_SNAP_SHOT.docs.map((doc) => doc.data())
-    return DOC_RESULTS
+    return QUERY_SNAP_SHOT
   }
 
   /** 파이어베이스의 Storage에 String형식의 데이터를 업로드시키기 위해서 
@@ -71,6 +88,14 @@ class Firebase_Api
   static async upload_String_To_Storage(storage_path, string_to_upload)
   {
     uploadString(ref(FIREBASE_STORAGE, storage_path), string_to_upload)
+  }
+
+  /** 특정 경로에 있는 스토리지 파일을 삭제시키기 위해서 */
+  static async delete_From_Storage(storage_path)
+  {
+    const DELETE_REF = ref(FIREBASE_STORAGE, storage_path)
+    if(DELETE_REF == null) throw new Error("The file content to delete is not searched!")
+    await deleteObject(DELETE_REF)
   }
 
   /** 현재 가지고 있는 유저의 권한을 반환시키기 위해서
