@@ -1,9 +1,19 @@
 import express from "express"
+import Firebase_Api from "../../../module/firebase_api.js"
+import Params_Check from "../../../module/params_check.js"
 import Wrap from "../../../module/wrap.js"
 
 async function put_Router_callback(req, res)
 {
-    res.send('[MOCK] 특정 유저에게 파일의 접근 권한을 추가하는 처리')
+  Params_Check.Para_is_null_or_empty(req.body, ["file_name", "email_to_add"])
+  
+  const USER_AUTH = Firebase_Api.user_Auth()
+  const {file_name:FILE_NAME_EXT, email_to_add:EMAIL_TO_ADD} = req.body
+  const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.split(".")
+
+  console.log(USER_AUTH, EMAIL_TO_ADD, FILE_NAME, FILE_EXT)
+
+  res.send({is_error:false})
 }
 
 async function get_Router_callback(req, res)
