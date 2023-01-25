@@ -11,8 +11,17 @@ async function put_Router_callback(req, res)
   const {file_name:FILE_NAME_EXT, email_to_add:EMAIL_TO_ADD} = req.body
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.split(".")
 
-  console.log(USER_AUTH, EMAIL_TO_ADD, FILE_NAME, FILE_EXT)
+  if(USER_AUTH == EMAIL_TO_ADD) throw new Error("The yourself email is automately to share link auth!")
+  
+  const QRES = await Firebase_Api.query_To_Database("share_auths", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT], ["where", "email_auth", "==", EMAIL_TO_ADD]])
+  if(QRES.length != 0) throw new Error("The email auth to add is already added!")
 
+  await Firebase_Api.upload_To_Database("share_auths", {
+    "owner":USER_AUTH,
+    "file_name":FILE_NAME,
+    "file_ext":FILE_EXT,
+    "email_auth":EMAIL_TO_ADD
+  })
   res.send({is_error:false})
 }
 
