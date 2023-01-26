@@ -93,7 +93,7 @@ class Firebase_Api
     uploadString(ref(FIREBASE_STORAGE, storage_path), string_to_upload)
   }
 
-  // 지정된 스토리지 경로로부터 Buffer 데이터를 얻어옴
+  /** 지정된 스토리지 경로로부터 Buffer 데이터를 얻어옴 */
   static read_Buffer_From_Storage_Ref(storage_path)
   {
     return new Promise((resolve) => {
@@ -107,7 +107,7 @@ class Firebase_Api
     })
   }
   
-  // 지정한 스토리지 경로의 문자열 데이터를 반환시킴
+  /** 지정한 스토리지 경로의 문자열 데이터를 반환시킴 */
   static async string_data_From_Storage(storage_path)
   {
     return (await Firebase_Api.read_Buffer_From_Storage_Ref(storage_path)).toString()
