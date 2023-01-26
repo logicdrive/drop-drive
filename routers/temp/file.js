@@ -29,7 +29,7 @@ async function get_Router_Callback_Temp(req, res) {
 
   const RAW_DATA = await read_Storage_Data(DOWNLOAD_REF)
   const DOWNLOAD_URL = RAW_DATA.toString()
-  res.json({ download_url: DOWNLOAD_URL })
+  res.json({ data_url: DOWNLOAD_URL })
 }
 
 export default get_Router_Callback_Temp
