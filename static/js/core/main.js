@@ -48,7 +48,20 @@ function make_HTML_File_Index_HTML(file_info)
 
 async function on_Click_File_Index_Download_Btn(e)
 {
-  await on_Click_File_Index_Download_Btn_Temp(e)
+  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
+  if(!confirm(`Do you want to download the '${FILE_NAME}' file?`)) return
+  
+  const DOWNLOADED_FILE_URL = (await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${FILE_NAME}`, "GET")).data_url
+
+  //파일 다운로드를 받기 위하여 
+  const anchorElement = document.createElement('a')
+  document.body.appendChild(anchorElement)
+  anchorElement.download = FILE_NAME
+  anchorElement.href = DOWNLOADED_FILE_URL
+  anchorElement.click()
+  document.body.removeChild(anchorElement)
+  
+  alert(`The '${FILE_NAME}' file was successfully downloaded !`)
 }
 
 async function on_Click_Add_Auth_Btn(e)
