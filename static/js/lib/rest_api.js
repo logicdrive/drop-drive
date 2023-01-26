@@ -45,6 +45,15 @@ class Rest_API
     await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${file_name}`, "DELETE")
   }
 
+  /** 특정 이메일에 지정한 파일에 대한 공유 권한을 부여하기 위해서 */
+  static async add_Share_Auth(file_name, email_to_add)
+  {
+    await Rest_API.request_With_Error_Check("/api/v1/file_member", "PUT", {
+      file_name:file_name,
+      email_to_add:email_to_add
+    })
+  }
+
   /** 유저로부터 얻은 정보를 기반으로 로그인을 수행하기 위해서 */
   static async signin(email, password)
   {

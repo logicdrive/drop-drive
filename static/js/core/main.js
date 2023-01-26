@@ -64,17 +64,14 @@ async function on_Click_File_Index_Download_Btn(e)
   alert(`The '${FILE_NAME}' file was successfully downloaded !`)
 }
 
+/** 특정 파일에 공유 권한을 추가시키기 위해서 */
 async function on_Click_Add_Auth_Btn(e)
 {
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
-  
   const EMAIL_TO_ADD = prompt("Input user email to accept share link auth")
   if(EMAIL_TO_ADD == null || EMAIL_TO_ADD.length == 0) return
 
-  await Rest_API.request_With_Error_Check("/api/v1/file_member", "PUT", {
-    file_name:FILE_NAME,
-    email_to_add:EMAIL_TO_ADD
-  })
+  await Rest_API.add_Share_Auth(FILE_NAME, EMAIL_TO_ADD)
   alert(`The share link auth was successfully added !`)
 }
 
@@ -84,6 +81,7 @@ async function on_Click_Share_Link_Btn(e)
   alert(`[MOCK] ${FILE_NAME}에 대한 공유 링크 생성 요청 및 표시가 이루어져야함`)
 }
 
+/** 특정 파일을 삭제시키기 위해서 */
 async function on_Click_file_Index_Delete_Btn(e)
 {
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
