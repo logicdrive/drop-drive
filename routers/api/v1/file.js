@@ -5,18 +5,6 @@ import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
 import Datetime from "../../../module/datetime.js"
 
-import { ref, getStream } from "firebase/storage"
-
-function read_Storage_Data(storage_ref)
-{
-  return new Promise((resolve) => {
-    const RS = getStream(storage_ref)
-    RS.on('readable', () => {
-      resolve(RS.read())
-    })
-  })    
-}
-
 // 주어진 파일의 메타데이터를 파이어베이스에, 파일 URL을 파이어스토어에 업로드시키기 위해서
 async function put_Router_callback(req, res)
 {  
@@ -43,34 +31,28 @@ async function put_Router_callback(req, res)
   res.json({is_error:false})
 }
 
+/// 주어진 파일에 대한 DATA URL을 반환하기 위해서
 async function get_Router_callback(req, res)
 {
   Params_Check.Para_is_null_or_empty(req.query, ["file_name"])
   const USER_AUTH = Firebase_Api.user_Auth()
   const [FILE_NAME, FILE_EXT] = req.query.file_name.split(".")
 
-  // 다운로드할 UUID 얻기 위해서
   const QRES = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
   if (QRES.length == 0) throw new Error("The file to download is not searched!")
   const FILE_UUID_TO_DOWNLOAD = QRES[0].file_uuid
 
-  // Storage에서 다운로드 받기 위해서
-  const FIREBASE_STORAGE = Firebase_Api.get_Firebase_Object("FIREBASE_STORAGE")
-  const DOWNLOAD_REF = ref(FIREBASE_STORAGE, `files/${FILE_UUID_TO_DOWNLOAD}`)
-  if (DOWNLOAD_REF == null) throw new Error("The file content to download is not searched!")
-
-  const RAW_DATA = await read_Storage_Data(DOWNLOAD_REF)
-  const DOWNLOAD_URL = RAW_DATA.toString()
-  res.json({ data_url: DOWNLOAD_URL })
+  const DATA_URL = await Firebase_Api.string_data_From_Storage(`files/${FILE_UUID_TO_DOWNLOAD}`)
+  res.json({ data_url: DATA_URL })
 }
 
+// 주어진 파일 오브젝트, 공유 데이터, 메타 데이터를 전부 삭제시키기 위해서
 async function delete_Router_callback(req, res)
 {
   Params_Check.Para_is_null_or_empty(req.query, ["file_name"])
   const USER_AUTH = Firebase_Api.user_Auth()
   const [FILE_NAME, FILE_EXT] = req.query.file_name.split(".")
 
-  // 삭제시킬 UUID 얻기 위해서
   const QRES = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
   if(QRES.length == 0) throw new Error("The file to delete is not searched!")
   

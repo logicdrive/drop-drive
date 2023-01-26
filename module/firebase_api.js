@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { getFirestore, collection, doc, getDocs, addDoc, deleteDoc, query, where } from "firebase/firestore"
-import { getStorage, ref, uploadString, deleteObject } from "firebase/storage"
+import { getStorage, ref, uploadString, deleteObject, getStream } from "firebase/storage"
 
 const FIREBASE_CONFIG = {
   apiKey: process.env['REACT_APP_API_KEY'],
@@ -65,7 +65,7 @@ class Firebase_Api
     for(let QUERY_DOC of QUERY_SNAP_SHOT.docs)
         await deleteDoc(doc(FIREBASE_STORE, collection_path, QUERY_DOC.id))
   }
-
+  
   /** 데이터베이스에서 QuerySnapShot 객체를 얻기 위해서 */
   static async query_To_Database_To_Get_QuerySnapShot(collection_path, querys)
   {
@@ -91,6 +91,26 @@ class Firebase_Api
   static async upload_String_To_Storage(storage_path, string_to_upload)
   {
     uploadString(ref(FIREBASE_STORAGE, storage_path), string_to_upload)
+  }
+
+  // 지정된 스토리지 경로로부터 Buffer 데이터를 얻어옴
+  static read_Buffer_From_Storage_Ref(storage_path)
+  {
+    return new Promise((resolve) => {
+      const DOWNLOAD_REF = ref(FIREBASE_STORAGE, storage_path)
+      if (DOWNLOAD_REF == null) throw new Error("The file content to download is not searched!")
+      
+      const RS = getStream(DOWNLOAD_REF)
+      RS.on('readable', () => {
+        resolve(RS.read())
+      })
+    })
+  }
+  
+  // 지정한 스토리지 경로의 문자열 데이터를 반환시킴
+  static async string_data_From_Storage(storage_path)
+  {
+    return (await Firebase_Api.read_Buffer_From_Storage_Ref(storage_path)).toString()
   }
 
   /** 특정 경로에 있는 스토리지 파일을 삭제시키기 위해서 */
