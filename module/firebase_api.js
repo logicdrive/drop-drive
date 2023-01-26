@@ -54,13 +54,16 @@ class Firebase_Api
   }
 
   /** 데이터베이스에서 검색된 Doc를 삭제시키기 위해서 */
-  static async delete_From_Database(collection_path, querys)
+  static async delete_From_Database(collection_path, querys, is_check_exist=true)
   {
     const QUERY_SNAP_SHOT = await Firebase_Api.query_To_Database_To_Get_QuerySnapShot(collection_path, querys)
-    if(QUERY_SNAP_SHOT.docs.length == 0) throw new Error("The file metadata to delete is not searched!")
-    
-    const DOC_ID_TO_DELETE = QUERY_SNAP_SHOT.docs[0].id
-    await deleteDoc(doc(FIREBASE_STORE, collection_path, DOC_ID_TO_DELETE))
+    if(QUERY_SNAP_SHOT.docs.length == 0)
+    {
+      if(is_check_exist) throw new Error("The file metadata to delete is not searched!")
+      return
+    }
+    for(let QUERY_DOC of QUERY_SNAP_SHOT.docs)
+        await deleteDoc(doc(FIREBASE_STORE, collection_path, QUERY_DOC.id))
   }
 
   /** 데이터베이스에서 QuerySnapShot 객체를 얻기 위해서 */
