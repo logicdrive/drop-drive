@@ -36,7 +36,7 @@ async function update_Owned_File_Infos()
 
 function make_HTML_File_Index_HTML(file_info)
 {
-  return `<tr><td><div>
+  return `<tr><td><div file_name=${file_info.file_name}>
 <a href="/html/file_info.html?file_name=${file_info.file_name}" target="_blank">${file_info.file_name}</a>
 <button class="file_Index_Download_Btn">Download</button>
 <button class="add_Auth_Btn">Add Auth</button>
@@ -53,7 +53,7 @@ async function on_Click_File_Index_Download_Btn(e)
 
 async function on_Click_Add_Auth_Btn(e)
 {
-  const FILE_NAME = e.path[1].querySelector("a").textContent
+  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
   
   const EMAIL_TO_ADD = prompt("Input user email to accept share link auth")
   if(EMAIL_TO_ADD == null || EMAIL_TO_ADD.length == 0) return
@@ -67,13 +67,13 @@ async function on_Click_Add_Auth_Btn(e)
 
 async function on_Click_Share_Link_Btn(e)
 {
-  const FILE_NAME = e.path[1].querySelector("a").textContent
+  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
   alert(`[MOCK] ${FILE_NAME}에 대한 공유 링크 생성 요청 및 표시가 이루어져야함`)
 }
 
 async function on_Click_file_Index_Delete_Btn(e)
 {
-  const FILE_NAME = e.path[1].querySelector("a").textContent
+  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
   if(!confirm(`Do you want to delete the '${FILE_NAME}' file?`)) return
 
   await Rest_API.delete_File_Object(FILE_NAME)

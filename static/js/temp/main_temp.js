@@ -1,6 +1,6 @@
 async function on_Click_File_Index_Download_Btn_Temp(e)
 {
-  const FILE_NAME = e.path[1].querySelector("a").textContent
+  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
   if(!confirm(`Do you want to download the '${FILE_NAME}' file?`)) return
   
   const DOWNLOADED_FILE_URL = (await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${FILE_NAME}`, "GET")).data_url
