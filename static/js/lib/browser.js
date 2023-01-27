@@ -18,4 +18,10 @@ class Browser
     A_ELEMENT.click()
     document.body.removeChild(A_ELEMENT)
   }
+
+  /** 지정된 키에 해당하는 URL 쿼리 문자열을 얻기 위해서 */
+  static url_Query_Param(param_key)
+  {
+    return new URLSearchParams(location.search).get(param_key)
+  }
 }
