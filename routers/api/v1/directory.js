@@ -13,10 +13,8 @@ async function get_Router_callback(_, res)
   
   res.json({is_error:false, file_infos:FILE_INFOS})
 }
-
 get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
 
 const router = express.Router()
 router.get('/', get_Router_callback)
-
 export default router

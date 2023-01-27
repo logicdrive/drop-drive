@@ -12,6 +12,7 @@ async function update_Greeting_Message()
   const USER_EMAIL = await Rest_API.user_Email()
   document.querySelector("#greeting").innerText = `Hello, ${USER_EMAIL}!`
 }
+update_Greeting_Message = Wrap.Wrap_With_Try_Alert_Promise(update_Greeting_Message)
 
 /** 현재 유저가 소유하고 있는 파일 목록을 출력시키기위해서 */ 
 async function update_Owned_File_Infos()
@@ -33,6 +34,7 @@ async function update_Owned_File_Infos()
   Element.add_On_Click_Trigger("button.share_Link_Btn", on_Click_Share_Link_Btn)
   Element.add_On_Click_Trigger("button.file_Index_Delete_Btn", on_Click_file_Index_Delete_Btn)
 }
+update_Owned_File_Infos = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Infos)
 
 function make_HTML_File_Index_HTML(file_info)
 {
@@ -56,6 +58,7 @@ async function on_Click_File_Index_Download_Btn(e)
   await Browser.download_File(FILE_URL, FILE_NAME)
   alert(`The '${FILE_NAME}' file was successfully downloaded !`)
 }
+on_Click_File_Index_Download_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_File_Index_Download_Btn)
 
 /** 특정 파일에 공유 권한을 추가시키기 위해서 */
 async function on_Click_Add_Auth_Btn(e)
@@ -67,12 +70,14 @@ async function on_Click_Add_Auth_Btn(e)
   await Rest_API.add_Share_Auth(FILE_NAME, EMAIL_TO_ADD)
   alert(`The share link auth was successfully added !`)
 }
+on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)
 
 async function on_Click_Share_Link_Btn(e)
 {
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
   alert(`[MOCK] ${FILE_NAME}에 대한 공유 링크 생성 요청 및 표시가 이루어져야함`)
 }
+on_Click_Share_Link_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Share_Link_Btn)
 
 /** 특정 파일을 삭제시키기 위해서 */
 async function on_Click_file_Index_Delete_Btn(e)
@@ -84,6 +89,7 @@ async function on_Click_file_Index_Delete_Btn(e)
   alert(`The '${FILE_NAME}' file was successfully deleted !`)
   await update_Owned_File_Infos()
 }
+on_Click_file_Index_Delete_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_file_Index_Delete_Btn)
 
 /** 유저가 선택한 파일을 서버에 업로드시키기위해서 */
 async function on_Upload_File_Form_Submited(e)
@@ -97,12 +103,6 @@ async function on_Upload_File_Form_Submited(e)
   alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
   await update_Owned_File_Infos()
 }
-
-update_Greeting_Message = Wrap.Wrap_With_Try_Alert_Promise(update_Greeting_Message)
-update_Owned_File_Infos = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Infos)
-on_Click_File_Index_Download_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_File_Index_Download_Btn)
-on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)
-on_Click_Share_Link_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Share_Link_Btn)
-on_Click_file_Index_Delete_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_file_Index_Delete_Btn)
 on_Upload_File_Form_Submited = Wrap.Wrap_With_Try_Alert_Promise(on_Upload_File_Form_Submited)
+
 main()

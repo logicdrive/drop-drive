@@ -12,10 +12,8 @@ async function post_Router_callback(req, res)
   await Firebase_Api.login(EMAIL, PASSWORD)
   res.json({is_error:false})
 }
-
 post_Router_callback = Wrap.Wrap_With_Try_Res_Promise(post_Router_callback)
 
 const router = express.Router()
 router.post('/', post_Router_callback)
-
 export default router

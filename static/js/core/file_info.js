@@ -12,6 +12,6 @@ async function main()
   ContentElement.innerText = FILE_CONTENT
   document.body.appendChild(ContentElement)
 }
-
 main = Wrap.Wrap_With_Try_Alert_Promise(main)
+
 main()
