@@ -75,7 +75,9 @@ on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)
 async function on_Click_Share_Link_Btn(e)
 {
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
-  alert(`[MOCK] ${FILE_NAME}에 대한 공유 링크 생성 요청 및 표시가 이루어져야함`)
+  const SHARED_LINK = (await Rest_API.request_With_Error_Check(`/api/v1/shared_link?file_name=${FILE_NAME}`, "GET")).shared_link
+  console.log(SHARED_LINK)
+  alert("The shared link was coiped to clipboard !")
 }
 on_Click_Share_Link_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Share_Link_Btn)
 
