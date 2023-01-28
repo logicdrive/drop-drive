@@ -34,13 +34,6 @@ async function get_Router_callback(req, res)
 }
 get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
 
-async function delete_Router_callback(req, res)
-{
-  res.send('[MOCK] 특정 파일에 대한 공유링크를 제거하는 처리')
-}
-delete_Router_callback = Wrap.Wrap_With_Try_Res_Promise(delete_Router_callback)
-
 const router = express.Router()
 router.get('/', get_Router_callback)
-router.delete('/', delete_Router_callback)
 export default router
