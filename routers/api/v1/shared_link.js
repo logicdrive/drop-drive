@@ -4,6 +4,7 @@ import UUID from "../../../module/uuid.js"
 import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
 
+/** 주어진 파일에 접근할 수 있는 공유링크를 생성하고 반환하기 위해서 */
 async function get_Router_callback(req, res)
 {
   Params_Check.Para_is_null_or_empty(req.query, ["file_name"])

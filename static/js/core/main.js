@@ -72,6 +72,7 @@ async function on_Click_Add_Auth_Btn(e)
 }
 on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)
 
+/** 공유링크를 생성시키고, 링크를 클립보드에 복사시키기 위해서 */
 async function on_Click_Share_Link_Btn(e)
 {
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
