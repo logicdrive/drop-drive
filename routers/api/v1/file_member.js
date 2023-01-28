@@ -6,8 +6,9 @@ import Wrap from "../../../module/wrap.js"
 async function put_Router_callback(req, res)
 {
   Params_Check.Para_is_null_or_empty(req.body, ["file_name", "email_to_add"])
-  
   const USER_AUTH = Firebase_Api.user_Auth()
+  if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
+  
   const {file_name:FILE_NAME_EXT, email_to_add:EMAIL_TO_ADD} = req.body
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.split(".")
 

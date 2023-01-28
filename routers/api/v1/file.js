@@ -9,8 +9,9 @@ import Datetime from "../../../module/datetime.js"
 async function put_Router_callback(req, res)
 {  
   Params_Check.Para_is_null_or_empty(req.body, ["file_name", "file_url"])
-  
   const USER_AUTH = Firebase_Api.user_Auth()
+  if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
+  
   const ACCEPT_FILE_EXTS = ["txt"]
 
   const {file_name:FILE_NAME_EXT, file_url:FILE_URL} = req.body
@@ -37,6 +38,8 @@ async function get_Router_callback(req, res)
 {
   Params_Check.Para_is_null_or_empty(req.query, ["file_name"])
   const USER_AUTH = Firebase_Api.user_Auth()
+  if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
+  
   const [FILE_NAME, FILE_EXT] = req.query.file_name.split(".")
 
   const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
@@ -53,6 +56,8 @@ async function delete_Router_callback(req, res)
 {
   Params_Check.Para_is_null_or_empty(req.query, ["file_name"])
   const USER_AUTH = Firebase_Api.user_Auth()
+  if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
+  
   const [FILE_NAME, FILE_EXT] = req.query.file_name.split(".")
 
   const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
