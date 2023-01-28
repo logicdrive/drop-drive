@@ -76,7 +76,7 @@ async function on_Click_Share_Link_Btn(e)
 {
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
   const SHARED_LINK = (await Rest_API.request_With_Error_Check(`/api/v1/shared_link?file_name=${FILE_NAME}`, "GET")).shared_link
-  console.log(SHARED_LINK)
+  navigator.clipboard.writeText(SHARED_LINK)
   alert("The shared link was coiped to clipboard !")
 }
 on_Click_Share_Link_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Share_Link_Btn)
