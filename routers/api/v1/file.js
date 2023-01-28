@@ -39,9 +39,9 @@ async function get_Router_callback(req, res)
   const USER_AUTH = Firebase_Api.user_Auth()
   const [FILE_NAME, FILE_EXT] = req.query.file_name.split(".")
 
-  const QRES = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
-  if (QRES.length == 0) throw new Error("The file to download is not searched!")
-  const FILE_UUID_TO_DOWNLOAD = QRES[0].file_uuid
+  const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
+  if (QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to download is not searched!")
+  const FILE_UUID_TO_DOWNLOAD = QUERY_RESULT_FILE_INFOS[0].file_uuid
 
   const DATA_URL = await Firebase_Api.string_data_From_Storage(`files/${FILE_UUID_TO_DOWNLOAD}`)
   res.json({ data_url: DATA_URL })
@@ -55,10 +55,10 @@ async function delete_Router_callback(req, res)
   const USER_AUTH = Firebase_Api.user_Auth()
   const [FILE_NAME, FILE_EXT] = req.query.file_name.split(".")
 
-  const QRES = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
-  if(QRES.length == 0) throw new Error("The file to delete is not searched!")
+  const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
+  if(QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to delete is not searched!")
+  const FILE_UUID_TO_DELETE = QUERY_RESULT_FILE_INFOS[0].file_uuid
   
-  const FILE_UUID_TO_DELETE = QRES[0].file_uuid
   await Firebase_Api.delete_From_Storage(`files/${FILE_UUID_TO_DELETE}`)
   await Firebase_Api.delete_From_Database("share_auths", [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]], false)
   await Firebase_Api.delete_From_Database("file_meta_datas", [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]])

@@ -6,8 +6,8 @@ import Wrap from "../../../module/wrap.js"
 async function get_Router_callback(_, res)
 {
   const USER_AUTH = Firebase_Api.user_Auth()
-  const DOC_RESULTS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH]])
-  const FILE_INFOS = DOC_RESULTS.map((doc_result) => {
+  const QUERY_RESULT_META_DATAS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH]])
+  const FILE_INFOS = QUERY_RESULT_META_DATAS.map((doc_result) => {
     return {file_name:doc_result.file_name + "." + doc_result.file_ext, created_time:doc_result.created_time}
   })
   
