@@ -44,7 +44,7 @@ async function get_Router_callback(req, res)
   const FILE_UUID_TO_DOWNLOAD = QUERY_RESULT_FILE_INFOS[0].file_uuid
 
   const DATA_URL = await Firebase_Api.string_data_From_Storage(`files/${FILE_UUID_TO_DOWNLOAD}`)
-  res.json({ data_url: DATA_URL })
+  res.json({is_error:false, data_url:DATA_URL})
 }
 get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
 
