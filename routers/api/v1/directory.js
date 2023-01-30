@@ -8,7 +8,7 @@ async function get_Router_callback(_, res)
   const USER_AUTH = Firebase_Api.user_Auth()
   if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
   
-  const QUERY_RESULT_META_DATAS = await Firebase_Api.query_To_Database("file_meta_datas", [["where", "owner", "==", USER_AUTH]])
+  const QUERY_RESULT_META_DATAS = await Firebase_Api.query_To_Database(`app/${USER_AUTH}/file_meta_datas`, [["where", "type", "==", "file"], ["where", "path", "==", "/"]])
   const FILE_INFOS = QUERY_RESULT_META_DATAS.map((doc_result) => {
     return {file_name:doc_result.file_name + "." + doc_result.file_ext, created_time:doc_result.created_time}
   })

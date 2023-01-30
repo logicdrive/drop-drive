@@ -20,14 +20,15 @@ async function put_Router_callback(req, res)
 
   const CURRENT_TIME_STR = Datetime.timezone_Date_Str()
   const FILE_UUID = UUID.get_UUID()
-  await Firebase_Api.upload_To_Database("file_meta_datas", {
+  await Firebase_Api.upload_To_Database(`app/${USER_AUTH}/file_meta_datas`, {
     "file_name":FILE_NAME,
     "file_ext":FILE_EXT,
     "file_uuid":FILE_UUID,
-    "owner":USER_AUTH,
-    "created_time":CURRENT_TIME_STR
+    "type":"file",
+    "path":"/",
+    "created_time":CURRENT_TIME_STR,
   })
-  await Firebase_Api.upload_String_To_Storage(`files/${FILE_UUID}`, FILE_URL)
+  await Firebase_Api.upload_String_To_Storage(`${USER_AUTH}/${FILE_UUID}`, FILE_URL)
   
   res.json({is_error:false})
 }
