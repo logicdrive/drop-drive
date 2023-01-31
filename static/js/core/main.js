@@ -1,6 +1,14 @@
 async function main()
 {
   if(await Rest_API.redirect_If_Not_Login()) return
+  
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
+  if(WORK_DIR_PATH == null) 
+  {
+    Browser.redirect("/html/main.html?work_dir_path=/")
+    return
+  }
+  
   await update_Greeting_Message()
   await update_Owned_File_Infos()
   document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
