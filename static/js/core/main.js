@@ -94,10 +94,11 @@ on_Click_Share_Link_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Share_Link_B
 /** 특정 파일을 삭제시키기 위해서 */
 async function on_Click_file_Index_Delete_Btn(e)
 {
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
   if(!confirm(`Do you want to delete the '${FILE_NAME}' file?`)) return
 
-  await Rest_API.delete_File_Object(FILE_NAME)
+  await Rest_API.delete_File_Object(FILE_NAME, WORK_DIR_PATH)
   alert(`The '${FILE_NAME}' file was successfully deleted !`)
   await update_Owned_File_Infos()
 }

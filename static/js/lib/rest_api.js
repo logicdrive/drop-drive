@@ -53,9 +53,9 @@ class Rest_API
   }
 
   /** 지정한 파일을 서버에서 완전히 삭제시키기 위해서 */
-  static async delete_File_Object(file_name)
+  static async delete_File_Object(file_name, work_dir_path)
   {
-    await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${file_name}`, "DELETE")
+    await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${file_name}&work_dir_path=${work_dir_path}`, "DELETE")
   }
 
   /** 특정 이메일에 지정한 파일에 대한 공유 권한을 부여하기 위해서 */
