@@ -25,9 +25,10 @@ update_Greeting_Message = Wrap.Wrap_With_Try_Alert_Promise(update_Greeting_Messa
 /** 현재 유저가 소유하고 있는 파일 목록을 출력시키기위해서 */ 
 async function update_Owned_File_Infos()
 {
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   const OWNED_FILE_TABLE_SEL = document.querySelector("#owned_file_table")
   
-  const FILE_INFOS = await Rest_API.owned_File_Infos()
+  const FILE_INFOS = await Rest_API.owned_File_Infos(WORK_DIR_PATH)
   if(FILE_INFOS.length == 0)
   {
     OWNED_FILE_TABLE_SEL.innerHTML = ""

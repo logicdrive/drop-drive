@@ -22,9 +22,9 @@ class Rest_API
   }
 
   /** 현재 유저가 소유하고있는 파일 목록을 반환시키기 위해서 */
-  static async owned_File_Infos()
+  static async owned_File_Infos(work_dir_path)
   {
-    const REQ_RESULT = await Rest_API.request_With_Error_Check("/api/v1/directory?path=/", "GET")
+    const REQ_RESULT = await Rest_API.request_With_Error_Check(`/api/v1/directory?work_dir_path=${work_dir_path}`, "GET")
     return REQ_RESULT.file_infos
   }
 
