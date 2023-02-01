@@ -47,8 +47,9 @@ update_Owned_File_Infos = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Inf
 
 function make_HTML_File_Index_HTML(file_info)
 {
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   return `<tr><td><div file_name=${file_info.file_name}>
-<a href="/html/file_info.html?file_name=${file_info.file_name}" target="_blank">${file_info.file_name}</a>
+<a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}" target="_blank">${file_info.file_name}</a>
 <button class="file_Index_Download_Btn">Download</button>
 <button class="add_Auth_Btn">Add Auth</button>
 <button class="share_Link_Btn">Share Link</button>
