@@ -68,6 +68,12 @@ class Rest_API
     })
   }
 
+  /** 특정 파일에 대한 공유 링크를 생성하고, 반환하기 위해서 */
+  static async get_Share_Link(file_name, work_dir_path)
+  {
+    return (await Rest_API.request_With_Error_Check(`/api/v1/shared_link?file_name=${file_name}&work_dir_path=${work_dir_path}`, "GET")).shared_link
+  }
+
   /** 유저로부터 얻은 정보를 기반으로 로그인을 수행하기 위해서 */
   static async signin(email, password)
   {

@@ -87,8 +87,10 @@ on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)
 /** 공유링크를 생성시키고, 링크를 클립보드에 복사시키기 위해서 */
 async function on_Click_Share_Link_Btn(e)
 {
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
-  const SHARED_LINK = (await Rest_API.request_With_Error_Check(`/api/v1/shared_link?file_name=${FILE_NAME}`, "GET")).shared_link
+  const SHARED_LINK = await Rest_API.get_Share_Link(FILE_NAME, WORK_DIR_PATH)
+  
   Clipboard.write_Text(SHARED_LINK)
   alert("The shared link was coiped to clipboard !")
 }
