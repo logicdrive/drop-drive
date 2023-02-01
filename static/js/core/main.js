@@ -62,8 +62,9 @@ async function on_Click_File_Index_Download_Btn(e)
 {
   const FILE_NAME = e.target.parentElement.getAttribute("file_name")
   if(!confirm(`Do you want to download the '${FILE_NAME}' file?`)) return
-  
-  const FILE_URL = await Rest_API.get_File_Object_Data_URL(FILE_NAME)
+
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
+  const FILE_URL = await Rest_API.get_File_Object_Data_URL(FILE_NAME, WORK_DIR_PATH)
   await Browser.download_File(FILE_URL, FILE_NAME)
   alert(`The '${FILE_NAME}' file was successfully downloaded !`)
 }

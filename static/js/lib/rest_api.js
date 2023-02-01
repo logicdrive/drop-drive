@@ -41,9 +41,9 @@ class Rest_API
   }
 
   /** 지정된 파일에 대한 DATA URL을 얻기 위해서 */
-  static async get_File_Object_Data_URL(file_name)
+  static async get_File_Object_Data_URL(file_name, work_dir_path)
   {
-    return (await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${file_name}`, "GET")).data_url
+    return (await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${file_name}&work_dir_path=${work_dir_path}`, "GET")).data_url
   }
 
   /** 공유된 파일에 대한 DATA URL을 얻기 위해서 */
