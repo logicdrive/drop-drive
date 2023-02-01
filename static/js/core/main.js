@@ -78,7 +78,8 @@ async function on_Click_Add_Auth_Btn(e)
   const EMAIL_TO_ADD = prompt("Input user email to accept share link auth")
   if(EMAIL_TO_ADD == null || EMAIL_TO_ADD.length == 0) return
 
-  await Rest_API.add_Share_Auth(FILE_NAME, EMAIL_TO_ADD)
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
+  await Rest_API.add_Share_Auth(FILE_NAME, WORK_DIR_PATH, EMAIL_TO_ADD)
   alert(`The share link auth was successfully added !`)
 }
 on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)

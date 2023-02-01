@@ -59,10 +59,11 @@ class Rest_API
   }
 
   /** 특정 이메일에 지정한 파일에 대한 공유 권한을 부여하기 위해서 */
-  static async add_Share_Auth(file_name, email_to_add)
+  static async add_Share_Auth(file_name, work_dir_path, email_to_add)
   {
     await Rest_API.request_With_Error_Check("/api/v1/file_member", "PUT", {
       file_name:file_name,
+      work_dir_path:work_dir_path,
       email_to_add:email_to_add
     })
   }

@@ -5,16 +5,16 @@ import Wrap from "../../../module/wrap.js"
 
 async function put_Router_callback(req, res)
 {
-  Params_Check.Para_is_null_or_empty(req.body, ["file_name", "email_to_add"])
+  Params_Check.Para_is_null_or_empty(req.body, ["file_name", "work_dir_path", "email_to_add"])
   const USER_AUTH = Firebase_Api.user_Auth()
   if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
   
-  const {file_name:FILE_NAME_EXT, email_to_add:EMAIL_TO_ADD} = req.body
+  const {file_name:FILE_NAME_EXT, work_dir_path:WORK_DIR_PATH, email_to_add:EMAIL_TO_ADD} = req.body
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.split(".")
 
   if(USER_AUTH == EMAIL_TO_ADD) throw new Error("The yourself email is automately to share link auth!")
 
-  const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${USER_AUTH}/file_meta_datas`,  [["where", "type", "==", "file"], ["where", "path", "==", "/"], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
+  const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${USER_AUTH}/file_meta_datas`,  [["where", "type", "==", "file"], ["where", "path", "==", WORK_DIR_PATH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
   if(QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to add auth is not searched!")
   const FILE_UUID = QUERY_RESULT_FILE_INFOS[0].file_uuid
   
