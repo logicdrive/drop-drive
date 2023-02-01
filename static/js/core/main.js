@@ -107,10 +107,11 @@ async function on_Upload_File_Form_Submited(e)
 {
   e.preventDefault()
 
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   const INPUT_FILE_SEL = document.querySelector("#upload_file_form input[type='file']")
   if(INPUT_FILE_SEL.files.length == 0) throw new Error("Please select a file to upload")
 
-  const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0])
+  const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0], WORK_DIR_PATH)
   alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
   await update_Owned_File_Infos()
 }

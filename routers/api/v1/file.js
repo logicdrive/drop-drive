@@ -8,13 +8,13 @@ import Datetime from "../../../module/datetime.js"
 // 주어진 파일의 메타데이터를 파이어베이스에, 파일 URL을 파이어스토어에 업로드시키기 위해서
 async function put_Router_callback(req, res)
 {  
-  Params_Check.Para_is_null_or_empty(req.body, ["file_name", "file_url"])
+  Params_Check.Para_is_null_or_empty(req.body, ["file_name", "file_url", "work_dir_path"])
   const USER_AUTH = Firebase_Api.user_Auth()
   if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
   
   const ACCEPT_FILE_EXTS = ["txt"]
 
-  const {file_name:FILE_NAME_EXT, file_url:FILE_URL} = req.body
+  const {file_name:FILE_NAME_EXT, file_url:FILE_URL, work_dir_path:WORK_DIR_PATH} = req.body
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
   if(!ACCEPT_FILE_EXTS.includes(FILE_EXT)) throw new Error("Passed file's extension was not accepted.")
 
@@ -25,7 +25,7 @@ async function put_Router_callback(req, res)
     "file_ext":FILE_EXT,
     "file_uuid":FILE_UUID,
     "type":"file",
-    "path":"/",
+    "path":WORK_DIR_PATH,
     "created_time":CURRENT_TIME_STR,
   })
   await Firebase_Api.upload_String_To_Storage(`${USER_AUTH}/${FILE_UUID}`, FILE_URL)

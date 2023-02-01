@@ -29,12 +29,13 @@ class Rest_API
   }
 
   /** 주어진 파일 오브젝트를 서버에 업로드시키기 위해서 */
-  static async upload_File_Object(file_object)
+  static async upload_File_Object(file_object, work_dir_path)
   {
     const DATA_URL = await File.read_Data_Url(file_object)
     await Rest_API.request_With_Error_Check("/api/v1/file", "PUT", {
       file_name : file_object.name,
-      file_url : DATA_URL
+      file_url : DATA_URL,
+      work_dir_path : work_dir_path
     })
     return file_object.name
   }
