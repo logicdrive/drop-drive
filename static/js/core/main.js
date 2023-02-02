@@ -43,20 +43,32 @@ async function update_Owned_File_Infos()
   Element.add_On_Click_Trigger("button.add_Auth_Btn", on_Click_Add_Auth_Btn)
   Element.add_On_Click_Trigger("button.share_Link_Btn", on_Click_Share_Link_Btn)
   Element.add_On_Click_Trigger("button.file_Index_Delete_Btn", on_Click_file_Index_Delete_Btn)
+  Element.add_On_Click_Trigger("button.delete_Directory_Btn", on_Click_Delete_Directory_Btn)
 }
 update_Owned_File_Infos = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Infos)
 
 function make_HTML_File_Index_HTML(file_info)
 {
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
-  return `<tr><td><div file_name=${file_info.file_name}>
-<a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}" target="_blank">${file_info.file_name}</a>
-<button class="file_Index_Download_Btn">Download</button>
-<button class="add_Auth_Btn">Add Auth</button>
-<button class="share_Link_Btn">Share Link</button>
-<button class="file_Index_Delete_Btn">Delete</button>
-<p>created time : ${file_info.created_time}</p>
-</div></td></tr>`
+
+  switch(file_info.type)
+  {
+    case "file" :      
+      return `<tr><td><div file_name=${file_info.file_name}>
+    <a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}" target="_blank">FILE : ${file_info.file_name}</a>
+    <button class="file_Index_Download_Btn">Download</button>
+    <button class="add_Auth_Btn">Add Auth</button>
+    <button class="share_Link_Btn">Share Link</button>
+    <button class="file_Index_Delete_Btn">Delete</button>
+    <p>created time : ${file_info.created_time}</p>
+    </div></td></tr>`
+
+    case "directory" :
+      return `<tr><td><div file_name=${file_info.file_name}>
+      <a href="/html/main.html?work_dir_path=${WORK_DIR_PATH+file_info.file_name+'/'}">DIRECTORY : ${file_info.file_name}</a>
+      <button class="delete_Directory_Btn">Delete</button>
+      </div></td></tr>`
+  }
 }
 
 /** 선택한 파일을 다운로드 받기 위해서 */
@@ -140,5 +152,11 @@ async function on_Click_Make_Directory_Btn(_)
   await update_Owned_File_Infos()
 }
 on_Click_Make_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Make_Directory_Btn)
+
+async function on_Click_Delete_Directory_Btn(_)
+{
+  const DIRECTORY_NAME = e.target.parentElement.getAttribute("file_name")
+  alert(`[MOCK] ${DIRECTORY_NAME}에 대한 삭제가 이루어져야함`)
+}
 
 main()
