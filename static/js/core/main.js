@@ -12,6 +12,7 @@ async function main()
   await update_Greeting_Message()
   await update_Owned_File_Infos()
   document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
+  document.querySelector("#make_directory_btn").onclick = on_Click_Make_Directory_Btn
 }
 
 /** 환영 인사관련 UI를 업데이트시키기 위해서 */
@@ -123,5 +124,21 @@ async function on_Upload_File_Form_Submited(e)
   await update_Owned_File_Infos()
 }
 on_Upload_File_Form_Submited = Wrap.Wrap_With_Try_Alert_Promise(on_Upload_File_Form_Submited)
+
+async function on_Click_Make_Directory_Btn(_)
+{
+  const DIRECTORY_NAME_TO_MAKE = prompt("Please input directory name to make")
+  if(DIRECTORY_NAME_TO_MAKE == null || DIRECTORY_NAME_TO_MAKE.length == 0) return
+
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
+  await Rest_API.request_With_Error_Check("/api/v1/directory", "PUT", {
+    file_name : DIRECTORY_NAME_TO_MAKE,
+    work_dir_path : WORK_DIR_PATH
+  })
+
+  alert(`The requested directory '${DIRECTORY_NAME_TO_MAKE}' was successfully created !`)
+  await update_Owned_File_Infos()
+}
+on_Click_Make_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Make_Directory_Btn)
 
 main()
