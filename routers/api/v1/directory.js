@@ -1,7 +1,9 @@
 import express from "express"
 import Firebase_Api from "../../../module/firebase_api.js"
+import UUID from "../../../module/uuid.js"
 import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
+import Datetime from "../../../module/datetime.js"
 
 // 주어진 디렉토리명과 경로를 기반으로 디렉토리를 생성시키기 위해서
 async function put_Router_callback(req, res)
@@ -12,7 +14,17 @@ async function put_Router_callback(req, res)
   const USER_AUTH = Firebase_Api.user_Auth()
   if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
 
-  console.log(`[MOCK] '${FILE_NAME}'의 이름을 가진 디렉토리가 '${WORK_DIR_PATH}'경로에 생성되기 위해서`)
+  const CURRENT_TIME_STR = Datetime.timezone_Date_Str()
+  const FILE_UUID = UUID.get_UUID()
+  await Firebase_Api.upload_To_Database(`app/${USER_AUTH}/file_meta_datas`, {
+    "file_name":FILE_NAME,
+    "file_ext":"normal",
+    "file_uuid":FILE_UUID,
+    "type":"directory",
+    "path":WORK_DIR_PATH,
+    "created_time":CURRENT_TIME_STR,
+  })
+
   res.json({is_error:false})
 }
 put_Router_callback = Wrap.Wrap_With_Try_Res_Promise(put_Router_callback)
