@@ -143,10 +143,7 @@ async function on_Click_Make_Directory_Btn(_)
   if(DIRECTORY_NAME_TO_MAKE == null || DIRECTORY_NAME_TO_MAKE.length == 0) return
 
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
-  await Rest_API.request_With_Error_Check("/api/v1/directory", "PUT", {
-    file_name : DIRECTORY_NAME_TO_MAKE,
-    work_dir_path : WORK_DIR_PATH
-  })
+  await Rest_API.make_Directory(DIRECTORY_NAME_TO_MAKE, WORK_DIR_PATH)
 
   alert(`The requested directory '${DIRECTORY_NAME_TO_MAKE}' was successfully created !`)
   await update_Owned_File_Infos()
@@ -155,13 +152,13 @@ on_Click_Make_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Make_Dir
 
 async function on_Click_Delete_Directory_Btn(e)
 {
-  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
-  if(!confirm(`Do you want to delete the '${FILE_NAME}' directory?`)) return
+  const DIRECTORY_NAME_TO_DELETE = e.target.parentElement.getAttribute("file_name")
+  if(!confirm(`Do you want to delete the '${DIRECTORY_NAME_TO_DELETE}' directory?`)) return
   
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
-  await Rest_API.request_With_Error_Check(`/api/v1/directory?file_name=${FILE_NAME}&work_dir_path=${WORK_DIR_PATH}`, "DELETE")
+  await Rest_API.delete_Directory_Recursively(DIRECTORY_NAME_TO_DELETE, WORK_DIR_PATH)
   
-  alert(`The '${FILE_NAME}' directory was successfully deleted !`)
+  alert(`The '${DIRECTORY_NAME_TO_DELETE}' directory was successfully deleted !`)
   await update_Owned_File_Infos()
 }
 on_Click_Delete_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Delete_Directory_Btn)

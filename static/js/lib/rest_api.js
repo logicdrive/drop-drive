@@ -74,6 +74,21 @@ class Rest_API
     return (await Rest_API.request_With_Error_Check(`/api/v1/shared_link?file_name=${file_name}&work_dir_path=${work_dir_path}`, "GET")).shared_link
   }
 
+  /** 특정 경로에 디렉토리를 생성시키기 위해서 */
+  static async make_Directory(directory_name, work_dir_path)
+  {
+    await Rest_API.request_With_Error_Check("/api/v1/directory", "PUT", {
+      file_name : directory_name,
+      work_dir_path : work_dir_path
+    })
+  }
+
+  /** 주어진 디렉토리의 하위 디렉토리 및 파일들을 연쇄적으로 삭제하고, 현재 디렉토리까지 완전하게 삭제시키기 위해서 */
+  static async delete_Directory_Recursively(directory_name, work_dir_path)
+  {
+      await Rest_API.request_With_Error_Check(`/api/v1/directory?file_name=${directory_name}&work_dir_path=${work_dir_path}`, "DELETE")
+  }
+
   /** 유저로부터 얻은 정보를 기반으로 로그인을 수행하기 위해서 */
   static async signin(email, password)
   {
