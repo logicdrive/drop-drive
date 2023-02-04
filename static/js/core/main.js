@@ -153,10 +153,14 @@ async function on_Click_Make_Directory_Btn(_)
 }
 on_Click_Make_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Make_Directory_Btn)
 
-async function on_Click_Delete_Directory_Btn(_)
+async function on_Click_Delete_Directory_Btn(e)
 {
-  const DIRECTORY_NAME = e.target.parentElement.getAttribute("file_name")
-  alert(`[MOCK] ${DIRECTORY_NAME}에 대한 삭제가 이루어져야함`)
+  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
+  if(!confirm(`Do you want to delete the '${FILE_NAME}' directory?`)) return
+  
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
+  await Rest_API.request_With_Error_Check(`/api/v1/directory?file_name=${FILE_NAME}&work_dir_path=${WORK_DIR_PATH}`, "DELETE")
+  alert(`The '${FILE_NAME}' directory was successfully deleted !`)
 }
 
 main()
