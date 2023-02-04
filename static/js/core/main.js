@@ -137,6 +137,7 @@ async function on_Upload_File_Form_Submited(e)
 }
 on_Upload_File_Form_Submited = Wrap.Wrap_With_Try_Alert_Promise(on_Upload_File_Form_Submited)
 
+/** 주어진 디렉토리 명으로 현재 디렉토리에 새로운 디렉토리를 생성시키기 위해서 */
 async function on_Click_Make_Directory_Btn(_)
 {
   const DIRECTORY_NAME_TO_MAKE = prompt("Please input directory name to make")
@@ -150,6 +151,7 @@ async function on_Click_Make_Directory_Btn(_)
 }
 on_Click_Make_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Make_Directory_Btn)
 
+/** 주어진 디렉토리의 하위 디렉토리 및 파일들을 연쇄적으로 삭제하고, 현재 디렉토리까지 완전하게 삭제시키기 위해서 */
 async function on_Click_Delete_Directory_Btn(e)
 {
   const DIRECTORY_NAME_TO_DELETE = e.target.parentElement.getAttribute("file_name")
