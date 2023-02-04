@@ -160,7 +160,10 @@ async function on_Click_Delete_Directory_Btn(e)
   
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   await Rest_API.request_With_Error_Check(`/api/v1/directory?file_name=${FILE_NAME}&work_dir_path=${WORK_DIR_PATH}`, "DELETE")
+  
   alert(`The '${FILE_NAME}' directory was successfully deleted !`)
+  await update_Owned_File_Infos()
 }
+on_Click_Delete_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Delete_Directory_Btn)
 
 main()
