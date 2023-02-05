@@ -103,6 +103,24 @@ class Firebase_Service
     
     await Firebase_Api.delete_From_Database(`app/${user_auth}/file_meta_datas`, [["where", "file_uuid", "==", TARGET_DIRECTORY_UUID]])
   }
+
+  /** 특정 파일에 대해서 다른 유저에게 접근 권한을 할당시키기 위해서 */
+  static async add_Share_Auth_To_File(file_name, file_ext, work_dir_path, email_to_add, user_auth)
+  {
+    if(user_auth == email_to_add) throw new Error("The yourself email is automately to share link auth!")
+  
+    const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${user_auth}/file_meta_datas`,  [["where", "type", "==", "file"], ["where", "path", "==", work_dir_path], ["where", "file_name", "==", file_name], ["where", "file_ext", "==", file_ext]])
+    if(QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to add auth is not searched!")
+    const FILE_UUID = QUERY_RESULT_FILE_INFOS[0].file_uuid
+    
+    const QUERY_RESULT_SHARE_AUTHS = await Firebase_Api.query_To_Database(`app/${user_auth}/share_auths`, [["where", "file_uuid", "==", FILE_UUID], ["where", "email_auth", "==", email_to_add]])
+    if(QUERY_RESULT_SHARE_AUTHS.length != 0) throw new Error("The email auth to add is already added!")
+  
+    await Firebase_Api.upload_To_Database(`app/${user_auth}/share_auths`, {
+      "file_uuid":FILE_UUID,
+      "email_auth":email_to_add
+    })
+  }
 }
 
 export default Firebase_Service
