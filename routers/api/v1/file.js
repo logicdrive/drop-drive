@@ -1,9 +1,8 @@
 import express from "express"
 import Firebase_Api from "../../../module/firebase_api.js"
-import UUID from "../../../module/uuid.js"
+import Firebase_Service from "../../../module/firebase_service.js"
 import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
-import Datetime from "../../../module/datetime.js"
 
 // 주어진 파일의 메타데이터를 파이어베이스에, 파일 URL을 파이어스토어에 업로드시키기 위해서
 async function put_Router_callback(req, res)
@@ -18,18 +17,7 @@ async function put_Router_callback(req, res)
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
   if(!ACCEPT_FILE_EXTS.includes(FILE_EXT)) throw new Error("Passed file's extension was not accepted.")
 
-  const CURRENT_TIME_STR = Datetime.timezone_Date_Str()
-  const FILE_UUID = UUID.get_UUID()
-  await Firebase_Api.upload_To_Database(`app/${USER_AUTH}/file_meta_datas`, {
-    "file_name":FILE_NAME,
-    "file_ext":FILE_EXT,
-    "file_uuid":FILE_UUID,
-    "type":"file",
-    "path":WORK_DIR_PATH,
-    "created_time":CURRENT_TIME_STR,
-  })
-  await Firebase_Api.upload_String_To_Storage(`${USER_AUTH}/${FILE_UUID}`, FILE_URL)
-  
+  await Firebase_Service.upload_File(FILE_NAME, FILE_EXT, FILE_URL, WORK_DIR_PATH, USER_AUTH)  
   res.json({is_error:false})
 }
 put_Router_callback = Wrap.Wrap_With_Try_Res_Promise(put_Router_callback)
