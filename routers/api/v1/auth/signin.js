@@ -6,8 +6,7 @@ import Params_Check from "../../../../module/params_check.js"
 // 사용자로부터 받은 정보를 기반으로 로그인을 수행하기 위해서
 async function post_Router_callback(req, res)
 {
-  Params_Check.Para_is_null_or_empty(req.body, ["email", "password"])
-  const {email:EMAIL, password:PASSWORD} = req.body
+  const {email:EMAIL, password:PASSWORD} = Params_Check.Para_is_null_or_empty(req.body, ["email", "password"])
 
   await Firebase_Api.login(EMAIL, PASSWORD)
   res.json({is_error:false})
