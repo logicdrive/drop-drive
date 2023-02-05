@@ -31,6 +31,19 @@ class Firebase_Service
     const DATA_URL = await Firebase_Api.string_data_From_Storage(`${user_auth}/${FILE_UUID_TO_DOWNLOAD}`)
     return DATA_URL
   }
+
+  /** 주어진 파일과 관련된 모든 요소(메타데이터, 공유링크, 공유권한, DATA URL)들을 삭제시키기 위해서 */
+  static async delete_File(file_name, file_ext, work_dir_path, user_auth)
+  {
+    const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${user_auth}/file_meta_datas`, [["where", "type", "==", "file"], ["where", "path", "==", work_dir_path], ["where", "file_name", "==", file_name], ["where", "file_ext", "==", file_ext]])
+    if(QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to delete is not searched!")
+    const FILE_UUID_TO_DELETE = QUERY_RESULT_FILE_INFOS[0].file_uuid
+    
+    await Firebase_Api.delete_From_Storage(`${user_auth}/${FILE_UUID_TO_DELETE}`)
+    await Firebase_Api.delete_From_Database(`app/global/share_links`, [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]], false)
+    await Firebase_Api.delete_From_Database(`app/${user_auth}/share_auths`, [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]], false)
+    await Firebase_Api.delete_From_Database(`app/${user_auth}/file_meta_datas`, [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]])
+  }
 }
 
 export default Firebase_Service

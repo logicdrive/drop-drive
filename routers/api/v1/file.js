@@ -47,15 +47,7 @@ async function delete_Router_callback(req, res)
   const {file_name:FILE_NAME_EXT, work_dir_path:WORK_DIR_PATH} = req.query
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
 
-  const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${USER_AUTH}/file_meta_datas`, [["where", "type", "==", "file"], ["where", "path", "==", WORK_DIR_PATH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
-  if(QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to delete is not searched!")
-  const FILE_UUID_TO_DELETE = QUERY_RESULT_FILE_INFOS[0].file_uuid
-  
-  await Firebase_Api.delete_From_Storage(`${USER_AUTH}/${FILE_UUID_TO_DELETE}`)
-  await Firebase_Api.delete_From_Database(`app/global/share_links`, [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]], false)
-  await Firebase_Api.delete_From_Database(`app/${USER_AUTH}/share_auths`, [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]], false)
-  await Firebase_Api.delete_From_Database(`app/${USER_AUTH}/file_meta_datas`, [["where", "file_uuid", "==", FILE_UUID_TO_DELETE]])
-  
+  await Firebase_Service.delete_File(FILE_NAME, FILE_EXT, WORK_DIR_PATH, USER_AUTH)
   res.json({is_error:false})
 }
 delete_Router_callback = Wrap.Wrap_With_Try_Res_Promise(delete_Router_callback)
