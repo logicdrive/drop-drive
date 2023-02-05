@@ -121,6 +121,52 @@ class Firebase_Service
       "email_auth":email_to_add
     })
   }
+
+  /** 공유된 파일 링크와 매칭되는 파일의 DATA URL을 얻기 위해서 */
+  static async share_Data_URL(file_share_id, user_auth)
+  {
+    const QUERY_RESULT_SHARE_LINKS = await Firebase_Api.query_To_Database(`app/global/share_links`, [["where", "file_share_id", "==", file_share_id]])
+    if(QUERY_RESULT_SHARE_LINKS.length == 0) throw new Error("The file id matched for given share link id is not searched !")
+    const FILE_UUID = QUERY_RESULT_SHARE_LINKS[0].file_uuid
+    const SHARE_FILE_AUTH = QUERY_RESULT_SHARE_LINKS[0].owner
+  
+    const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${SHARE_FILE_AUTH}/file_meta_datas`,  [["where", "file_uuid", "==", FILE_UUID]])
+    if(QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file meta datas is not searched !")
+  
+    const QUERY_RESULT_SHARE_AUTHS = await Firebase_Api.query_To_Database(`app/${SHARE_FILE_AUTH}/share_auths`, [["where", "file_uuid", "==", FILE_UUID]])
+    const FILE_SHARE_AUTHS = QUERY_RESULT_SHARE_AUTHS.map((doc_result) => doc_result.email_auth)
+  
+    if(!(user_auth == SHARE_FILE_AUTH || FILE_SHARE_AUTHS.includes(user_auth)))
+      throw new Error("The user auth is not suitable !")
+  
+    const DATA_URL = await Firebase_Api.string_data_From_Storage(`${SHARE_FILE_AUTH}/${FILE_UUID}`)
+    return DATA_URL
+  }
+
+  /** 주어진 파일에 접근할 수 있는 공유링크를 생성하고 반환하기 위해서(이미 존재할 경우 존재하는 공유 링크 반환) */
+  static async make_Share_Link(file_name, file_ext, work_dir_path, user_auth, host_name)
+  {
+    const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${user_auth}/file_meta_datas`,  [["where", "type", "==", "file"], ["where", "path", "==", work_dir_path], ["where", "file_name", "==", file_name], ["where", "file_ext", "==", file_ext]])
+    if (QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to make a shared link is not searched!")
+    const FILE_UUID = QUERY_RESULT_FILE_INFOS[0].file_uuid
+  
+    const QUERY_RESULT_SHARE_LINKS = await Firebase_Api.query_To_Database(`app/global/share_links`, [["where", "file_uuid", "==", FILE_UUID]])
+    let file_share_id = ""
+    if (QUERY_RESULT_SHARE_LINKS.length == 0)
+    {
+      file_share_id = UUID.get_UUID()
+      await Firebase_Api.upload_To_Database(`app/global/share_links`, {
+        "file_uuid":FILE_UUID,
+        "file_share_id":file_share_id,
+        "owner":user_auth
+      })
+    }
+    else
+      file_share_id = QUERY_RESULT_SHARE_LINKS[0].file_share_id
+    
+    const SHARE_LINK = `https://${host_name}/html/file_share.html?file_share_id=${file_share_id}`
+    return SHARE_LINK
+  }
 }
 
 export default Firebase_Service
