@@ -21,6 +21,16 @@ class Firebase_Service
     await Firebase_Api.upload_String_To_Storage(`${user_auth}/${FILE_UUID}`, file_url)
     return FILE_UUID
   }
+
+  /** 주어진 정보에 매칭하는 DATA URL을 반환시킴 */
+  static async file_Data_URL(file_name, file_ext, work_dir_path, user_auth)
+  {
+    const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${user_auth}/file_meta_datas`,  [["where", "type", "==", "file"], ["where", "path", "==", work_dir_path], ["where", "file_name", "==", file_name], ["where", "file_ext", "==", file_ext]])
+    if (QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to download is not searched!")
+    const FILE_UUID_TO_DOWNLOAD = QUERY_RESULT_FILE_INFOS[0].file_uuid
+    const DATA_URL = await Firebase_Api.string_data_From_Storage(`${user_auth}/${FILE_UUID_TO_DOWNLOAD}`)
+    return DATA_URL
+  }
 }
 
 export default Firebase_Service

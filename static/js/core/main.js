@@ -54,7 +54,7 @@ function make_HTML_File_Index_HTML(file_info)
   switch(file_info.type)
   {
     case "file" :      
-      return `<tr><td><div file_name=${file_info.file_name}>
+      return `<tr><td><div file_name="${file_info.file_name}">
     <a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}" target="_blank">FILE : ${file_info.file_name}</a>
     <button class="file_Index_Download_Btn">Download</button>
     <button class="add_Auth_Btn">Add Auth</button>
@@ -64,7 +64,7 @@ function make_HTML_File_Index_HTML(file_info)
     </div></td></tr>`
 
     case "directory" :
-      return `<tr><td><div file_name=${file_info.file_name}>
+      return `<tr><td><div file_name="${file_info.file_name}">
       <a href="/html/main.html?work_dir_path=${WORK_DIR_PATH+file_info.file_name+'/'}">DIRECTORY : ${file_info.file_name}</a>
       <button class="delete_Directory_Btn">Delete</button>
       </div></td></tr>`

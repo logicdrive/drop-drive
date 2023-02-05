@@ -32,11 +32,7 @@ async function get_Router_callback(req, res)
   const {file_name:FILE_NAME_EXT, work_dir_path:WORK_DIR_PATH} = req.query
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
 
-  const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${USER_AUTH}/file_meta_datas`,  [["where", "type", "==", "file"], ["where", "path", "==", WORK_DIR_PATH], ["where", "file_name", "==", FILE_NAME], ["where", "file_ext", "==", FILE_EXT]])
-  if (QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file to download is not searched!")
-  const FILE_UUID_TO_DOWNLOAD = QUERY_RESULT_FILE_INFOS[0].file_uuid
-
-  const DATA_URL = await Firebase_Api.string_data_From_Storage(`${USER_AUTH}/${FILE_UUID_TO_DOWNLOAD}`)
+  const DATA_URL = await Firebase_Service.file_Data_URL(FILE_NAME, FILE_EXT, WORK_DIR_PATH, USER_AUTH)
   res.json({is_error:false, data_url:DATA_URL})
 }
 get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
