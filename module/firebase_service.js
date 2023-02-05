@@ -5,6 +5,14 @@ import Datetime from "./datetime.js"
 /** 파이어베이스 관련 비지니스 서비스들을 일관되도록 관리하기 위해서 */
 class Firebase_Service
 {
+  /** 현재 유저가 권한을 가지고 있는지 확인하기 위해서 */
+  static async check_User_Auth()
+  {
+    const USER_AUTH = Firebase_Api.user_Auth()
+    if(USER_AUTH == null) throw new Error("The user auth to use is not found !")
+    return USER_AUTH
+  }
+  
   /** 파일 메타데이터 및 내용들을 업로드시키기 위해서 */
   static async upload_File(file_name, file_ext, file_url, work_dir_path, user_auth)
   { 

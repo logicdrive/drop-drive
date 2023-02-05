@@ -9,9 +9,14 @@ class Params_Check
   */
   static Para_is_null_or_empty(params, para_infos_to_check)
   {
+    const checked_Params = {}
     for(let para_info of para_infos_to_check)
+    {
       if(params[para_info] == null || params[para_info].length == 0)
         throw new Error(`The '${para_info}' parameter is not exist!`)
+      checked_Params[para_info] = params[para_info]
+    }
+    return checked_Params
   }
 
   /** 주어진 params 에서 특정 para가 특정 리스트들 중에 한 요소를 포함하고 있지 않은 경우 예외를 일으키기 위해서
