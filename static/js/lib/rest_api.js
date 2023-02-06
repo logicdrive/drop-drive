@@ -107,6 +107,12 @@ class Rest_API
       password_retype: password_retype
     })
   }
+
+  /** 현재 유저 권한으로 로그아웃을 수행하기 위해서 */
+  static async logout()
+  {
+    await Rest_API.request_With_Error_Check("/api/v1/auth/logout", "GET")
+  }
   
   /** 서버 응답을 받기전에 에러여부를 확인해서 예외를 일으키기 위해서 */
   static async request_With_Error_Check(url, request_type, json_body={})

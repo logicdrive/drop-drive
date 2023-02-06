@@ -13,6 +13,7 @@ async function main()
   await update_Owned_File_Infos()
   document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
   document.querySelector("#make_directory_btn").onclick = on_Click_Make_Directory_Btn
+  document.querySelector("#logout_btn").onclick = on_Click_Logout_Btn
 }
 
 /** 환영 인사관련 UI를 업데이트시키기 위해서 */
@@ -164,5 +165,14 @@ async function on_Click_Delete_Directory_Btn(e)
   await update_Owned_File_Infos()
 }
 on_Click_Delete_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Delete_Directory_Btn)
+
+/** 현재 유저 권한으로 로그아웃을 수행하기 위해서 */
+async function on_Click_Logout_Btn(_)
+{
+  await Rest_API.logout()
+  alert(`The logout process was Successfully completed !`)
+  await Rest_API.redirect_If_Not_Login()
+}
+on_Click_Logout_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Logout_Btn)
 
 main()
