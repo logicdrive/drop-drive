@@ -59,6 +59,9 @@ class Firebase_Service
   /** 주어진 디렉토리명과 경로를 기반으로 디렉토리를 생성시키기 위해서 */
   static async create_Directory(file_name, work_dir_path, user_auth)
   {
+    const QUERY_RESULT_DIR_INFOS = await Firebase_Api.query_To_Database(`app/${user_auth}/file_meta_datas`,  [["where", "type", "==", "directory"], ["where", "path", "==", work_dir_path], ["where", "file_name", "==", file_name]])
+    if (QUERY_RESULT_DIR_INFOS.length != 0) throw new Error("The same directory name is exist in current working directory !")
+    
     const CURRENT_TIME_STR = Datetime.timezone_Date_Str()
     const FILE_UUID = UUID.get_UUID()
     await Firebase_Api.upload_To_Database(`app/${user_auth}/file_meta_datas`, {
