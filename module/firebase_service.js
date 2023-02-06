@@ -16,6 +16,9 @@ class Firebase_Service
   /** 파일 메타데이터 및 내용들을 업로드시키기 위해서 */
   static async upload_File(file_name, file_ext, file_url, work_dir_path, user_auth)
   { 
+    const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${user_auth}/file_meta_datas`,  [["where", "type", "==", "file"], ["where", "path", "==", work_dir_path], ["where", "file_name", "==", file_name], ["where", "file_ext", "==", file_ext]])
+    if (QUERY_RESULT_FILE_INFOS.length != 0) throw new Error("The same file name is exist in current working directory !")
+    
     const CURRENT_TIME_STR = Datetime.timezone_Date_Str()
     const FILE_UUID = UUID.get_UUID()
     await Firebase_Api.upload_To_Database(`app/${user_auth}/file_meta_datas`, {
