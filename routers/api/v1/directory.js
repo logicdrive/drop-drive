@@ -10,7 +10,7 @@ async function put_Router_callback(req, res)
   const {file_name:FILE_NAME, work_dir_path:WORK_DIR_PATH} 
     = Params_Check.Para_is_null_or_empty(req.body, ["file_name", "work_dir_path"])
 
-  await Firebase_Service.create_Directory(FILE_NAME, WORK_DIR_PATH, USER_AUTH)
+  await Firebase_Service.create_Directory(FILE_NAME.toLowerCase(), WORK_DIR_PATH, USER_AUTH)
   res.json({is_error:false})
 }
 put_Router_callback = Wrap.Wrap_With_Try_Res_Promise(put_Router_callback)
