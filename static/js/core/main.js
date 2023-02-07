@@ -8,26 +8,33 @@ async function main()
     Browser.redirect("/html/main.html?work_dir_path=/")
     return
   }
-
-  const WORK_DIR_PATH_SP = WORK_DIR_PATH.split("/")
-  let maked_path = ""
-  let maked_paths = []
-  for(let i=0; i<WORK_DIR_PATH_SP.length-1; i++)
-  {
-      maked_path = maked_path + WORK_DIR_PATH_SP[i] + "/"
-      maked_paths.push(maked_path)
-  }
-
-  let directory_path_htmls = [`<a href="/html/main.html?work_dir_path=/">/</a>`]
-  for(let i=1; i<maked_paths.length; i++)
-    directory_path_htmls.push([`<a href="/html/main.html?work_dir_path=${maked_paths[i]}">${WORK_DIR_PATH_SP[i]}/</a>`])
-  document.querySelector("#directory_path").innerHTML = directory_path_htmls.join("\n")
+  document.querySelector("#directory_path").innerHTML = create_Work_Dir_Path_HTMLs(WORK_DIR_PATH).join("\n")
   
   await update_Greeting_Message()
   await update_Owned_File_Infos()
   document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
   document.querySelector("#make_directory_btn").onclick = on_Click_Make_Directory_Btn
   document.querySelector("#logout_btn").onclick = on_Click_Logout_Btn
+}
+
+/** 디렉토리 경로들을 포함한 Html 코드 리스트를 생성시키기 위해서 */
+function create_Work_Dir_Path_HTMLs(work_dir_path)
+{
+  const WORK_DIR_PATH_SP = work_dir_path.slice(1, -1).split("/")
+  let maked_path = "/"
+  let maked_paths = []
+  for(let i=0; i<WORK_DIR_PATH_SP.length; i++)
+  {
+      maked_path = maked_path + WORK_DIR_PATH_SP[i] + "/"
+      maked_paths.push(maked_path)
+  }
+
+  let directory_path_htmls = [`<a href="/html/main.html?work_dir_path=/">/</a>`]
+  if(work_dir_path == "/") return directory_path_htmls
+  
+  for(let i=0; i<maked_paths.length; i++)
+     directory_path_htmls.push([`<a href="/html/main.html?work_dir_path=${maked_paths[i]}">${WORK_DIR_PATH_SP[i]}/</a>`])
+  return directory_path_htmls
 }
 
 /** 환영 인사관련 UI를 업데이트시키기 위해서 */
