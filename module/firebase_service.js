@@ -79,16 +79,21 @@ class Firebase_Service
   static async directory_File_Infos(work_dir_path, user_auth)
   {
     const QUERY_RESULT_META_DATAS = await Firebase_Api.query_To_Database(`app/${user_auth}/file_meta_datas`, [["where", "path", "==", work_dir_path]])
-    const FILE_INFOS = QUERY_RESULT_META_DATAS.map((doc_result) => {
+
+    let file_infos_dic = {"file":[], "directory":[]}
+    QUERY_RESULT_META_DATAS.forEach((doc_result) => {
       switch(doc_result.type)
       {
         case "file" :
-          return {file_name:doc_result.file_name + "." + doc_result.file_ext, type:doc_result.type, created_time:doc_result.created_time}
+          file_infos_dic.file.push({file_name:doc_result.file_name + "." + doc_result.file_ext, type:doc_result.type, created_time:doc_result.created_time})
+          return
         case "directory" :
-          return {file_name:doc_result.file_name, type:doc_result.type, created_time:doc_result.created_time}
+          file_infos_dic.directory.push({file_name:doc_result.file_name, type:doc_result.type, created_time:doc_result.created_time})
+          return
       }
     })
-    return FILE_INFOS
+    return [...file_infos_dic.directory.sort((info_a, info_b) => info_a.file_name.localeCompare(info_b.file_name)), 
+            ...file_infos_dic.file.sort((info_a, info_b) => info_a.file_name.localeCompare(info_b.file_name))]
   }
 
   /** 주어진 디렉토리의 하위 디렉토리 및 파일들을 연쇄적으로 삭제하고, 현재 디렉토리까지 완전하게 삭제시키기 위해서 */
