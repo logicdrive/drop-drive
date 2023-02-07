@@ -80,15 +80,15 @@ class Firebase_Service
   {
     const QUERY_RESULT_META_DATAS = await Firebase_Api.query_To_Database(`app/${user_auth}/file_meta_datas`, [["where", "path", "==", work_dir_path]])
 
-    let file_infos_dic = {"file":[], "directory":[]}
+    let file_infos_dic = {"directory":[], "file":[]}
     QUERY_RESULT_META_DATAS.forEach((doc_result) => {
       switch(doc_result.type)
       {
-        case "file" :
-          file_infos_dic.file.push({file_name:doc_result.file_name + "." + doc_result.file_ext, type:doc_result.type, created_time:doc_result.created_time})
-          return
         case "directory" :
           file_infos_dic.directory.push({file_name:doc_result.file_name, type:doc_result.type, created_time:doc_result.created_time})
+          return
+        case "file" :
+          file_infos_dic.file.push({file_name:doc_result.file_name + "." + doc_result.file_ext, type:doc_result.type, created_time:doc_result.created_time})
           return
       }
     })
