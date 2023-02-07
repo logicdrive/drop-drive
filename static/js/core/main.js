@@ -8,6 +8,20 @@ async function main()
     Browser.redirect("/html/main.html?work_dir_path=/")
     return
   }
+
+  const WORK_DIR_PATH_SP = WORK_DIR_PATH.split("/")
+  let maked_path = ""
+  let maked_paths = []
+  for(let i=0; i<WORK_DIR_PATH_SP.length-1; i++)
+  {
+      maked_path = maked_path + WORK_DIR_PATH_SP[i] + "/"
+      maked_paths.push(maked_path)
+  }
+
+  let directory_path_htmls = [`<a href="/html/main.html?work_dir_path=/">/</a>`]
+  for(let i=1; i<maked_paths.length; i++)
+    directory_path_htmls.push([`<a href="/html/main.html?work_dir_path=${maked_paths[i]}">${WORK_DIR_PATH_SP[i]}/</a>`])
+  document.querySelector("#directory_path").innerHTML = directory_path_htmls.join("\n")
   
   await update_Greeting_Message()
   await update_Owned_File_Infos()
