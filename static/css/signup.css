@@ -9,6 +9,10 @@ div.card {
   backdrop-filter: blur(30px);
 }
 
+div.card h2 {
+  font-weight: bolder;
+}
+
 input {
   text-align: center;
 }
