@@ -1,3 +1,7 @@
+.container {
+  width: 800px;
+}
+
 div.bg-image {
   background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
   height: 300px;
