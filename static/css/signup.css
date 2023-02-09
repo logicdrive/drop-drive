@@ -8,3 +8,7 @@ div.card {
   background: hsla(0, 0%, 100%, 0.8);
   backdrop-filter: blur(30px);
 }
+
+input {
+  text-align: center;
+}
