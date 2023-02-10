@@ -133,8 +133,8 @@ class Firebase_Service
     })
   }
 
-  /** 공유된 파일 링크와 매칭되는 파일의 DATA URL을 얻기 위해서 */
-  static async share_Data_URL(file_share_id, user_auth)
+  /** 공유된 파일 링크와 매칭되는 파일에 대한 정보(DATA URL, 파일명)를 얻기 위해서 */
+  static async share_Data_Info(file_share_id, user_auth)
   {
     const QUERY_RESULT_SHARE_LINKS = await Firebase_Api.query_To_Database(`app/global/share_links`, [["where", "file_share_id", "==", file_share_id]])
     if(QUERY_RESULT_SHARE_LINKS.length == 0) throw new Error("The file id matched for given share link id is not searched !")
@@ -143,6 +143,7 @@ class Firebase_Service
   
     const QUERY_RESULT_FILE_INFOS = await Firebase_Api.query_To_Database(`app/${SHARE_FILE_AUTH}/file_meta_datas`,  [["where", "file_uuid", "==", FILE_UUID]])
     if(QUERY_RESULT_FILE_INFOS.length == 0) throw new Error("The file meta datas is not searched !")
+    const FILE_NAME = QUERY_RESULT_FILE_INFOS[0].file_name + "." + QUERY_RESULT_FILE_INFOS[0].file_ext
   
     const QUERY_RESULT_SHARE_AUTHS = await Firebase_Api.query_To_Database(`app/${SHARE_FILE_AUTH}/share_auths`, [["where", "file_uuid", "==", FILE_UUID]])
     const FILE_SHARE_AUTHS = QUERY_RESULT_SHARE_AUTHS.map((doc_result) => doc_result.email_auth)
@@ -151,7 +152,7 @@ class Firebase_Service
       throw new Error("The user auth is not suitable !")
   
     const DATA_URL = await Firebase_Api.string_data_From_Storage(`${SHARE_FILE_AUTH}/${FILE_UUID}`)
-    return DATA_URL
+    return {data_url:DATA_URL, file_name:FILE_NAME}
   }
 
   /** 주어진 파일에 접근할 수 있는 공유링크를 생성하고 반환하기 위해서(이미 존재할 경우 존재하는 공유 링크 반환) */

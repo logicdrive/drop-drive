@@ -46,10 +46,11 @@ class Rest_API
     return (await Rest_API.request_With_Error_Check(`/api/v1/file?file_name=${file_name}&work_dir_path=${work_dir_path}`, "GET")).data_url
   }
 
-  /** 공유된 파일에 대한 DATA URL을 얻기 위해서 */
-  static async get_Share_File_Object_Data_URL(share_file_uuid)
+  /** 공유된 파일에 대한 정보(DATA URL, 파일명)를 얻기 위해서 */
+  static async get_Share_File_Object_Data_Info(share_file_uuid)
   {
-    return (await Rest_API.request_With_Error_Check(`/api/v1/shared_file?file_share_id=${share_file_uuid}`, "GET")).data_url
+     const OBJECT_DATA_INFO = (await Rest_API.request_With_Error_Check(`/api/v1/shared_file?file_share_id=${share_file_uuid}`, "GET"))
+    return {data_url:OBJECT_DATA_INFO.data_url, file_name:OBJECT_DATA_INFO.file_name}
   }
 
   /** 지정한 파일을 서버에서 완전히 삭제시키기 위해서 */

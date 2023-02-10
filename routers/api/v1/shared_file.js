@@ -9,8 +9,8 @@ async function get_Router_callback(req, res)
   const USER_AUTH = await Firebase_Service.check_User_Auth()
   const {file_share_id:FILE_SHARE_ID} = Params_Check.Para_is_null_or_empty(req.query, ["file_share_id"])
 
-  const DATA_URL = await Firebase_Service.share_Data_URL(FILE_SHARE_ID, USER_AUTH)
-  res.json({is_error:false, data_url:DATA_URL})
+  const SHARE_DATA_INFO = await Firebase_Service.share_Data_Info(FILE_SHARE_ID, USER_AUTH)
+  res.json({is_error:false, data_url:SHARE_DATA_INFO.data_url, file_name:SHARE_DATA_INFO.file_name})
 }
 get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
 
