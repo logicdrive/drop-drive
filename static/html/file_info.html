@@ -3,18 +3,41 @@
   
 <head>
     <title>File Info</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  
     <script src="/js/lib/element.js"></script>
     <script src="/js/lib/browser.js"></script>
     <script src="/js/lib/wrap.js"></script>
     <script src="/js/lib/request.js"></script>
     <script src="/js/lib/rest_api.js"></script>
     <script src="/js/core/file_info.js" defer></script>
+
+    <script src="https://kit.fontawesome.com/8c26d49cd0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/file_info.css">
 </head>
   
 <body>
-  <p id="file_name"></p>
-  <button id="file_download">Download</button>
-  <div id="file_info"></div>
+  <section class="container">
+    <div class="row">
+      <a id="back_link" class="pl-2" onclick="history.back()">&lt;</a>
+      <p id="file_name" class="pt-3 pl-2"></p>
+      
+      <a id="file_download_link" class="ml-auto pt-3 pr-2">
+        <i class="fa-solid fa-download"></i>
+        Download
+      </a>
+    </div>
+    
+    <div class="row p-2">
+      <div id="file_info"></div>
+    </div>
+  </section>
 </body>
   
 </html>

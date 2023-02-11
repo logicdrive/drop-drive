@@ -10,14 +10,14 @@ async function main()
   
   await Element.add_Text_Content_By_Data_Url(FILE_INFO_SEL, OBJECT_DATA_INFO.data_url)
 
-  document.querySelector("#file_download").onclick = on_Click_File_Download
+  document.querySelector("#file_download_link").onclick = on_Click_File_Download_Link
 }
 main = Wrap.Wrap_With_Try_Alert_Promise(main)
 
-async function on_Click_File_Download()
+async function on_Click_File_Download_Link()
 {
   await Browser.download_File(OBJECT_DATA_INFO.data_url, OBJECT_DATA_INFO.file_name)
 }
-on_Click_File_Download = Wrap.Wrap_With_Try_Alert_Promise(on_Click_File_Download)
+on_Click_File_Download_Link = Wrap.Wrap_With_Try_Alert_Promise(on_Click_File_Download_Link)
 
 main()
