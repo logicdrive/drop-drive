@@ -12,6 +12,10 @@ async function main()
   
   await update_Greeting_Message()
   await update_Owned_File_Infos()
+  
+  document.querySelector("#owned_file_table").style.visibility = "visible"
+  document.querySelector("#loading_page").remove()
+  
   document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
   document.querySelector("#make_directory_btn").onclick = on_Click_Make_Directory_Btn
   document.querySelector("#logout_btn").onclick = on_Click_Logout_Btn
@@ -33,7 +37,7 @@ function create_Work_Dir_Path_HTMLs(work_dir_path)
   if(work_dir_path == "/") return directory_path_htmls
   
   for(let i=0; i<maked_paths.length; i++)
-     directory_path_htmls.push([`<a href="/html/main.html?work_dir_path=${maked_paths[i]}">${WORK_DIR_PATH_SP[i]}/</a>`])
+     directory_path_htmls.push([`<a class="pl-1" href="/html/main.html?work_dir_path=${maked_paths[i]}">${WORK_DIR_PATH_SP[i]}/</a>`])
   return directory_path_htmls
 }
 
@@ -58,6 +62,7 @@ async function update_Owned_File_Infos()
     return
   }
   
+  
   const FILE_INDEX_HTMLS = FILE_INFOS.map((file_info) => make_HTML_File_Index_HTML(file_info))
   OWNED_FILE_TABLE_SEL.innerHTML = FILE_INDEX_HTMLS.join("\n")
 
@@ -76,20 +81,57 @@ function make_HTML_File_Index_HTML(file_info)
   switch(file_info.type)
   {
     case "file" :      
-      return `<tr><td><div file_name="${file_info.file_name}">
-    <a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}" target="_blank">FILE : ${file_info.file_name}</a>
-    <button class="file_Index_Download_Btn">Download</button>
-    <button class="add_Auth_Btn">Add Auth</button>
-    <button class="share_Link_Btn">Share Link</button>
-    <button class="file_Index_Delete_Btn">Delete</button>
-    <p>created time : ${file_info.created_time}</p>
-    </div></td></tr>`
+      return `<li class="list-group-item d-flex justify-content-between align-content-center">
+
+    <div class="d-flex flex-row">
+	    <img src="https://img.icons8.com/color/48/null/file.png" width="40" />
+	    <div class="ml-2" file_name="${file_info.file_name}">
+		    <h6 class="mb-0 text-black" ><a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}" target="_blank">FILE : ${file_info.file_name}</a></h6>
+		    <div class="about">
+          <span class="text-info">${file_info.created_time}</span>
+        </div>
+	    </div>
+    </div>
+  
+    <div class="btn-group dropright">
+      <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false px-0">
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu2" file_name="${file_info.file_name}">
+        <button class="file_Index_Download_Btn dropdown-item">
+          <img src="https://img.icons8.com/color/48/null/download--v1.png"/>
+          Download
+        </button>
+        <button class="add_Auth_Btn dropdown-item">
+          <img src="https://img.icons8.com/color/48/000000/add-user-group-man-man-skin-type-7.png"/>
+          Add Auth
+        </button>
+        <button class="share_Link_Btn dropdown-item">
+          <img src="https://img.icons8.com/color/48/null/share--v1.png"/>
+          Share Link
+        </button>
+        <button class="file_Index_Delete_Btn dropdown-item">
+          <img src="https://img.icons8.com/color/48/000000/trash--v1.png"/>
+          Delete
+        </button>
+      </div>
+    </div>
+</li>`
 
     case "directory" :
-      return `<tr><td><div file_name="${file_info.file_name}">
-      <a href="/html/main.html?work_dir_path=${WORK_DIR_PATH+file_info.file_name+'/'}">DIRECTORY : ${file_info.file_name}</a>
-      <button class="delete_Directory_Btn">Delete</button>
-      </div></td></tr>`
+      return `<li class="list-group-item d-flex justify-content-between align-content-center">
+
+    <div class="d-flex flex-row">
+	    <img src="https://img.icons8.com/color/100/000000/folder-invoices.png" width="40" />
+	    <div class="ml-2" file_name="${file_info.file_name}">
+		    <h6 class="mb-0 text-black" ><a href="/html/main.html?work_dir_path=${WORK_DIR_PATH+file_info.file_name+'/'}">DIRECTORY : ${file_info.file_name}</a></h6>
+		    
+	    </div>
+    </div>
+    <div file_name="${file_info.file_name}">
+	    <button class="delete_Directory_Btn">Delete</button>
+    </div>
+
+</li>`
   }
 }
 
