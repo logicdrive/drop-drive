@@ -138,7 +138,7 @@ function make_HTML_File_Index_HTML(file_info)
 /** 선택한 파일을 다운로드 받기 위해서 */
 async function on_Click_File_Index_Download_Btn(e)
 {
-  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
+  const FILE_NAME = e.target.closest(".dropdown-menu").getAttribute("file_name")
   if(!confirm(`Do you want to download the '${FILE_NAME}' file?`)) return
 
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
@@ -151,7 +151,7 @@ on_Click_File_Index_Download_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Fil
 /** 특정 파일에 공유 권한을 추가시키기 위해서 */
 async function on_Click_Add_Auth_Btn(e)
 {
-  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
+  const FILE_NAME = e.target.closest(".dropdown-menu").getAttribute("file_name")
   const EMAIL_TO_ADD = prompt("Input user email to accept share link auth")
   if(EMAIL_TO_ADD == null || EMAIL_TO_ADD.length == 0) return
 
@@ -165,9 +165,9 @@ on_Click_Add_Auth_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Add_Auth_Btn)
 async function on_Click_Share_Link_Btn(e)
 {
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
-  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
+  const FILE_NAME = e.target.closest(".dropdown-menu").getAttribute("file_name")
   const SHARED_LINK = await Rest_API.get_Share_Link(FILE_NAME, WORK_DIR_PATH)
-  
+
   Clipboard.write_Text(SHARED_LINK)
   alert("The shared link was coiped to clipboard !")
 }
@@ -177,9 +177,10 @@ on_Click_Share_Link_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Share_Link_B
 async function on_Click_file_Index_Delete_Btn(e)
 {
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
-  const FILE_NAME = e.target.parentElement.getAttribute("file_name")
+  const FILE_NAME = e.target.closest(".dropdown-menu").getAttribute("file_name")
   if(!confirm(`Do you want to delete the '${FILE_NAME}' file?`)) return
 
+  console.log(FILE_NAME)
   await Rest_API.delete_File_Object(FILE_NAME, WORK_DIR_PATH)
   alert(`The '${FILE_NAME}' file was successfully deleted !`)
   await update_Owned_File_Infos()
@@ -218,7 +219,7 @@ on_Click_Make_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Make_Dir
 /** 주어진 디렉토리의 하위 디렉토리 및 파일들을 연쇄적으로 삭제하고, 현재 디렉토리까지 완전하게 삭제시키기 위해서 */
 async function on_Click_Delete_Directory_Btn(e)
 {
-  const DIRECTORY_NAME_TO_DELETE = e.target.parentElement.getAttribute("file_name")
+  const DIRECTORY_NAME_TO_DELETE = e.target.closest(".dropdown-menu").getAttribute("file_name")
   if(!confirm(`Do you want to delete the '${DIRECTORY_NAME_TO_DELETE}' directory?`)) return
   
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
