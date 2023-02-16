@@ -1,35 +1,29 @@
-.container div.row:nth-child(1)
-{
-  height: 6vh;
-  background-color: #f5f5f5;
-}
-
-.container div.row:nth-child(2)
-{
-  height: 94vh;
-  overflow-y: scroll;
-}
-
-#back_link
-{
+#back_link {
   font-size: 1.5em;
   padding-top: 10px;
   color: darkgray;
 }
 
-#file_download_link
-{
+#file_download_link {
   color: black;
 }
 
-#file_name
-{
+#file_name {
   font-weight: bold;
 }
 
-#file_download_link:hover, #back_link:hover
-{
+#file_download_link:hover, #back_link:hover {
   opacity: 0.5;
+}
+
+.container div.row:nth-child(1) {
+  height: 6vh;
+  background-color: #f5f5f5;
+}
+
+.container div.row:nth-child(2) {
+  height: 94vh;
+  overflow-y: scroll;
 }
 
 a {

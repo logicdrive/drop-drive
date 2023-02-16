@@ -1,12 +1,52 @@
-body{
-  background: #BDCDD6;
+#box {
+  width: 25%;
+  height: 100%;
 }
 
-.list-group{
+#make_directory_btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#directory_path {
+  background-color: DodgerBlue;
+  border-radius: 2px;
+  font-size: 200%;
+  margin-bottom: 10px;
+}
+
+#upload_file_form {
+  border: 1px dashed #999;
+  border-radius: 3px;
+  height: 100px;
+}
+
+#directory_path a {
+  color: white;
+}
+
+#upload_file_form img {
+  position: relative;
+  top: -56px;
+}
+
+#make_directory_btn:hover {
+  background-color: RoyalBlue;
+}
+
+#directory_path:hover {
+  transform: scaleX(1.1);
+}
+
+.list-group {
   width: auto !important;
 }
 
-.list-group-item{
+.list-group-item {
   margin-top:10px;
   border-radius: 1px solid; 
   background: #EEE9DA;
@@ -14,23 +54,10 @@ body{
   transition: all 0.3s ease-in-out;
 }
 
-.list-group-item:hover{
-  transform: scaleX(1.1);
-}
-
-.list-group-item:hover {
-  opacity: 1;
-}
-
-.about span{
+.about span {
   font-size: 12px;
   margin-right: 10px;
   font-color: #F8CBA6;
-}
-
-#box {
-  width: 25%;
-  height: 100%;
 }
 
 .center {
@@ -51,12 +78,6 @@ body{
   text-align: center;
 }
 
-h1 {
-  font-size: 16px;
-  font-weight: 300;
-  color: #666;
-}
-
 .dropzone {
   width: 100px;
   height: 150px;
@@ -73,41 +94,20 @@ h1 {
   opacity: 0;
 }
 
-#make_directory_btn {
-  background-color: DodgerBlue;
-  border: none;
-  color: white;
-  padding: 12px 16px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#make_directory_btn:hover {
-  background-color: RoyalBlue;
-}
-
-#directory_path {
-  background-color: DodgerBlue;
-  border-radius: 2px;
-  font-size: 200%;
-  margin-bottom: 10px;
-}
-
-#directory_path a {
-  color: white;
-}
-
-#directory_path:hover {
+.list-group-item:hover {
   transform: scaleX(1.1);
 }
 
-#upload_file_form {
-  border: 1px dashed #999;
-  border-radius: 3px;
-  height: 100px;
+.list-group-item:hover {
+  opacity: 1;
 }
 
-#upload_file_form img {
-  position: relative;
-  top: -56px;
+h1 {
+  font-size: 16px;
+  font-weight: 300;
+  color: #666;
+}
+
+body {
+  background: #BDCDD6;
 }
