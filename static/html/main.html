@@ -36,16 +36,17 @@
 
       <div id="box" class="ml-5">
         <div id="directory_path"></div>
-        <div class="center ">
+        <div class="center d-flex">
           <div class="title">
             <h1>Drop file to upload</h1>
           </div>
             
           <div class="dropzone">
-            <form id="upload_file_form">
-              <input class="upload-input" type="file" accept=".txt"/>
-              <img src="http://100dayscss.com/codepen/upload.svg"/>
-              <input class="btn btn-secondary" type="submit" value="+ UPLOAD FILE"/>
+            <form id="upload_file_form" class="d-flex flex-column justify-content-center align-items-center">
+              <img src="http://100dayscss.com/codepen/upload.svg">
+              <input class="upload-input" type="file" accept=".txt">
+              
+              <input class="btn btn-secondary" type="submit" value="+ UPLOAD FILE">
             </form>
           </div>       
         </div>
