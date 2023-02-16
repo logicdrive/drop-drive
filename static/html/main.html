@@ -22,18 +22,19 @@
 
   <script src="https://kit.fontawesome.com/8c26d49cd0.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/global.css">
 </head>
 
 <body>
   <nav class="navbar navbar-light bg-light">
-    <h4 class="navbar-brand text-black" id="greeting"></h4>
-    <input id="logout_btn" type="button" value="LOGOUT" class="btn btn-secondary"/>
+    <h4 id="greeting" class="navbar-brand text-black"></h4>
+    <input id="logout_btn" class="btn btn-secondary" type="button" value="LOGOUT"/>
   </nav>   
   
   <div class="container-fluid h-custom mt-5">
     <div class="row d-flex justify-content-around h-100">
 
-      <div class="ml-5" id="box">
+      <div id="box" class="ml-5">
         <div id="directory_path"></div>
         <div class="center ">
           <div class="title">
@@ -42,22 +43,19 @@
             
           <div class="dropzone">
             <form id="upload_file_form">
-              <input type="file" class="upload-input" accept=".txt"/>
+              <input class="upload-input" type="file" accept=".txt"/>
               <img src="http://100dayscss.com/codepen/upload.svg"/>
-              <input type="submit" value="+ UPLOAD FILE" class="btn btn-secondary"/>
+              <input class="btn btn-secondary" type="submit" value="+ UPLOAD FILE"/>
             </form>
           </div>       
         </div>
       </div>
 
-      <div class="col-6 pl-5 ">
+      <div class="col-6 pl-5">
         <button id="make_directory_btn" class="btn"><i class="fa fa-folder"></i> MAKE DIRECTORY</button>
 
         <section id="loading_page" class="container d-flex justify-content-center align-items-center vh-100">
-            <img src="/images/loading.gif" style="
-            height: 50px;
-            width: 50px;
-        ">
+            <img src="/images/loading.gif">
         </section>
         <ul id="owned_file_table" class="list-group" style="visibility:hidden;">
           
