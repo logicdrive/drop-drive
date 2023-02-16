@@ -11,6 +11,9 @@ async function main()
   await Element.add_Text_Content_By_Data_Url(FILE_INFO_SEL, OBJECT_DATA_INFO.data_url)
 
   document.querySelector("#file_download_link").onclick = on_Click_File_Download_Link
+
+  document.querySelector("#main_page").style.visibility = "visible"
+  document.querySelector("#loading_page").remove()
 }
 main = Wrap.Wrap_With_Try_Alert_Promise(main)
 
