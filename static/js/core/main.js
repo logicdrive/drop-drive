@@ -86,7 +86,7 @@ function make_HTML_File_Index_HTML(file_info)
     <div class="d-flex flex-row">
 	    <img src="https://img.icons8.com/color/48/null/file.png" width="40" />
 	    <div class="ml-2" file_name="${file_info.file_name}">
-		    <h6 class="mb-0 text-black" ><a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}" target="_blank">FILE : ${file_info.file_name}</a></h6>
+		    <h6 class="mb-0 text-black" ><a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}">FILE : ${file_info.file_name}</a></h6>
 		    <div class="about">
           <span class="text-info">${file_info.created_time}</span>
         </div>
