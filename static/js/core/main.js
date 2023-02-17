@@ -97,10 +97,10 @@ function make_HTML_File_Index_HTML(file_info)
   <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false px-0">
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenu2" file_name="${file_info.file_name}">
-    <button class="file_Index_Download_Btn dropdown-item"><img src="https://img.icons8.com/color/48/null/download--v1.png"/>DOWNLOAD</button>
-    <button class="add_Auth_Btn dropdown-item"><img src="https://img.icons8.com/color/48/000000/add-user-group-man-man-skin-type-7.png"/>ADD AUTH</button>
-    <button class="share_Link_Btn dropdown-item"><img src="https://img.icons8.com/color/48/null/share--v1.png"/>SHARE LINK</button>
-    <button class="file_Index_Delete_Btn dropdown-item"><img src="https://img.icons8.com/color/48/000000/trash--v1.png"/>DELETE</button>
+    <button class="file_Index_Download_Btn dropdown-item"><img src="https://img.icons8.com/color/48/null/download--v1.png"/>Download</button>
+    <button class="add_Auth_Btn dropdown-item"><img src="https://img.icons8.com/color/48/000000/add-user-group-man-man-skin-type-7.png"/>Add Auth</button>
+    <button class="share_Link_Btn dropdown-item"><img src="https://img.icons8.com/color/48/null/share--v1.png"/>Share Link</button>
+    <button class="file_Index_Delete_Btn dropdown-item"><img src="https://img.icons8.com/color/48/000000/trash--v1.png"/>Delete</button>
   </div>
 </div>
 
@@ -118,7 +118,7 @@ function make_HTML_File_Index_HTML(file_info)
   </div>
 </div>
 <div file_name="${file_info.file_name}">
-  <button class="delete_Directory_Btn btn btn-secondary" style="margin-top: 3px;">DELETE</button>
+  <button class="delete_Directory_Btn btn btn-secondary" style="margin-top: 3px;">Delete</button>
 </div>
 
 </li>`
