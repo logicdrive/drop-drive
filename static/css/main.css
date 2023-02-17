@@ -21,7 +21,7 @@
 }
 
 #directory_path {
-  padding-top: 1px;
+  padding-top: 2px;
   padding-left: 9px;
   margin-left: 10px;
   flex-grow: 1;
@@ -118,7 +118,6 @@
 
 .title h1 {
   font-size: 16px;
-  font-weight: 300;
   color: #666;
   margin-top: 7px;
 }
