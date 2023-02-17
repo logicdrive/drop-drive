@@ -21,15 +21,17 @@
 }
 
 #directory_path {
-  padding-top: 2px;
+  padding-top: 6px;
   padding-left: 9px;
   margin-left: 10px;
+  font-size: 165%;
   flex-grow: 1;
   font-weight: bolder;
 }
 
 #directory_to_back_btn {
   width: 45px;
+  font-size: 200%;
   text-align: center;
   cursor: pointer;
 }
@@ -41,7 +43,6 @@
 #directory_path, #directory_to_back_btn {
   background-color: DodgerBlue;
   border-radius: 2px;
-  font-size: 200%;
   margin-bottom: 10px;
 }
 
