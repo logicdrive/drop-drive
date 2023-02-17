@@ -133,6 +133,14 @@
   margin: 25px 2px 2px 2px;
 }
 
+.file_menu > div, .directory_menu > div {
+  padding-top:2px;
+}
+
+.dropright .dropdown-menu button {
+  font-weight:bolder;
+}
+
 body {
   background: #BDCDD6;
 }

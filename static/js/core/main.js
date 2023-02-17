@@ -84,55 +84,42 @@ function make_HTML_File_Index_HTML(file_info)
     case "file" :      
       return `<li class="list-group-item d-flex justify-content-between align-content-center">
 
-    <div class="d-flex flex-row">
-	    <img src="https://img.icons8.com/color/48/null/file.png" width="40" />
-	    <div class="ml-2" file_name="${file_info.file_name}">
-		    <h6 class="mb-0 text-black" ><a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}">${file_info.file_name}</a></h6>
-		    <div class="about">
-          <span class="text-info">${file_info.created_time}</span>
-        </div>
-	    </div>
-    </div>
+<div class="file_menu d-flex flex-row">
+  <img src="https://img.icons8.com/color/48/null/file.png" width="40"/>
+ 
+  <div class="ml-2" file_name="${file_info.file_name}">
+    <h6 class="mb-0 text-black" ><a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}">${file_info.file_name}</a></h6>
+    <div class="about"><span class="text-info">${file_info.created_time}</span></div>
+  </div>
+</div>
   
-    <div class="btn-group dropright">
-      <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false px-0">
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenu2" file_name="${file_info.file_name}">
-        <button class="file_Index_Download_Btn dropdown-item" style="font-weight:bolder">
-          <img src="https://img.icons8.com/color/48/null/download--v1.png"/>
-          DOWNLOAD
-        </button>
-        <button class="add_Auth_Btn dropdown-item" style="font-weight:bolder">
-          <img src="https://img.icons8.com/color/48/000000/add-user-group-man-man-skin-type-7.png"/>
-          ADD AUTH
-        </button>
-        <button class="share_Link_Btn dropdown-item" style="font-weight:bolder">
-          <img src="https://img.icons8.com/color/48/null/share--v1.png"/>
-          SHARE LINK
-        </button>
-        <button class="file_Index_Delete_Btn dropdown-item" style="font-weight:bolder">
-          <img src="https://img.icons8.com/color/48/000000/trash--v1.png"/>
-          DELETE
-        </button>
-      </div>
-    </div>
+<div class="btn-group dropright">
+  <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false px-0">
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu2" file_name="${file_info.file_name}">
+    <button class="file_Index_Download_Btn dropdown-item"><img src="https://img.icons8.com/color/48/null/download--v1.png"/>DOWNLOAD</button>
+    <button class="add_Auth_Btn dropdown-item"><img src="https://img.icons8.com/color/48/000000/add-user-group-man-man-skin-type-7.png"/>ADD AUTH</button>
+    <button class="share_Link_Btn dropdown-item"><img src="https://img.icons8.com/color/48/null/share--v1.png"/>SHARE LINK</button>
+    <button class="file_Index_Delete_Btn dropdown-item"><img src="https://img.icons8.com/color/48/000000/trash--v1.png"/>DELETE</button>
+  </div>
+</div>
+
 </li>`
 
     case "directory" :
       return `<li class="list-group-item d-flex justify-content-between align-content-center">
 
-    <div class="d-flex flex-row">
-	    <img src="https://img.icons8.com/color/100/000000/folder-invoices.png" width="40" />
-	    <div class="ml-2" file_name="${file_info.file_name}">
-		    <h6 class="mb-0 text-black" ><a href="/html/main.html?work_dir_path=${WORK_DIR_PATH+file_info.file_name+'/'}">${file_info.file_name}</a></h6>
-		    <div class="about">
-          <span class="text-info">${file_info.created_time}</span>
-        </div>
-	    </div>
-    </div>
-    <div file_name="${file_info.file_name}">
-	    <button class="delete_Directory_Btn btn btn-secondary" style="margin-top: 3px;">DELETE</button>
-    </div>
+<div class="directory_menu d-flex flex-row">
+  <img src="https://img.icons8.com/color/100/000000/folder-invoices.png" width="40" />
+ 
+  <div class="ml-2" file_name="${file_info.file_name}">
+    <h6 class="mb-0 text-black" ><a href="/html/main.html?work_dir_path=${WORK_DIR_PATH+file_info.file_name+'/'}">${file_info.file_name}</a></h6>
+    <div class="about"><span class="text-info">${file_info.created_time}</span></div>
+  </div>
+</div>
+<div file_name="${file_info.file_name}">
+  <button class="delete_Directory_Btn btn btn-secondary" style="margin-top: 3px;">DELETE</button>
+</div>
 
 </li>`
   }
