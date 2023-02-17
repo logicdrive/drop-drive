@@ -3,6 +3,10 @@
   height: 100%;
 }
 
+#drop_file_region {
+  margin-top: 2px;
+}
+
 #make_directory_btn {
   background-color: DodgerBlue;
   border: none;
@@ -12,14 +16,26 @@
   cursor: pointer;
 }
 
+#work_directory_infos {
+    height: 56px;
+}
+
 #directory_path {
-  margin-left:10px;
-  flex-grow:1;
+  padding-top: 1px;
+  padding-left: 9px;
+  margin-left: 10px;
+  flex-grow: 1;
+  font-weight: bolder;
 }
 
 #directory_to_back_btn {
-  width: 50px;
+  width: 45px;
+  text-align: center;
   cursor: pointer;
+}
+
+#directory_to_back_btn i {
+  margin-top: 6px;
 }
 
 #directory_path, #directory_to_back_btn {

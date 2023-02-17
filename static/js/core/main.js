@@ -38,7 +38,7 @@ function create_Work_Dir_Path_HTMLs(work_dir_path)
   if(work_dir_path == "/") return directory_path_htmls
   
   for(let i=0; i<maked_paths.length; i++)
-     directory_path_htmls.push([`<a class="pl-1" href="/html/main.html?work_dir_path=${maked_paths[i]}">${WORK_DIR_PATH_SP[i]}/</a>`])
+     directory_path_htmls.push([`<a class="pl-1" href="/html/main.html?work_dir_path=${maked_paths[i]}">${WORK_DIR_PATH_SP[i]} /</a>`])
   return directory_path_htmls
 }
 
