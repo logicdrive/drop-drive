@@ -125,7 +125,9 @@ function make_HTML_File_Index_HTML(file_info)
 	    <img src="https://img.icons8.com/color/100/000000/folder-invoices.png" width="40" />
 	    <div class="ml-2" file_name="${file_info.file_name}">
 		    <h6 class="mb-0 text-black" ><a href="/html/main.html?work_dir_path=${WORK_DIR_PATH+file_info.file_name+'/'}">${file_info.file_name}</a></h6>
-		    
+		    <div class="about">
+          <span class="text-info">${file_info.created_time}</span>
+        </div>
 	    </div>
     </div>
     <div file_name="${file_info.file_name}">
