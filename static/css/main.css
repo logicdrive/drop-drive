@@ -133,14 +133,6 @@
   margin: 25px 2px 2px 2px;
 }
 
-.list-group-item:hover {
-  transform: scaleX(1.1);
-}
-
-.list-group-item:hover {
-  opacity: 1;
-}
-
 body {
   background: #BDCDD6;
 }

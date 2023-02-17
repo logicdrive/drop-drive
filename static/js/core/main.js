@@ -100,19 +100,19 @@ function make_HTML_File_Index_HTML(file_info)
       <div class="dropdown-menu" aria-labelledby="dropdownMenu2" file_name="${file_info.file_name}">
         <button class="file_Index_Download_Btn dropdown-item" style="font-weight:bolder">
           <img src="https://img.icons8.com/color/48/null/download--v1.png"/>
-          Download
+          DOWNLOAD
         </button>
         <button class="add_Auth_Btn dropdown-item" style="font-weight:bolder">
           <img src="https://img.icons8.com/color/48/000000/add-user-group-man-man-skin-type-7.png"/>
-          Add Auth
+          ADD AUTH
         </button>
         <button class="share_Link_Btn dropdown-item" style="font-weight:bolder">
           <img src="https://img.icons8.com/color/48/null/share--v1.png"/>
-          Share Link
+          SHARE LINK
         </button>
         <button class="file_Index_Delete_Btn dropdown-item" style="font-weight:bolder">
           <img src="https://img.icons8.com/color/48/000000/trash--v1.png"/>
-          Delete
+          DELETE
         </button>
       </div>
     </div>
@@ -131,7 +131,7 @@ function make_HTML_File_Index_HTML(file_info)
 	    </div>
     </div>
     <div file_name="${file_info.file_name}">
-	    <button class="delete_Directory_Btn">Delete</button>
+	    <button class="delete_Directory_Btn btn btn-secondary" style="margin-top: 3px;">DELETE</button>
     </div>
 
 </li>`
