@@ -13,22 +13,32 @@
 }
 
 #directory_path {
+  margin-left:10px;
+  flex-grow:1;
+}
+
+#directory_to_back_btn {
+  width: 50px;
+  cursor: pointer;
+}
+
+#directory_path, #directory_to_back_btn {
   background-color: DodgerBlue;
   border-radius: 2px;
   font-size: 200%;
   margin-bottom: 10px;
 }
 
-#directory_path a {
+#directory_path a, #directory_to_back_btn {
   color: white;
+}
+
+#directory_to_back_btn:hover {
+  opacity: 0.5;
 }
 
 #make_directory_btn:hover {
   background-color: RoyalBlue;
-}
-
-#directory_path:hover {
-  transform: scaleX(1.1);
 }
 
 #greeting {

@@ -19,6 +19,7 @@ async function main()
   document.querySelector("#upload_file_form").onsubmit = on_Upload_File_Form_Submited
   document.querySelector("#make_directory_btn").onclick = on_Click_Make_Directory_Btn
   document.querySelector("#logout_btn").onclick = on_Click_Logout_Btn
+  document.querySelector("#directory_to_back_btn").onclick = on_Click_Directory_To_Back_Btn
 }
 
 /** 디렉토리 경로들을 포함한 Html 코드 리스트를 생성시키기 위해서 */
@@ -238,5 +239,16 @@ async function on_Click_Logout_Btn(_)
   await Rest_API.redirect_If_Not_Login()
 }
 on_Click_Logout_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Logout_Btn)
+
+/** 이전 디렉토리로 이동시키기 위해서 */
+function on_Click_Directory_To_Back_Btn(_)
+{
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
+  if(WORK_DIR_PATH == "/") return
+
+  const LEFT_WORK_DIR = WORK_DIR_PATH.slice(0, WORK_DIR_PATH.length-1)
+  const PREV_DIR = LEFT_WORK_DIR.slice(0, LEFT_WORK_DIR.lastIndexOf("/")+1)
+  Browser.redirect(`/html/main.html?work_dir_path=${PREV_DIR}`)
+}
 
 main()
