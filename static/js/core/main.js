@@ -74,6 +74,8 @@ async function update_Owned_File_Infos()
   Element.add_On_Click_Trigger("button.add_Auth_Btn", on_Click_Add_Auth_Btn)
   Element.add_On_Click_Trigger("button.share_Link_Btn", on_Click_Share_Link_Btn)
   Element.add_On_Click_Trigger("button.file_Index_Delete_Btn", on_Click_file_Index_Delete_Btn)
+
+  Element.add_On_Click_Trigger("button.download_Directory_Btn", on_Click_Download_Directory_Btn)
   Element.add_On_Click_Trigger("button.delete_Directory_Btn", on_Click_Delete_Directory_Btn)
 }
 update_Owned_File_Infos = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Infos)
@@ -125,6 +127,7 @@ function make_HTML_File_Index_HTML(file_info)
   <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false px-0">
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenu2" file_name="${file_info.file_name}">
+    <button class="download_Directory_Btn dropdown-item"><img src="https://img.icons8.com/color/48/null/download--v1.png"/>Download</button>
     <button class="delete_Directory_Btn dropdown-item"><img src="https://img.icons8.com/color/48/000000/trash--v1.png"/>Delete</button>
   </div>
 </div>
@@ -227,6 +230,16 @@ async function on_Click_Delete_Directory_Btn(e)
   await update_Owned_File_Infos()
 }
 on_Click_Delete_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Delete_Directory_Btn)
+
+/** 주어진 디렉토리를 .zip 형태로 다운받기 위해서 */
+async function on_Click_Download_Directory_Btn(e)
+{
+  const DIRECTORY_NAME_TO_DOWNLOAD = e.target.closest(".dropdown-menu").getAttribute("file_name")
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
+  
+  alert(`[MOCK] 주어진 디렉토리인 '${WORK_DIR_PATH}/${DIRECTORY_NAME_TO_DOWNLOAD}'의 전체 내용을 .zip로 다운받아야 함`)
+}
+on_Click_Download_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Download_Directory_Btn)
 
 /** 현재 유저 권한으로 로그아웃을 수행하기 위해서 */
 async function on_Click_Logout_Btn(_)
