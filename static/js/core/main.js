@@ -234,7 +234,7 @@ on_Click_Delete_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Delete
 /** 주어진 디렉토리를 .zip 형태로 다운받기 위해서 */
 async function on_Click_Download_Directory_Btn(e)
 {
-  on_Click_Download_Directory_Btn_Overide(e)
+  await on_Click_Download_Directory_Btn_Overide(e)
 }
 on_Click_Download_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Download_Directory_Btn)
 

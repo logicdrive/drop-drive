@@ -2,6 +2,7 @@ import express from "express"
 import Firebase_Service from "../../../module/firebase_service.js"
 import Wrap from "../../../module/wrap.js"
 import Params_Check from "../../../module/params_check.js"
+import post_Router_Callback_Overide from "../../api_temp/v1_directory.js"
 
 // 주어진 디렉토리명과 경로를 기반으로 디렉토리를 생성시키기 위해서
 async function put_Router_callback(req, res)
@@ -30,12 +31,7 @@ get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
 // 주어진 디렉토리에 대한 DATA URL을 반환받기 위해서
 async function post_Router_callback(req, res)
 {
-  const USER_AUTH = await Firebase_Service.check_User_Auth()
-  const {file_name:FILE_NAME_EXT, work_dir_path:WORK_DIR_PATH} 
-    = Params_Check.Para_is_null_or_empty(req.query, ["file_name", "work_dir_path"])
-  const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
-
-  res.json({is_error:false, data_url:""})
+  await post_Router_Callback_Overide(req, res)
 }
 post_Router_callback = Wrap.Wrap_With_Try_Res_Promise(post_Router_callback)
 

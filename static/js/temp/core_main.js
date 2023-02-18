@@ -3,6 +3,13 @@ async function on_Click_Download_Directory_Btn_Overide(e)
 {
   const DIRECTORY_NAME_TO_DOWNLOAD = e.target.closest(".dropdown-menu").getAttribute("file_name")
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
+
+  const REQ_RESULT = await Request.JSON_Request("/api/v1/directory", "POST", {
+      file_name : DIRECTORY_NAME_TO_DOWNLOAD,
+      work_dir_path : WORK_DIR_PATH
+  })
+  if(REQ_RESULT.is_error)
+    throw new Error(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.message}`)
   
-  alert(`[MOCK] 주어진 디렉토리인 '${WORK_DIR_PATH}${DIRECTORY_NAME_TO_DOWNLOAD}'의 전체 내용을 .zip로 다운받아야 함`)   
+  alert(`[MOCK] 주어진 디렉토리 다운로드 기능. TEST DATA URL => "${REQ_RESULT.data_url}"`)   
 }
