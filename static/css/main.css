@@ -27,6 +27,7 @@
   font-size: 165%;
   flex-grow: 1;
   font-weight: bolder;
+  overflow-x:auto;
 }
 
 #directory_to_back_btn {

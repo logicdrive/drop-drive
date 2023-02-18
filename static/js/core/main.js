@@ -8,11 +8,14 @@ async function main()
     Browser.redirect("/html/main.html?work_dir_path=/")
     return
   }
-  document.querySelector("#directory_path").innerHTML = create_Work_Dir_Path_HTMLs(WORK_DIR_PATH).join("\n")
+
+  const DIRECTORY_PATH_SEL = document.querySelector("#directory_path")
+  DIRECTORY_PATH_SEL.innerHTML = create_Work_Dir_Path_HTMLs(WORK_DIR_PATH).join("\n")
+  DIRECTORY_PATH_SEL.scrollTop = DIRECTORY_PATH_SEL.scrollHeight
   
   await update_Greeting_Message()
   await update_Owned_File_Infos()
-  
+
   document.querySelector("#owned_file_table").style.visibility = "visible"
   document.querySelector("#loading_page").remove()
   

@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="/css/global.css">
 </head>
 
-<body>
+<body class="container">
   <nav class="navbar navbar-light bg-light">
     <h4 id="greeting" class="navbar-brand text-black"></h4>
     <input id="logout_btn" class="btn btn-secondary" type="button" value="Logout"/>
@@ -61,7 +61,7 @@
       <div class="col-6 pl-5">
         <button id="make_directory_btn" class="btn"><i class="fa fa-folder"></i> Make Directory</button>
 
-        <section id="loading_page" class="container d-flex justify-content-center align-items-center vh-100">
+        <section id="loading_page" class="container d-flex justify-content-center align-items-center" style="height: 75vh;">
             <img src="/images/loading.gif">
         </section>
         <ul id="owned_file_table" class="list-group" style="visibility:hidden;">
