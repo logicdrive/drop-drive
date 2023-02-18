@@ -120,8 +120,13 @@ function make_HTML_File_Index_HTML(file_info)
     <div class="about"><span class="text-info">${file_info.created_time}</span></div>
   </div>
 </div>
-<div file_name="${file_info.file_name}">
-  <button class="delete_Directory_Btn btn btn-secondary" style="margin-top: 3px;">Delete</button>
+
+<div class="btn-group dropright">
+  <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false px-0">
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu2" file_name="${file_info.file_name}">
+    <button class="delete_Directory_Btn dropdown-item"><img src="https://img.icons8.com/color/48/000000/trash--v1.png"/>Delete</button>
+  </div>
 </div>
 
 </li>`
