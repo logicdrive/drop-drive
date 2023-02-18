@@ -27,6 +27,18 @@ async function get_Router_callback(req, res)
 }
 get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
 
+// 주어진 디렉토리에 대한 DATA URL을 반환받기 위해서
+async function post_Router_callback(req, res)
+{
+  const USER_AUTH = await Firebase_Service.check_User_Auth()
+  const {file_name:FILE_NAME_EXT, work_dir_path:WORK_DIR_PATH} 
+    = Params_Check.Para_is_null_or_empty(req.query, ["file_name", "work_dir_path"])
+  const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
+
+  res.json({is_error:false, data_url:""})
+}
+post_Router_callback = Wrap.Wrap_With_Try_Res_Promise(post_Router_callback)
+
 // 주어진 디렉토리의 하위 디렉토리들을 연쇄적으로 삭제하고, 현재 디렉토리까지 완전하게 삭제시키기 위해서
 async function delete_Router_callback(req, res)
 {
@@ -42,5 +54,6 @@ delete_Router_callback = Wrap.Wrap_With_Try_Res_Promise(delete_Router_callback)
 const router = express.Router()
 router.put('/', put_Router_callback)
 router.get('/', get_Router_callback)
+router.post('/', post_Router_callback)
 router.delete('/', delete_Router_callback)
 export default router
