@@ -23,6 +23,39 @@ async function main()
   document.querySelector("#make_directory_btn").onclick = on_Click_Make_Directory_Btn
   document.querySelector("#logout_btn").onclick = on_Click_Logout_Btn
   document.querySelector("#directory_to_back_btn").onclick = on_Click_Directory_To_Back_Btn
+
+  file_Drag_and_Drop()
+}
+
+/** 파일을 드래그하여 업로드 하기 위해서 */
+function file_Drag_and_Drop() {
+  const Drop_Zone = document.querySelector("#upload_file_form img")
+  
+  Drop_Zone.addEventListener('dragover', function(e) {
+      e.preventDefault()
+      console.log('dragover')
+  
+      this.style.backgroundColor = '#1e88e5'
+  })
+  
+  Drop_Zone.addEventListener('dragleave', function(e) {
+      console.log('dragleave')
+  
+      this.style.backgroundColor = 'white'
+  })
+  
+  Drop_Zone.addEventListener('drop', function(e) {
+      e.preventDefault()
+  
+      console.log('drop')
+      this.style.backgroundColor = 'white'
+  
+      var data = e.dataTransfer.files
+      const INPUT_FILE_SEL = document.querySelector("#upload_file_form input[type='file']")
+      INPUT_FILE_SEL.files = data
+      console.log(INPUT_FILE_SEL.files)
+      document.querySelector("#fileText").innerText = data[0].name
+  })
 }
 
 /** 디렉토리 경로들을 포함한 Html 코드 리스트를 생성시키기 위해서 */
@@ -196,7 +229,6 @@ async function on_Upload_File_Form_Submited(e)
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   const INPUT_FILE_SEL = document.querySelector("#upload_file_form input[type='file']")
   if(INPUT_FILE_SEL.files.length == 0) throw new Error("Please select a file to upload")
-
   const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0], WORK_DIR_PATH)
   alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
   await update_Owned_File_Infos()

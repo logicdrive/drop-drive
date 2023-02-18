@@ -82,6 +82,11 @@
   margin-top: -13px;
 }
 
+#fileText {
+  color: DodgerBlue;
+  font-weight: bolder;
+}
+
 .list-group {
   width: auto !important;
 }
