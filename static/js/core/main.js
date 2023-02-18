@@ -234,10 +234,7 @@ on_Click_Delete_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Delete
 /** 주어진 디렉토리를 .zip 형태로 다운받기 위해서 */
 async function on_Click_Download_Directory_Btn(e)
 {
-  const DIRECTORY_NAME_TO_DOWNLOAD = e.target.closest(".dropdown-menu").getAttribute("file_name")
-  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
-  
-  alert(`[MOCK] 주어진 디렉토리인 '${WORK_DIR_PATH}/${DIRECTORY_NAME_TO_DOWNLOAD}'의 전체 내용을 .zip로 다운받아야 함`)
+  on_Click_Download_Directory_Btn_Overide(e)
 }
 on_Click_Download_Directory_Btn = Wrap.Wrap_With_Try_Alert_Promise(on_Click_Download_Directory_Btn)
 
