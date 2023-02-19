@@ -206,7 +206,6 @@ async function on_Click_file_Index_Delete_Btn(e)
   const FILE_NAME = e.target.closest(".dropdown-menu").getAttribute("file_name")
   if(!confirm(`Do you want to delete the '${FILE_NAME}' file?`)) return
 
-  console.log(FILE_NAME)
   await Rest_API.delete_File_Object(FILE_NAME, WORK_DIR_PATH)
   alert(`The '${FILE_NAME}' file was successfully deleted !`)
   await update_Owned_File_Infos()
@@ -220,9 +219,13 @@ async function on_Upload_File_Form_Submited(e)
 
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   const INPUT_FILE_SEL = document.querySelector("#upload_file_form input[type='file']")
+  
   if(INPUT_FILE_SEL.files.length == 0) throw new Error("Please select a file to upload")
   const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0], WORK_DIR_PATH)
   alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
+
+  document.querySelector("#upload_file_form input[type='file']").value = ""
+  document.querySelector("#fileText").innerText = ""
   await update_Owned_File_Infos()
 }
 on_Upload_File_Form_Submited = Wrap.Wrap_With_Try_Alert_Promise(on_Upload_File_Form_Submited)
