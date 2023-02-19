@@ -30,24 +30,24 @@ async function main()
 /** 파일을 드래그하여 업로드 하기 위해서 */
 function file_Drag_And_Drop() {
   const DROP_ZONE = document.querySelector("#upload_file_form img")
-  
-  DROP_ZONE.addEventListener('dragover', function(e) {
+
+  DROP_ZONE.ondragover = (e) => {
     e.preventDefault()
-    this.style.backgroundColor = '#1e88e5'
-  })
-  
-  DROP_ZONE.addEventListener('dragleave', function(e) {
-    this.style.backgroundColor = 'white'
-  })
-  
-  DROP_ZONE.addEventListener('drop', function(e) {
+    DROP_ZONE.style.backgroundColor = '#1e88e5'
+  }
+
+  DROP_ZONE.ondragleave = (_) => {
+    DROP_ZONE.style.backgroundColor = 'white'
+  }
+
+  DROP_ZONE.ondrop = (e) => {
     e.preventDefault()
-    this.style.backgroundColor = 'white'
+    DROP_ZONE.style.backgroundColor = 'white'
 
     const FILE_DATAS = e.dataTransfer.files
     document.querySelector("#upload_file_form input[type='file']").files = FILE_DATAS
     document.querySelector("#fileText").innerText = FILE_DATAS[0].name
-  })
+  }
 }
 
 /** 디렉토리 경로들을 포함한 Html 코드 리스트를 생성시키기 위해서 */
