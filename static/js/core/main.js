@@ -24,37 +24,29 @@ async function main()
   document.querySelector("#logout_btn").onclick = on_Click_Logout_Btn
   document.querySelector("#directory_to_back_btn").onclick = on_Click_Directory_To_Back_Btn
 
-  file_Drag_and_Drop()
+  file_Drag_And_Drop()
 }
 
 /** 파일을 드래그하여 업로드 하기 위해서 */
-function file_Drag_and_Drop() {
-  const Drop_Zone = document.querySelector("#upload_file_form img")
+function file_Drag_And_Drop() {
+  const DROP_ZONE = document.querySelector("#upload_file_form img")
   
-  Drop_Zone.addEventListener('dragover', function(e) {
-      e.preventDefault()
-      console.log('dragover')
-  
-      this.style.backgroundColor = '#1e88e5'
+  DROP_ZONE.addEventListener('dragover', function(e) {
+    e.preventDefault()
+    this.style.backgroundColor = '#1e88e5'
   })
   
-  Drop_Zone.addEventListener('dragleave', function(e) {
-      console.log('dragleave')
-  
-      this.style.backgroundColor = 'white'
+  DROP_ZONE.addEventListener('dragleave', function(e) {
+    this.style.backgroundColor = 'white'
   })
   
-  Drop_Zone.addEventListener('drop', function(e) {
-      e.preventDefault()
-  
-      console.log('drop')
-      this.style.backgroundColor = 'white'
-  
-      var data = e.dataTransfer.files
-      const INPUT_FILE_SEL = document.querySelector("#upload_file_form input[type='file']")
-      INPUT_FILE_SEL.files = data
-      console.log(INPUT_FILE_SEL.files)
-      document.querySelector("#fileText").innerText = data[0].name
+  DROP_ZONE.addEventListener('drop', function(e) {
+    e.preventDefault()
+    this.style.backgroundColor = 'white'
+
+    const FILE_DATAS = e.dataTransfer.files
+    document.querySelector("#upload_file_form input[type='file']").files = FILE_DATAS
+    document.querySelector("#fileText").innerText = FILE_DATAS[0].name
   })
 }
 
