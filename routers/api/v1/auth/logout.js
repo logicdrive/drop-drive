@@ -4,14 +4,14 @@ import Firebase_Api from "../../../../module/firebase_api.js"
 import Wrap from "../../../../module/wrap.js"
 
 // 사용자로부터 받은 정보를 기반으로 로그아웃을 수행하기 위해서
-async function get_Router_callback(_, res)
+async function get_Router_Callback(_, res)
 {
   await Firebase_Service.check_User_Auth()
   await Firebase_Api.logout()
   res.json({is_error:false})
 }
-get_Router_callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_callback)
+get_Router_Callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_Callback)
 
 const router = express.Router()
-router.get('/', get_Router_callback)
+router.get('/', get_Router_Callback)
 export default router
