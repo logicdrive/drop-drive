@@ -95,7 +95,8 @@ class Rest_API
   {
     await Rest_API.request_With_Error_Check("/api/v1/auth/signin", "POST", {
       email : email,
-      password : password
+      password : password,
+      type : "email"
     })
   }
 
