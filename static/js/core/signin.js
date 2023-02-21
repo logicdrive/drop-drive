@@ -1,6 +1,7 @@
 async function main()
 {
   document.querySelector("#signin_form").onsubmit = on_Signin_Form_Submited
+  document.querySelector("#google_login_btn").onclick = on_Google_Login_Btn_Clicked
 }
 
 /** 유저가 입력한 정보를 기반으로 로그인을 수행하기 위해서 */
@@ -15,5 +16,16 @@ async function on_Signin_Form_Submited(e)
   Browser.redirect("/html/main.html")
 }
 on_Signin_Form_Submited = Wrap.Wrap_With_Try_Alert_Promise(on_Signin_Form_Submited)
+
+/** 구글 계정을 이용한 로그인을 수행하기 위해서 */
+async function on_Google_Login_Btn_Clicked(e)
+{
+  await Rest_API.request_With_Error_Check("/api/v1/auth/signin", "POST", {
+    type : "google"
+  })
+
+  Browser.redirect("/html/main.html")
+}
+on_Google_Login_Btn_Clicked = Wrap.Wrap_With_Try_Alert_Promise(on_Google_Login_Btn_Clicked)
 
 main()
