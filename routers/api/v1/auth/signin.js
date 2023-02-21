@@ -18,6 +18,8 @@ async function post_Router_Callback(req, res)
       break
 
     case "google" :
+      const {token:TOKEN} = Params_Check.Para_is_null_or_empty(req.body, ["token"])
+      await Firebase_Api.login_With_Google(TOKEN)
       break
   }
   

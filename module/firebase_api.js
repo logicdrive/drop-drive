@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app"
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithCredential } from "firebase/auth"
 import { getFirestore, collection, doc, getDocs, addDoc, deleteDoc, query, where } from "firebase/firestore"
 import { getStorage, ref, uploadString, deleteObject, getStream } from "firebase/storage"
 
@@ -140,6 +140,13 @@ class Firebase_Api
   static async login(email, password)
   {
     await signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
+  }
+
+  /** 구글을 이용해서 로그인을 수행시키기 위해서 */
+  static async login_With_Google(token)
+  {
+    const GOOGLE_CREDENTIAL = GoogleAuthProvider.credential(token)
+    await signInWithCredential(FIREBASE_AUTH, GOOGLE_CREDENTIAL)
   }
 
   /** 유저에게 받은 정보를 기반으로 로그아웃하기 위해서 */
