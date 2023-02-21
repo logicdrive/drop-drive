@@ -3,6 +3,8 @@ import Firebase_Api from "../../../../module/firebase_api.js"
 import Wrap from "../../../../module/wrap.js"
 import Params_Check from "../../../../module/params_check.js"
 
+import { GoogleAuthProvider, signInWithCredential } from "firebase/auth"
+
 // 사용자로부터 받은 정보를 기반으로 로그인을 수행하기 위해서
 async function post_Router_Callback(req, res)
 {
@@ -18,6 +20,11 @@ async function post_Router_Callback(req, res)
       break
 
     case "google" :
+      const {token:TOKEN} = Params_Check.Para_is_null_or_empty(req.body, ["token"])
+      
+      const FIREBASE_AUTH = Firebase_Api.get_Firebase_Object("FIREBASE_AUTH")
+      const GOOGLE_CREDENTIAL = GoogleAuthProvider.credential(TOKEN)
+      signInWithCredential(FIREBASE_AUTH, GOOGLE_CREDENTIAL)
       break
   }
   
