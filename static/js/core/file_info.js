@@ -8,7 +8,8 @@ async function main() {
   FILE_NAME_SEL.textContent = FILE_NAME
 
   FILE_URL = await Rest_API.get_File_Object_Data_URL(FILE_NAME, WORK_DIR_PATH)
-  await Element.add_Text_Content_By_Data_Url(FILE_INFO_SEL, FILE_URL)
+  Element.add_Content_By_Data_Url(FILE_INFO_SEL, FILE_URL)
+  
 
   document.querySelector("#file_download_link").onclick = on_Click_File_Download_Link
   
