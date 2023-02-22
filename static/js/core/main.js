@@ -111,16 +111,18 @@ async function update_Owned_File_Infos()
 update_Owned_File_Infos = Wrap.Wrap_With_Try_Alert_Promise(update_Owned_File_Infos)
 
 function make_HTML_File_Index_HTML(file_info)
-{
+{ 
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
 
   switch(file_info.type)
   {
-    case "file" :      
+    case "file" :
+      const FILE_NAME_SP = file_info.file_name.split(".")
+      const FILE_TYPE = FILE_NAME_SP[FILE_NAME_SP.length-1]
       return `<li class="list-group-item d-flex justify-content-between align-content-center">
 
 <div class="file_menu d-flex flex-row">
-  <img src="https://img.icons8.com/color/48/null/file.png" width="40"/>
+  <img src="${(FILE_TYPE == "txt") ? 'https://img.icons8.com/color/12053/null/document.png' : 'https://img.icons8.com/color/114320/null/image.png'}" width="40"/>
  
   <div class="ml-2" file_name="${file_info.file_name}">
     <h6 class="mb-0 text-black" ><a href="/html/file_info.html?file_name=${file_info.file_name}&work_dir_path=${WORK_DIR_PATH}">${file_info.file_name}</a></h6>
