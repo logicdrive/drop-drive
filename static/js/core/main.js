@@ -25,6 +25,11 @@ async function main()
   document.querySelector("#directory_to_back_btn").onclick = on_Click_Directory_To_Back_Btn
 
   file_Drag_And_Drop()
+
+  document.querySelector("#upload_file_form input[type='file']").onchange = (e) => {
+    if (e.target.files[0])
+      document.querySelector("#fileText").innerText = e.target.files[0].name
+  }
 }
 
 /** 파일을 드래그하여 업로드 하기 위해서 */
@@ -220,7 +225,12 @@ async function on_Upload_File_Form_Submited(e)
   const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   const INPUT_FILE_SEL = document.querySelector("#upload_file_form input[type='file']")
   
-  if(INPUT_FILE_SEL.files.length == 0) throw new Error("Please select a file to upload")
+  if(INPUT_FILE_SEL.files.length == 0)
+  {
+    document.querySelector(".upload-input").click()
+    return
+  }
+  
   const UPLOADED_FILE_NAME = await Rest_API.upload_File_Object(INPUT_FILE_SEL.files[0], WORK_DIR_PATH)
   alert(`The requested file '${UPLOADED_FILE_NAME}' was successfully uploaded !`)
 
