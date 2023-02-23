@@ -13,8 +13,6 @@ async function post_Router_Callback_Overide(req, res)
   const {file_name:FILE_NAME, work_dir_path:WORK_DIR_PATH} 
     = Params_Check.Para_is_null_or_empty(req.body, ["file_name", "work_dir_path"])
 
-  const TEST_DATA_URL = `[TEST DATA URL] FILE_NAME : ${FILE_NAME} / WORK_DIR_PATH : ${WORK_DIR_PATH} / USER_AUTH : ${USER_AUTH}`
-
   const FOLDER_UUID = UUID.get_UUID()
   const DOWNLOAD_FOLDER_PATH = `./downloads/${FOLDER_UUID}`
   fs.mkdirSync(DOWNLOAD_FOLDER_PATH)
@@ -30,7 +28,8 @@ async function post_Router_Callback_Overide(req, res)
   fs.rmSync(DOWNLOAD_FOLDER_PATH, {recursive: true, force: true})
   fs.rmSync(ZIP_PATH, {force: true})
   
-  res.json({is_error:false, file_name: "file", data_url:ZIP_DATA_URL})
+  res.json({is_error:false, file_name: "folder", data_url:ZIP_DATA_URL})
+  
 }
 
 async function make_Directory_Recursively(download_folder_path, work_dir_path, user_auth) {

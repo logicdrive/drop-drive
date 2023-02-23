@@ -10,11 +10,9 @@ async function on_Click_Download_Directory_Btn_Overide(e)
   })
   if(REQ_RESULT.is_error)
     throw new Error(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.message}`)
-
   const TITLE_NAME = REQ_RESULT.file_name
   const ZIP_DATA_URL = REQ_RESULT.data_url
-  Download_Manager.download_Files(ZIP_DATA_URL, TITLE_NAME)
-  //alert(`[MOCK] 주어진 디렉토리 다운로드 기능. TEST DATA URL => "${REQ_RESULT.data_url}"`)   
+  Download_Manager.download_Files(ZIP_DATA_URL, TITLE_NAME) 
 }
 
 /** 다운로드 UI 정보들을 일괄적으로 관리하기 위해서 */
@@ -27,16 +25,10 @@ class Download_Manager
   {  
     const ZIP_NAME = Download_Manager._get_Download_Zip_Name(title_name)
     Download_Manager._add_To_Download_List(ZIP_NAME)
-    //Download_Manager._update_download_UI()
-    //Index_Manager.init_Index_Info()
 
-    console.log(ZIP_DATA_URL)
-    console.log(ZIP_NAME)
     await Browser.download_File(ZIP_DATA_URL, ZIP_NAME)
     
     Download_Manager._delete_From_Download_List(ZIP_NAME)
-    //Download_Manager._update_download_UI()
-    //Process_Visible_Manager.change_Process_Visible_Level(3)
   }
 
   /** 주어진 타이틀 이름을 이용해서 사용할 zip 이름을 생성시키기 위해서 */
@@ -56,12 +48,5 @@ class Download_Manager
   static _delete_From_Download_List(file_name)
   {
     Download_Manager._current_download_infos = Download_Manager._current_download_infos.filter((download_info) => download_info != file_name)
-  }
-
-  /** 다운로드 관련 UI를 업데이트시키기 위해서 */
-  static _update_download_UI()
-  {
-    const INDEX_RESULT_HTMLS = Download_Manager._current_download_infos.map((download_info) => `<li class="list-group-item">파일명 : ${download_info}<br/>진행상태 : 다운로드 진행중...</li>`)
-    document.querySelector("#download_process_list").innerHTML = INDEX_RESULT_HTMLS.join('\n')
   }
 }
