@@ -24,6 +24,7 @@ async function get_Router_Callback(req, res)
     = Params_Check.Para_is_null_or_empty(req.query, ["work_dir_path"])
 
   const FILE_INFOS = await Firebase_Service.directory_File_Infos(WORK_DIR_PATH, USER_AUTH)
+  
   res.json({is_error:false, file_infos:FILE_INFOS})
 }
 get_Router_Callback = Wrap.Wrap_With_Try_Res_Promise(get_Router_Callback)

@@ -1,3 +1,12 @@
 {
-  "files": {}
+  "files": {
+    "routers/api_temp/v1_directory.js": [
+      {
+        "id": "9f61add9-70cd-4053-ab2d-958b91d3ebf7",
+        "line": 10,
+        "version": 1296,
+        "index": 354
+      }
+    ]
+  }
 }
