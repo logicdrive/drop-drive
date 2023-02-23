@@ -3,8 +3,8 @@ import Wrap from "../../module/wrap.js"
 import Params_Check from "../../module/params_check.js"
 
 import UUID from "../../module/uuid.js"
+import System from "../../module/system.js"
 import fs from "fs"
-import { exec } from "child_process"
 
 // 주어진 디렉토리에 대한 DATA URL을 반환받기 위해서(오버라이딩)
 async function post_Router_Callback_Overide(req, res)
@@ -17,7 +17,7 @@ async function post_Router_Callback_Overide(req, res)
   const DOWNLOAD_FOLDER_PATH = `./downloads/${FOLDER_UUID}`
   fs.mkdirSync(DOWNLOAD_FOLDER_PATH)
 
-  await make_Directory_Recursively(DOWNLOAD_FOLDER_PATH, WORK_DIR_PATH, USER_AUTH)
+  await make_Directory_Recursively(DOWNLOAD_FOLDER_PATH, WORK_DIR_PATH + FILE_NAME + "/", USER_AUTH)
 
   const ZIP_PATH = `./downloads/${FOLDER_UUID}.zip`
   await System.execute_Shell_Command(`cd ${DOWNLOAD_FOLDER_PATH};zip -r ../${FOLDER_UUID}.zip ./*`)
@@ -28,7 +28,7 @@ async function post_Router_Callback_Overide(req, res)
   fs.rmSync(DOWNLOAD_FOLDER_PATH, {recursive: true, force: true})
   fs.rmSync(ZIP_PATH, {force: true})
   
-  res.json({is_error:false, file_name: "folder", data_url:ZIP_DATA_URL})
+  res.json({is_error:false, data_url:ZIP_DATA_URL})
   
 }
 
@@ -53,29 +53,7 @@ async function make_Directory_Recursively(download_folder_path, work_dir_path, u
       fs.writeFileSync(DOWNLOAD_FILE_PATH, FILE_CONTENT)
     }
   }
-}
-
-/** 시스템관련 명령어를 실행시킨기 위한 라이브러리 */
-class System
-{
-  /** 주어진 쉘 커멘드를 실행시키기 위해서 */
-  static execute_Shell_Command(shell_command)
-  {
-    return new Promise((resolve, reject) => {
-      exec(shell_command, (error, stdout, stderr) => {
-        if(error) reject(stderr)
-        else resolve(stdout)
-      })
-    })
-  }
-
-  /** 서버 요청 과부화등을 방지하는 이유로 의도적으로 처리 속도를 조절하기 위해서 */
-  static sleep(ms) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  }
-}        
+}       
 
 post_Router_Callback_Overide = Wrap.Wrap_With_Try_Res_Promise(post_Router_Callback_Overide)
 
