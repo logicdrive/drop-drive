@@ -12,24 +12,43 @@ async function post_Router_Callback_Overide(req, res)
   const USER_AUTH = await Firebase_Service.check_User_Auth()
   const {file_name:FILE_NAME, work_dir_path:WORK_DIR_PATH} 
     = Params_Check.Para_is_null_or_empty(req.body, ["file_name", "work_dir_path"])
-
-  const FOLDER_UUID = UUID.get_UUID()
-  const DOWNLOAD_FOLDER_PATH = `./downloads/${FOLDER_UUID}`
-  fs.mkdirSync(DOWNLOAD_FOLDER_PATH)
-
-  await make_Directory_Recursively(DOWNLOAD_FOLDER_PATH, WORK_DIR_PATH + FILE_NAME + "/", USER_AUTH)
-
-  const ZIP_PATH = `./downloads/${FOLDER_UUID}.zip`
-  await System.execute_Shell_Command(`cd ${DOWNLOAD_FOLDER_PATH};zip -r ../${FOLDER_UUID}.zip ./*`)
-
-  const ZIP_DATA_BASE64 = fs.readFileSync(ZIP_PATH, {encoding: 'base64'})
-  const ZIP_DATA_URL = "data:file/zip;base64," + ZIP_DATA_BASE64
-
-  fs.rmSync(DOWNLOAD_FOLDER_PATH, {recursive: true, force: true})
-  fs.rmSync(ZIP_PATH, {force: true})
   
-  res.json({is_error:false, data_url:ZIP_DATA_URL})
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
+
+  const intervalId = setInterval(() => {
+    res.write('event: ping\n');
+    res.write(`data: ${Date.now()}\n\n`);
+  }, 5000)
+
+  req.on('close', () => {
+    clearInterval(intervalId);
+    res.end();
+  })
   
+  return
+  
+  // const USER_AUTH = await Firebase_Service.check_User_Auth()
+  // const {file_name:FILE_NAME, work_dir_path:WORK_DIR_PATH} 
+  //   = Params_Check.Para_is_null_or_empty(req.body, ["file_name", "work_dir_path"])
+
+  // const FOLDER_UUID = UUID.get_UUID()
+  // const DOWNLOAD_FOLDER_PATH = `./downloads/${FOLDER_UUID}`
+  // fs.mkdirSync(DOWNLOAD_FOLDER_PATH)
+
+  // await make_Directory_Recursively(DOWNLOAD_FOLDER_PATH, WORK_DIR_PATH + FILE_NAME + "/", USER_AUTH)
+
+  // const ZIP_PATH = `./downloads/${FOLDER_UUID}.zip`
+  // await System.execute_Shell_Command(`cd ${DOWNLOAD_FOLDER_PATH};zip -r ../${FOLDER_UUID}.zip ./*`)
+
+  // const ZIP_DATA_BASE64 = fs.readFileSync(ZIP_PATH, {encoding: 'base64'})
+  // const ZIP_DATA_URL = "data:file/zip;base64," + ZIP_DATA_BASE64
+
+  // fs.rmSync(DOWNLOAD_FOLDER_PATH, {recursive: true, force: true})
+  // fs.rmSync(ZIP_PATH, {force: true})
+  
+  // res.json({is_error:false, data_url:ZIP_DATA_URL})
 }
 
 async function make_Directory_Recursively(download_folder_path, work_dir_path, user_auth) {
