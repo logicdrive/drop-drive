@@ -7,9 +7,10 @@ async function main()
   const FILE_NAME_SEL = document.querySelector("#file_name")
   const FILE_INFO_SEL = document.querySelector("#file_info")
   FILE_NAME_SEL.textContent = OBJECT_DATA_INFO.file_name
-  
-  await Element.add_Text_Content_By_Data_Url(FILE_INFO_SEL, OBJECT_DATA_INFO.data_url)
 
+  Element.add_Content_By_Data_Url(FILE_INFO_SEL, OBJECT_DATA_INFO.data_url)
+
+  
   document.querySelector("#file_download_link").onclick = on_Click_File_Download_Link
 
   document.querySelector("#main_page").style.visibility = "visible"

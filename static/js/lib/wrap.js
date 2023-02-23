@@ -6,7 +6,10 @@ class Wrap
   {
     return async (...args) => {
       try { await async_callback(...args) }
-      catch(e) { alert(e) }
+      catch(e) { 
+        console.log(e)
+        alert(e) 
+      }
     }
   }   
 }

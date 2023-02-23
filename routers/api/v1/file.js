@@ -11,7 +11,7 @@ async function put_Router_Callback(req, res)
     = Params_Check.Para_is_null_or_empty(req.body, ["file_name", "file_url", "work_dir_path"])
   const [FILE_NAME, FILE_EXT] = FILE_NAME_EXT.toLowerCase().split(".")
   
-  const ACCEPT_FILE_EXTS = ["txt"]
+  const ACCEPT_FILE_EXTS = ["txt", "jpg", "png", "gif"]
   if(!ACCEPT_FILE_EXTS.includes(FILE_EXT)) throw new Error("Passed file's extension was not accepted.")
 
   await Firebase_Service.upload_File(FILE_NAME, FILE_EXT, FILE_URL, WORK_DIR_PATH, USER_AUTH)  

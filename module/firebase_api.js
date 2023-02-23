@@ -101,8 +101,11 @@ class Firebase_Api
       if (DOWNLOAD_REF == null) throw new Error("The file content to download is not searched!")
       
       const RS = getStream(DOWNLOAD_REF)
-      RS.on('readable', () => {
-        resolve(RS.read())
+      let total_buffers = []
+      RS.on("readable", () => {
+        const STREAM_BUFFER = RS.read()
+        if(STREAM_BUFFER != null) total_buffers.push(STREAM_BUFFER)
+        else resolve(Buffer.concat(total_buffers))
       })
     })
   }
