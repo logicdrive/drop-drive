@@ -13,6 +13,13 @@ class System
       })
     })
   }
+
+  /** 서버 요청 과부화등을 방지하는 이유로 의도적으로 처리 속도를 조절하기 위해서 */
+  static sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
 } 
 
 export default System

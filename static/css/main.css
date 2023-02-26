@@ -152,3 +152,29 @@
 body {
   background: #BDCDD6;
 }
+
+.download-progress-bar__container {
+  display: none;
+  margin: 5px 0;
+  width: auto;
+  height: 40px;
+  background-color: rgb(5, 4, 4);
+  border-radius: 20px;
+  box-shadow: 0 0 64px 64px rgba(255, 255, 255, 0.15);
+}
+
+.download-progress-bar__progress {
+  background: linear-gradient(
+    to right,
+    rgba(51, 139, 147),
+    rgb(182, 244, 146)
+  );
+  border-radius: 20px;
+  color: rgb(237, 235, 235);
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  height: 100%;
+}

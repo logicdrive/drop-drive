@@ -1,28 +1,45 @@
 /** 주어진 디렉토리를 .zip 형태로 다운받기 위해서(오버라이딩) */
 async function on_Click_Download_Directory_Btn_Overide(e)
 {
+  const DIRECTORY_NAME_TO_DOWNLOAD = e.target.closest(".dropdown-menu").getAttribute("file_name")
+  const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
   const READER = await Request_Test.create_Event_Stream_JSON_Request("/api/v1/directory", "POST",  {
-       file_name : "TEST_FILE_NAME",
-       work_dir_path : "TEST_WORK_DIR"
+       file_name : DIRECTORY_NAME_TO_DOWNLOAD,
+       work_dir_path : WORK_DIR_PATH
   })
-  console.log(READER)
+  const downloadContainer = document.querySelector(
+    '.download-progress-bar__container'
+  );
+  const downloadProgressElem = document.querySelector(
+    '.download-progress-bar__progress'
+  );
 
-  let total_res_data = ""
+  downloadContainer.style.display = "block"
+  
+  let res_data = ""
+  const RES_DATA = await Request_Test.use_Event_Stream_Request(READER)
+  const total_progess = Number(RES_DATA.chunk_data)
+  console.log("total" + total_progess)
   while(true)
   {
-     const RES_DATA = await Request_Test.use_Event_Stream_Request(READER)
-     if(RES_DATA.is_done) break
-
-     console.log(RES_DATA.chunk_data)
-     total_res_data += RES_DATA.chunk_data
+    const RES_DATA = await Request_Test.use_Event_Stream_Request(READER)
+    if(RES_DATA.is_done) {
+      downloadContainer.style.display = "none"
+      break
+    }
+    res_data = RES_DATA.chunk_data
+    console.log(res_data)
+    if(!isNaN(Number(res_data))) {
+      let percentage = Math.floor(Number(res_data) / total_progess * 100);
+      downloadProgressElem.textContent = `${percentage}%`;
+      downloadProgressElem.style.width = `${percentage}%`;
+    }
+      
   }
-  console.log(total_res_data)
-  
+  const ZIP_DATA_URL = res_data.split(" ")[1]
+  await Browser.download_File(ZIP_DATA_URL, `${DIRECTORY_NAME_TO_DOWNLOAD}.zip`)
   return
   
-  // const DIRECTORY_NAME_TO_DOWNLOAD = e.target.closest(".dropdown-menu").getAttribute("file_name")
-  // const WORK_DIR_PATH = Browser.url_Query_Param('work_dir_path')
-
   // const REQ_RESULT = await Request.JSON_Request("/api/v1/directory", "POST", {
   //     file_name : DIRECTORY_NAME_TO_DOWNLOAD,
   //     work_dir_path : WORK_DIR_PATH
