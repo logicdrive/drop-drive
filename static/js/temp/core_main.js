@@ -7,13 +7,10 @@ async function on_Click_Download_Directory_Btn_Overide(e)
        file_name : DIRECTORY_NAME_TO_DOWNLOAD,
        work_dir_path : WORK_DIR_PATH
   })
-  const downloadContainer = document.querySelector(
-    '.download-progress-bar__container'
-  );
-  const downloadProgressElem = document.querySelector(
-    '.download-progress-bar__progress'
-  );
-
+  const object_li = e.target.closest("li")
+  const downloadContainer = $(object_li).next()[0]
+  const downloadProgressElem = downloadContainer.getElementsByClassName("download-progress-bar__progress")[0]
+  
   downloadContainer.style.display = "block"
   
   let res_data = ""
@@ -38,17 +35,8 @@ async function on_Click_Download_Directory_Btn_Overide(e)
   }
   const ZIP_DATA_URL = res_data.split(" ")[1]
   await Browser.download_File(ZIP_DATA_URL, `${DIRECTORY_NAME_TO_DOWNLOAD}.zip`)
+  
   return
-  
-  // const REQ_RESULT = await Request.JSON_Request("/api/v1/directory", "POST", {
-  //     file_name : DIRECTORY_NAME_TO_DOWNLOAD,
-  //     work_dir_path : WORK_DIR_PATH
-  // })
-  // if(REQ_RESULT.is_error)
-  //   throw new Error(`Sorry, Some error was happened...\nError Message : ${REQ_RESULT.message}`)
-  
-  // const ZIP_DATA_URL = REQ_RESULT.data_url
-  // await Browser.download_File(ZIP_DATA_URL, `${DIRECTORY_NAME_TO_DOWNLOAD}.zip`)
 }
 
 class Request_Test
