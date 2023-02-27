@@ -20,6 +20,7 @@ async function post_Router_Callback_Overide(req, res)
   const {file_name:FILE_NAME, work_dir_path:WORK_DIR_PATH} 
     = Params_Check.Para_is_null_or_empty(req.body, ["file_name", "work_dir_path"])
 
+  total = 0
   await count_SubContents_Recursively(WORK_DIR_PATH + FILE_NAME + "/", USER_AUTH)
   res.write(`${total}`);
   
