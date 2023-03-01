@@ -12,15 +12,15 @@ async function post_Router_Callback_Overide(req, res)
   const USER_AUTH = await Firebase_Service.check_User_Auth()
   const {file_name:FILE_NAME, work_dir_path:WORK_DIR_PATH} 
     = Params_Check.Para_is_null_or_empty(req.body, ["file_name", "work_dir_path"])
+  const TARGET_DIR_PATH = WORK_DIR_PATH + FILE_NAME + "/"
 
-  
+
+  // 전체 진행률을 계산하기 위해서 파일의 총 개수를 전송
   const download_target = new Download_Manager()
-  await download_target.count_SubContents_Recursively(WORK_DIR_PATH + FILE_NAME + "/", USER_AUTH)
-
   res.setHeader('Content-Type', 'text/event-stream')
   res.setHeader('Cache-Control', 'no-cache')
   res.setHeader('Connection', 'keep-alive')
-  res.write(`${download_target.total}`)
+  res.write(String(await download_target.count_Files_Recursively(TARGET_DIR_PATH, USER_AUTH)))
 
   
   const IntervalId = setInterval(()=> {
@@ -36,9 +36,9 @@ async function post_Router_Callback_Overide(req, res)
   res.end()
 }
 
+/** 요청한 폴더에 대한 .zip 다운로드 URL을 얻기 위해서 */
 class Download_Manager {
   constructor() {
-    this.total = 0
     this.current_progress = 0
     this.ZIP_DATA_URL = ""
   }
@@ -58,17 +58,6 @@ class Download_Manager {
     
     fs.rmSync(DOWNLOAD_FOLDER_PATH, {recursive: true, force: true})
     fs.rmSync(ZIP_PATH, {force: true})
-  }
-
-  async count_SubContents_Recursively(work_dir_path, user_auth) {
-    const RESULT_TARGET_DIRECTORY_INFOS = await Firebase_Service.directory_File_Infos(work_dir_path, user_auth)
-    this.total += RESULT_TARGET_DIRECTORY_INFOS.length
-    for(let sub_content_info of RESULT_TARGET_DIRECTORY_INFOS) {
-      if(sub_content_info.type == "directory") {
-        const WORK_DIR_PATH = work_dir_path + sub_content_info.file_name + '/'
-        await this.count_SubContents_Recursively(WORK_DIR_PATH, user_auth)
-      }
-    }
   }
 
   async make_Directory_Recursively(download_folder_path, work_dir_path, user_auth) {
@@ -92,6 +81,23 @@ class Download_Manager {
         fs.writeFileSync(DOWNLOAD_FILE_PATH, FILE_CONTENT)
       }
     }
+  }
+
+  /** 현재 디렉토리에 속한 파일들의 총 개수를 얻기 위해서 */
+  async count_Files_Recursively(work_dir_path, user_auth) {
+    let file_count = 0
+    
+    const RESULT_TARGET_DIRECTORY_INFOS = await Firebase_Service.directory_File_Infos(work_dir_path, user_auth)
+    file_count += RESULT_TARGET_DIRECTORY_INFOS.length
+    
+    for(let sub_content_info of RESULT_TARGET_DIRECTORY_INFOS) {
+      if(sub_content_info.type == "directory") {
+        const WORK_DIR_PATH = work_dir_path + sub_content_info.file_name + '/'
+        file_count += (await this.count_Files_Recursively(WORK_DIR_PATH, user_auth))
+      }
+    }
+
+    return file_count
   }  
 }
 
