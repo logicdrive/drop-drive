@@ -7,6 +7,7 @@ async function on_Click_Download_Directory_Btn_Overide(e)
        file_name : DIRECTORY_NAME_TO_DOWNLOAD,
        work_dir_path : WORK_DIR_PATH
   })
+  
   const object_li = e.target.closest("li")
   const downloadContainer = $(object_li).next()[0]
   const downloadProgressElem = downloadContainer.getElementsByClassName("download-progress-bar__progress")[0]
@@ -15,25 +16,28 @@ async function on_Click_Download_Directory_Btn_Overide(e)
   
   let res_data = ""
   const RES_DATA = await Request_Test.use_Event_Stream_Request(READER)
-  const total_progess = Number(RES_DATA.chunk_data)
-  console.log("total" + total_progess)
+  const total_progress = Number(RES_DATA.chunk_data)
+  
   while(true)
   {
     const RES_DATA = await Request_Test.use_Event_Stream_Request(READER)
     if(RES_DATA.is_done) {
       downloadContainer.style.display = "none"
+      downloadProgressElem.textContent = "0%"
+      downloadProgressElem.style.width = "0%"
       break
     }
     res_data = RES_DATA.chunk_data
-    console.log(res_data)
+    
     if(!isNaN(Number(res_data))) {
-      let percentage = Math.floor(Number(res_data) / total_progess * 100);
-      downloadProgressElem.textContent = `${percentage}%`;
-      downloadProgressElem.style.width = `${percentage}%`;
+      let percentage = Math.floor(Number(res_data) / total_progress * 100)
+      downloadProgressElem.textContent = `${percentage}%`
+      downloadProgressElem.style.width = `${percentage}%`
     }
       
   }
   const ZIP_DATA_URL = res_data.split(" ")[1]
+  
   await Browser.download_File(ZIP_DATA_URL, `${DIRECTORY_NAME_TO_DOWNLOAD}.zip`)
   
   return
