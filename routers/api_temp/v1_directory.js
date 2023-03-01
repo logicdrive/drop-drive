@@ -8,38 +8,39 @@ import fs from "fs"
 
 // 주어진 디렉토리에 대한 DATA URL을 반환받기 위해서(오버라이딩)
 async function post_Router_Callback_Overide(req, res)
-{  
-  res.setHeader('Content-Type', 'text/event-stream')
-  res.setHeader('Cache-Control', 'no-cache')
-  res.setHeader('Connection', 'keep-alive')
-  
+{    
   const USER_AUTH = await Firebase_Service.check_User_Auth()
   const {file_name:FILE_NAME, work_dir_path:WORK_DIR_PATH} 
     = Params_Check.Para_is_null_or_empty(req.body, ["file_name", "work_dir_path"])
 
+  
   const download_target = new Download_Manager()
   await download_target.count_SubContents_Recursively(WORK_DIR_PATH + FILE_NAME + "/", USER_AUTH)
 
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
   res.write(`${download_target.total}`)
+
+  
   const IntervalId = setInterval(()=> {
     res.write(`${download_target.current_progress}`)
   }, 500)
+
   
   await download_target.download_folder(USER_AUTH, FILE_NAME, WORK_DIR_PATH)
-  
+
   clearInterval(IntervalId)
+  
   res.write(`zip_data_url: ${download_target.ZIP_DATA_URL}\n`)
   res.end()
 }
 
 class Download_Manager {
-  static current_progess = 0
-  static total = 0
-  static ZIP_DATA_URL
-  
   constructor() {
     this.total = 0
     this.current_progress = 0
+    this.ZIP_DATA_URL = ""
   }
 
   async download_folder(USER_AUTH, FILE_NAME, WORK_DIR_PATH) {
