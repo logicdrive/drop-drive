@@ -164,7 +164,10 @@ function make_HTML_File_Index_HTML(file_info)
   </div>
 </div>
 
-</li>`
+</li>
+<div class="download-progress-bar__container">
+  <div class="download-progress-bar__progress"></div>
+</div>`
   }
 }
 
