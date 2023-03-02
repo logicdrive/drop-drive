@@ -1,5 +1,12 @@
 .container {
   width: 800px;
+  height:100vh;
+  
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  
+  background-color:#dee2e6;
 }
 
 div.bg-image {
@@ -8,7 +15,9 @@ div.bg-image {
 }
 
 div.card {
-  margin-top: -100px;
+  height:650px;
+  
+  margin-top: 0px;
   background: hsla(0, 0%, 100%, 0.8);
   backdrop-filter: blur(30px);
 }
