@@ -80,11 +80,10 @@ class Download_Manager {
       if(sub_content_info.type == "file") {
         const FILE_INFO = sub_content_info.file_name
         const [FILE_NAME, FILE_EXT] = FILE_INFO.split(".")
-        const DATA_URL = await Firebase_Service.file_Data_URL(FILE_NAME, FILE_EXT, work_dir_path, user_auth)
         
-        const FILE_CONTENT = atob(DATA_URL.split(',')[1])
+        const DATA_URL = await Firebase_Service.file_Data_URL(FILE_NAME, FILE_EXT, work_dir_path, user_auth)
         const DOWNLOAD_FILE_PATH = `${download_folder_path}/${FILE_INFO}`
-        fs.writeFileSync(DOWNLOAD_FILE_PATH, FILE_CONTENT)
+        await write_File_From_Data_Url(DATA_URL, DOWNLOAD_FILE_PATH)
       }
     }
   }
@@ -106,6 +105,22 @@ class Download_Manager {
     return file_count
   }  
 }
+
+
+async function write_File_From_Data_Url(data_url, file_path) {
+  var arr = data_url.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n)
+  while(n--){
+      u8arr[n] = bstr.charCodeAt(n)
+  }
+  
+  const BLOB_DATA = new Blob([u8arr], {type:mime})
+  const ARRAY_BUFFER_DATA = await BLOB_DATA.arrayBuffer()
+  const BUFFER_DATA = Buffer.from(ARRAY_BUFFER_DATA)
+  
+  fs.writeFileSync(file_path, BUFFER_DATA)
+}
+
 
 post_Router_Callback_Overide = Wrap.Wrap_With_Try_Res_Promise(post_Router_Callback_Overide)
 
