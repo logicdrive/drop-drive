@@ -4,6 +4,7 @@ import Params_Check from "../../module/params_check.js"
 
 import UUID from "../../module/uuid.js"
 import System from "../../module/system.js"
+import File from "../../module/file.js"
 import fs from "fs"
 
 // 주어진 디렉토리에 대한 DATA URL을 반환받기 위해서(오버라이딩)
@@ -83,7 +84,7 @@ class Download_Manager {
         
         const DATA_URL = await Firebase_Service.file_Data_URL(FILE_NAME, FILE_EXT, work_dir_path, user_auth)
         const DOWNLOAD_FILE_PATH = `${download_folder_path}/${FILE_INFO}`
-        await write_File_From_Data_Url(DATA_URL, DOWNLOAD_FILE_PATH)
+        await File.write_File_From_Data_Url(DATA_URL, DOWNLOAD_FILE_PATH)
       }
     }
   }
@@ -105,22 +106,6 @@ class Download_Manager {
     return file_count
   }  
 }
-
-
-async function write_File_From_Data_Url(data_url, file_path) {
-  var arr = data_url.split(','), mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n)
-  while(n--){
-      u8arr[n] = bstr.charCodeAt(n)
-  }
-  
-  const BLOB_DATA = new Blob([u8arr], {type:mime})
-  const ARRAY_BUFFER_DATA = await BLOB_DATA.arrayBuffer()
-  const BUFFER_DATA = Buffer.from(ARRAY_BUFFER_DATA)
-  
-  fs.writeFileSync(file_path, BUFFER_DATA)
-}
-
 
 post_Router_Callback_Overide = Wrap.Wrap_With_Try_Res_Promise(post_Router_Callback_Overide)
 
